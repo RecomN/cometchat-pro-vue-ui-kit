@@ -1,6 +1,6 @@
 <template>
   <div :style="styles.root" class="cometchat__unified">
-    <h5>test local staging</h5>
+    <h5>test local stagings</h5>
     <div :style="styles.sidebar" class="unified__sidebar">
       <comet-chat-nav-bar
         :tab="tab"
