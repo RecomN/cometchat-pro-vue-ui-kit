@@ -29,7 +29,7 @@
 
 ![alt text](./Screenshots/main.png "Main")
 
-CometChat Vue UI Kit is a collection of custom UI Components designed to build text chat and voice/video callings features in your application.
+TEST CometChat Vue UI Kit is a collection of custom UI Components designed to build text chat and voice/video callings features in your application.
 
 The UI Kit is developed to keep developers in mind and aims to reduce development efforts significantly.
 
