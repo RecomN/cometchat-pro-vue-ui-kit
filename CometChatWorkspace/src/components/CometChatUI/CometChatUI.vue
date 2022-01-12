@@ -1,6 +1,5 @@
 <template>
   <div :style="styles.root" class="cometchat__unified">
-    <h5>test local</h5>
     <div :style="styles.sidebar" class="unified__sidebar">
       <comet-chat-nav-bar
         :tab="tab"
@@ -356,7 +355,8 @@ export default {
   box-sizing: border-box !important;
   font-family: var(--cometchat-unified-font-family) !important;
 }
-@media (min-width: 320px) and (max-width: 767px) {
+/* dd-edited */
+/* @media (min-width: 320px) and (max-width: 767px) { */
   .unified__sidebar {
     top: 0;
     bottom: 0;
@@ -366,7 +366,7 @@ export default {
     transition: all 0.3s ease-out;
     left: var(--cometchat-unified-sidebar-left);
     background-color: var(--cometchat-unified-sidebar-bg-color);
-    box-shadow: var(--cometchat-unified-sidebar-box-shadow, none);
+    /* box-shadow: var(--cometchat-unified-sidebar-box-shadow, none); */
   }
   .unified__main {
     width: 100% !important;
@@ -380,5 +380,5 @@ export default {
     position: absolute !important;
     background-color: var(--cometchat-unified-sidebar-bg-color);
   }
-}
+/* } */
 </style>

@@ -12,6 +12,7 @@ export const chatsHeaderStyle = (theme) => {
     padding: "19px 16px",
     display: "flex",
     alignItems: "center",
+    flexDirection: "column",
     borderBottom: `1px solid ${theme.color.darkSecondary}`,
   };
 };
@@ -26,10 +27,12 @@ export const chatsHeaderCloseStyle = (img) => {
   };
 };
 
+// dd-edited
 export const chatsHeaderTitleStyle = (enableCloseMenu) => {
   const alignment = enableCloseMenu
     ? {
-        width: "33%",
+        // width: "33%",
+        width: "100%",
         textAlign: "center",
       }
     : {};
@@ -37,9 +40,11 @@ export const chatsHeaderTitleStyle = (enableCloseMenu) => {
   return {
     margin: "0",
     display: "inline-block",
-    width: "66%",
+    // width: "66%",
+    width: "100%",
     fontWeight: "700",
-    textAlign: "left",
+    // textAlign: "left",
+    textAlign: "center",
     fontSize: "20px",
     ...alignment,
   };

@@ -212,9 +212,11 @@ export default {
 };
 </script>
 <style scoped>
+/* dd-edited */
 .cometchat__unified__navbar {
   height: 100%;
-  width: 280px;
+  /* width: 280px; */
+  width: 100%;
 }
 .cometchat__unified__navbar .chats__wrapper,
 .cometchat__unified__navbar .groups__wrapper,

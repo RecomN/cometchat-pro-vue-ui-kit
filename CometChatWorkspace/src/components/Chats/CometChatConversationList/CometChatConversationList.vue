@@ -1,13 +1,35 @@
 <template>
   <div :style="styles.wrapper" class="chats__wrapper">
-    <div :style="styles.header">
+    <!-- dd-edited -->
+    <div :style="styles.header" style="background: #D7226D; text-align:center;">
       <div
         class="header__close"
         v-if="enableCloseMenu"
         :style="styles.headerClose"
         @click="menuCloseHandler"
       />
-      <h4 :style="styles.headerTitle">{{ STRINGS.CHATS }}</h4>
+
+      <!-- dd-edited -->
+      
+      <div class="wrap-title-and-button">
+        <!-- button close/times -->
+        <span @click="closeCustom" class="span-close">
+          <i class="fa fa-times" style="color:#fff"></i>
+        </span>
+        <!-- header title -->
+        <h4 style="color:white;" :style="styles.headerTitle">{{ STRINGS.CHATS }}</h4>
+      </div>
+
+      <!-- search w-288px h-32px r-8px -->
+      <div class="wrap-search">
+        <i class="icon-search fa fa-search"></i>
+        <input 
+          type="search" 
+          class="search" 
+          name="search"
+          placeholder="Search" />
+      </div><!-- search -->
+
     </div>
     <div v-if="conversationList.length === 0" :style="styles.msg">
       <p :style="styles.msgText">
@@ -387,6 +409,11 @@ export default {
     },
   },
   methods: {
+    // dd edited
+    closeCustom() {
+      // alert('close custom');
+      this.$store.dispatch('setIsOpen', false)
+    },
     /**
      * Handles menu close click
      */
@@ -1173,4 +1200,65 @@ export default {
     display: block !important;
   }
 }
+  /* dd-edited */
+  .search {
+    width: 288px;
+    height: 32px;
+    border-radius: 8px;
+    background-color: #fff;
+    color: #90959E;
+    padding-left: 28px;
+    border: none;
+    font-size: 15px;
+    font-weight: normal;
+  }
+
+  .icon-search {
+    position: absolute;
+    left: 4px;
+    top: 6px;
+    color: #90959E;
+    font-size: 18px;
+  }
+
+  .wrap-title-and-button {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width:100%
+  }
+
+  .span-close {
+    cursor: pointer;
+    font-size: 24px;
+    color: #fff;
+    position: absolute;
+    left: 0;
+  }
+
+  .wrap-search {
+    width: 100%;
+    position: relative;
+    align-items: center;
+    margin-top: 16px;
+  }
+
+  /* custom scroll bar */
+  ::-webkit-scrollbar {
+    width: 2px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #ddd;
+    width: 50px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #aaa;
+  }
+
 </style>
