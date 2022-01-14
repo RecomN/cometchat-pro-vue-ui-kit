@@ -1,5 +1,6 @@
 <template>
   <div class="cometchat__unified__navbar">
+
     <template v-if="tab === 'contacts'">
       <comet-chat-user-list
         :item="item"
@@ -9,6 +10,7 @@
         @action="actionHandler"
       />
     </template>
+
     <template v-else-if="tab === 'conversations'">
       <comet-chat-conversation-list
         :item="item"
@@ -23,7 +25,8 @@
         @action="actionHandler"
       />
     </template>
-    <template v-else-if="tab === 'groups'">
+    
+    <!-- <template v-else-if="tab === 'groups'">
       <comet-chat-group-list
         :item="item"
         :type="type"
@@ -34,21 +37,34 @@
         :enable-close-menu="enableCloseMenu"
         @action="actionHandler"
       />
-    </template>
+    </template> -->
+
     <template v-else-if="tab === 'info'">
       <comet-chat-user-profile :theme="theme" @action="actionHandler" />
     </template>
+
     <div :style="styles.footer" class="sidebar__footer">
       <div :style="styles.navbar" class="footer__navbar">
+
+        <!-- phone icon -->
+        <div :style="styles.item" @click="changeTab('calls')">
+          <span :style="styles.phoneIcon"></span>
+        </div>
+
+        <!-- chats icon -->
         <div :style="styles.item" @click="changeTab('conversations')">
           <span :style="styles.chatsIcon"></span>
         </div>
-        <div :style="styles.item" @click="changeTab('contacts')">
+
+        <!-- <div :style="styles.item" @click="changeTab('contacts')">
           <span :style="styles.contactIcon"></span>
-        </div>
-        <div :style="styles.item" @click="changeTab('groups')">
+        </div> -->
+
+        <!-- <div :style="styles.item" @click="changeTab('groups')">
           <span :style="styles.groupIcon"></span>
-        </div>
+        </div> -->
+
+        <!-- more(dot) icon -->
         <div :style="styles.item" @click="changeTab('info')">
           <span :style="styles.moreIcon"></span>
         </div>
@@ -67,17 +83,33 @@ import { cometChatCommon } from "../../../mixins/";
 
 import { CometChatConversationList } from "../../Chats/";
 import { CometChatUserProfile } from "../../UserProfile/";
-import { CometChatGroupList } from "../../Groups";
+// import { CometChatGroupList } from "../../Groups";
 import { CometChatUserList } from "../../Users";
 
-import contactGreyIcon from "./resources/contacts-grey.png";
-import contactBlueIcon from "./resources/contacts-blue.png";
-import moreGreyIcon from "./resources/userInfo-grey.png";
-import moreBlueIcon from "./resources/userInfo-blue.png";
-import groupBlueIcon from "./resources/groups-blue.png";
-import groupGreyIcon from "./resources/groups-grey.png";
-import chatGreyIcon from "./resources/chats-grey.png";
-import chatBlueIcon from "./resources/chats-blue.png";
+// import contactGreyIcon from "./resources/contacts-grey.png";
+// import contactBlueIcon from "./resources/contacts-blue.png";
+
+// import moreGreyIcon from "./resources/userInfo-grey.png";
+// import moreBlueIcon from "./resources/userInfo-blue.png";
+
+// -------new style-----------
+import moreGreyIcon from "./resources/new-user-info-grey-2x.png";
+import moreRedIcon from "./resources/new-user-info-red-2x.png";
+
+// import groupBlueIcon from "./resources/groups-blue.png";
+// import groupGreyIcon from "./resources/groups-grey.png";
+
+// import chatGreyIcon from "./resources/chats-grey.png";
+// import chatBlueIcon from "./resources/chats-blue.png";
+
+// -------new style-----------
+import chatGreyIcon from "./resources/new-chats-grey-2x.png";
+import chatRedIcon from "./resources/new-chats-red-2x.png";
+
+// -------new style-----------
+import phoneRedIcon from "./resources/new-phone-red-2x.png";
+import phoneGreyIcon from "./resources/new-phone-grey-2x.png";
+
 
 import * as style from "./style";
 
@@ -92,7 +124,7 @@ export default {
   components: {
     CometChatConversationList,
     CometChatUserProfile,
-    CometChatGroupList,
+    // CometChatGroupList,
     CometChatUserList,
   },
   props: {
@@ -147,25 +179,30 @@ export default {
         item: style.itemStyle(),
         footer: style.footerStyle(),
         navbar: style.navbarStyle(),
+        phoneIcon: style.itemLinkStyle(
+          phoneGreyIcon,
+          phoneRedIcon,
+          this.isCallHistoryActive
+        ),
         chatsIcon: style.itemLinkStyle(
           chatGreyIcon,
-          chatBlueIcon,
+          chatRedIcon,
           this.isChatsTabActive
         ),
-        contactIcon: style.itemLinkStyle(
-          contactGreyIcon,
-          contactBlueIcon,
-          this.isContactsTabActive
-        ),
-        groupIcon: style.itemLinkStyle(
-          groupGreyIcon,
-          groupBlueIcon,
-          this.isGroupsTabActive,
-          true
-        ),
+        // contactIcon: style.itemLinkStyle(
+        //   contactGreyIcon,
+        //   contactBlueIcon,
+        //   this.isContactsTabActive
+        // ),
+        // groupIcon: style.itemLinkStyle(
+        //   groupGreyIcon,
+        //   groupBlueIcon,
+        //   this.isGroupsTabActive,
+        //   true
+        // ),
         moreIcon: style.itemLinkStyle(
           moreGreyIcon,
-          moreBlueIcon,
+          moreRedIcon,
           this.isMoreTabActive
         ),
       };
@@ -173,6 +210,10 @@ export default {
     /**
      * Whether chats tab is active.
      */
+    isCallHistoryActive() {
+      return this.tab === "calls";
+    },
+
     isChatsTabActive() {
       return this.tab === "conversations";
     },
