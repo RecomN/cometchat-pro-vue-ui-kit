@@ -32,9 +32,11 @@ export const itemLinkStyle = (icon, activeStateIcon, isActive, isGroup) => {
       };
 
   return {
-    height: "20px",
+    // height: "20px",
+    height: "25px",
     display: "inline-block",
-    width: isGroup ? "28px" : "21px",
+    width: isGroup ? "28px" : "26px",
+    // width: isGroup ? "28px" : "21px",
     ...background,
   };
 };

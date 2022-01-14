@@ -48,12 +48,12 @@
 
         <!-- phone icon -->
         <div :style="styles.item" @click="changeTab('calls')">
-          <span style="width:26px; height:26px" :style="styles.phoneIcon"></span>
+          <span :style="styles.phoneIcon"></span>
         </div>
 
         <!-- chats icon -->
         <div :style="styles.item" @click="changeTab('conversations')">
-          <span style="width:26px; height:26px" :style="styles.chatsIcon"></span>
+          <span :style="styles.chatsIcon"></span>
         </div>
 
         <!-- <div :style="styles.item" @click="changeTab('contacts')">
@@ -66,7 +66,7 @@
 
         <!-- more(dot) icon -->
         <div :style="styles.item" @click="changeTab('info')">
-          <span style="width:26px; height:26px" :style="styles.moreIcon"></span>
+          <span :style="styles.moreIcon"></span>
         </div>
       </div>
     </div>
