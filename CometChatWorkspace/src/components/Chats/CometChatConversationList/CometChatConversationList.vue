@@ -1,5 +1,6 @@
 <template>
   <div :style="styles.wrapper" class="chats__wrapper">
+
     <!-- dd-edited -->
     <div :style="styles.header" style="background: #D7226D; text-align:center;">
       <div
@@ -10,7 +11,6 @@
       />
 
       <!-- dd-edited -->
-      
       <div class="wrap-title-and-button">
         <!-- button close/times -->
         <span @click="closeCustom" class="span-close">
@@ -29,13 +29,20 @@
           name="search"
           placeholder="Search" />
       </div><!-- search -->
-
     </div>
+
+    <!-- if there is no chat -->
     <div v-if="conversationList.length === 0" :style="styles.msg">
       <p :style="styles.msgText">
         {{ decoratorMessage }}
       </p>
+
+      <!-- dd-edited add text as figma design -->
+      <p v-if="decoratorMessage == 'Belum Ada Chat'" class="add-text-info">
+        Kamu belum mempunyai riwayat chat dengan penyedia jasa kami.
+      </p>
     </div>
+
     <div
       ref="conversationListRef"
       :style="styles.list"
@@ -1179,6 +1186,15 @@ export default {
 };
 </script>
 <style scoped>
+.add-text-info {
+  height: 48px;
+  font-size: 14px;
+  line-height: 24px;
+  color: #464646;
+  padding-left: 50px;
+  padding-right: 50px;
+  text-align: center;
+}
 .chats__wrapper * {
   box-sizing: border-box;
 }
