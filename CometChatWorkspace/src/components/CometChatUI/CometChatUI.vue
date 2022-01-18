@@ -17,6 +17,7 @@
     </div>
     <div v-if="isItemPresent" class="unified__main" :style="styles.main">
       <comet-chat-messages
+        v-if="showChatWindow"
         :tab="tab"
         :item="item"
         :type="type"
@@ -35,7 +36,7 @@
     <div
       v-if="viewDetailScreen"
       :style="styles.secondary"
-      class="unified__secondary"
+      class="unified__secondary_custom"
     >
       <comet-chat-user-details
         :item="item"
@@ -109,6 +110,8 @@ import { theme } from "../../resources/theme";
 
 import * as style from "./style";
 
+import { mapGetters } from 'vuex'
+
 /**
  * Displays a fully working chat application.
  *
@@ -161,6 +164,12 @@ export default {
     };
   },
   computed: {
+    // dd-edited
+    // state management
+    ...mapGetters({
+      showChatWindow: 'getShowChatWindow',
+    }),
+
     /**
      * Computed styles for the component.
      */
@@ -351,6 +360,8 @@ export default {
 };
 </script>
 <style scoped>
+/* this just for test new branch renamed */
+
 .cometchat__unified {
   box-sizing: border-box !important;
   font-family: var(--cometchat-unified-font-family) !important;
@@ -364,12 +375,24 @@ export default {
     width: 100% !important;
     position: absolute !important;
     transition: all 0.3s ease-out;
-    left: var(--cometchat-unified-sidebar-left);
+    /* left: var(--cometchat-unified-sidebar-left); */
+    right: 0;
     background-color: var(--cometchat-unified-sidebar-bg-color);
     /* box-shadow: var(--cometchat-unified-sidebar-box-shadow, none); */
   }
   .unified__main {
     width: 100% !important;
+  }
+
+  /* custom class to set the user detail to be on left*/
+  .unified__secondary_custom {
+    top: 0;
+    bottom: 0;
+    z-index: 2;
+    right: 334px;
+    width: 100% !important;
+    position: absolute !important;
+    background-color: var(--cometchat-unified-sidebar-bg-color);
   }
   .unified__secondary {
     top: 0;

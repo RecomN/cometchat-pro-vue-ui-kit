@@ -1,7 +1,19 @@
 <template>
   <div :style="styles.userInfoScreen" class="cometchat__user__info">
-    <div :style="styles.header">
-      <h4 :style="styles.headerTitle">{{ STRINGS.MORE }}</h4>
+    <div :style="styles.header" style="background: #D7226D; text-align:center;">
+      <div class="wrap-title-and-button">
+        <!-- button close/times -->
+        <span @click="closeCustom" class="span-close">
+          <!-- <i class="fa fa-times" style="color:#fff"></i> -->
+          <img 
+            class="top-icon" 
+            src="../../Chats/CometChatConversationList/resources/close-white-icon-2x.png" 
+            alt="close icon">
+        </span>
+        <!-- header title -->
+        <h4 :style="styles.headerTitle">{{ STRINGS.MORE }}</h4>
+        <!-- <h4 style="color:white;" :style="styles.headerTitle">{{ STRINGS.CHATS }}</h4> -->
+      </div>
     </div>
     <div :style="styles.detail">
       <div :style="styles.thumbnail">
@@ -21,19 +33,33 @@
       </div>
     </div>
     <div :style="styles.options">
-      <div :style="styles.optionTitle">{{ STRINGS.PREFERENCES }}</div>
+      <!-- <div :style="styles.optionTitle">{{ STRINGS.PREFERENCES }}</div> -->
+      <div :style="styles.optionTitle">preferensi</div>
       <div :style="styles.optionList">
-        <div :style="styles.option.notification" class="info__item--hover">
-          <div :style="styles.optionName">{{ STRINGS.NOTIFICATIONS }}</div>
+        <div 
+          @click="toNotifications"
+          :style="styles.option.notification" 
+          class="info__item--hover">
+          <!-- <div :style="styles.optionName">{{ STRINGS.NOTIFICATIONS }}</div> -->
+          <div :style="styles.optionName">Notifikasi</div>
           <div :style="styles.optionBorder"></div>
         </div>
-        <div :style="styles.option.privacy" class="info__item--hover">
-          <div :style="styles.optionName">
+        <div 
+          @click="toPrivacySecurity"
+          :style="styles.option.privacy" 
+          class="info__item--hover">
+          <!-- <div :style="styles.optionName">
             {{ STRINGS.PRIVACY_AND_SECURITY }}
+          </div> -->
+          <div :style="styles.optionName">
+            Privasi dan Keamanan
           </div>
           <div :style="styles.optionBorder"></div>
         </div>
-        <div :style="styles.option.chat" class="info__item--hover">
+        <div 
+          @click="toChats"
+          :style="styles.option.chat" 
+          class="info__item--hover">
           <div :style="styles.optionName">{{ STRINGS.CHATS }}</div>
           <div :style="styles.optionBorder"></div>
         </div>
@@ -41,11 +67,13 @@
       <div :style="styles.optionTitle">{{ STRINGS.OTHER }}</div>
       <div :style="styles.optionList">
         <div :style="styles.option.help" class="info__item--hover">
-          <div :style="styles.optionName">{{ STRINGS.HELP }}</div>
+          <!-- <div :style="styles.optionName">{{ STRINGS.HELP }}</div> -->
+          <div :style="styles.optionName">Bantuan</div>
           <div :style="styles.optionBorder"></div>
         </div>
         <div :style="styles.option.report" class="info__item--hover">
-          <div :style="styles.optionName">{{ STRINGS.REPORT_PROBLEM }}</div>
+          <!-- <div :style="styles.optionName">{{ STRINGS.REPORT_PROBLEM }}</div> -->
+          <div :style="styles.optionName">Laporkan Masalah</div>
           <div :style="styles.optionBorder"></div>
         </div>
       </div>
@@ -142,6 +170,32 @@ export default {
     },
   },
   methods: {
+    closeCustom() {
+      // alert('close custom');
+      this.$store.dispatch('setIsOpen', false)
+    },
+
+    // to notifications section
+    toNotifications() {
+      this.$store.dispatch('setShowNotifications', true);
+      // hide the navbar footer when notifications is show/clicked
+      this.$store.dispatch('setShowFooterNavbar', false);
+    },
+
+    // to privacy section
+    toPrivacySecurity() {
+      this.$store.dispatch('setShowPrivacy', true);
+      // hide the navbar footer when notifications is show/clicked
+      this.$store.dispatch('setShowFooterNavbar', false);
+    },
+
+    // to chats section
+    toChats() {
+      this.$store.dispatch('setShowChats', true);
+      // hide the navbar footer when notifications is show/clicked
+      this.$store.dispatch('setShowFooterNavbar', false);
+    },
+
     /**
      * Sets SVG avatar
      */
@@ -168,6 +222,27 @@ export default {
 };
 </script>
 <style scoped>
+.top-icon {
+  width: 26px;
+  height: auto;
+  cursor: pointer;
+  object-fit: cover;
+  background-size: cover;
+}
+.span-close {
+    cursor: pointer;
+    font-size: 24px;
+    color: #fff;
+    position: absolute;
+    left: 0;
+  }
+.wrap-title-and-button {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width:100%;
+  justify-content: space-around;
+}
 .cometchat__user__info {
   box-sizing: border-box;
   font-family: var(--cometchat-user-info-font-family);

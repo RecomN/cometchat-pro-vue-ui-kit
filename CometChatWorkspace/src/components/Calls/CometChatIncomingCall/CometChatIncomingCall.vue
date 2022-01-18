@@ -220,6 +220,8 @@ export default {
      * Function to cancel incoming call
      */
     incomingCallCancelled() {
+      console.log('panggilan dibatalkan, setCallingStatus to false')
+      this.$store.dispatch('setCallingStatus', false);
       try {
         this.pauseIncomingAlert();
         this.incomingCall = null;
@@ -231,6 +233,8 @@ export default {
      * Function to reject incoming call
      */
     async rejectCall() {
+      console.log('panggilan ditolak, setCallingStatus to false')
+      this.$store.dispatch('setCallingStatus', false);
       this.pauseIncomingAlert();
 
       try {

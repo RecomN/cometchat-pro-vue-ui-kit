@@ -20,8 +20,14 @@ export const headerStyle = (theme) => {
 export const headerTitleStyle = () => {
   return {
     margin: "0",
-    fontWeight: "700",
-    fontSize: "22px",
+    // fontWeight: "700",
+    fontWeight: "600",
+    // fontSize: "22px",
+    fontSize: "20px",
+    lineHeight: "26px",
+    textAlign: "center",
+    letterSpacing: "-0.5px",
+    color: "#FFFFFF"
   };
 };
 

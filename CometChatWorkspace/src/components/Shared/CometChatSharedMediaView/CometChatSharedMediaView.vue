@@ -15,14 +15,16 @@
           :style="styles.videoButton"
           @click="mediaClickHandler('video')"
         >
-          {{ STRINGS.VIDEOS }}
+          <!-- {{ STRINGS.VIDEOS }} -->
+          Links
         </span>
         <span
           class="sharedmedia__button"
           :style="styles.fileButton"
           @click="mediaClickHandler('file')"
         >
-          {{ STRINGS.DOCUMENT }}
+          <!-- {{ STRINGS.DOCUMENT }} -->
+          Docs
         </span>
       </div>
       <div

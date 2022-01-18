@@ -9,7 +9,8 @@ export const contactWrapperStyle = () => {
 
 export const contactHeaderStyle = ({ color }) => {
   return {
-    padding: "19px 16px",
+    // padding: "19px 16px",
+    padding: "12px 16px 4px 16px",
     position: "relative",
     display: "flex",
     alignItems: "center",
@@ -49,7 +50,8 @@ export const contactHeaderTitleStyle = (enableCloseMenu) => {
 
 export const contactSearchStyle = () => {
   return {
-    padding: "16px 16px",
+    // padding: "16px 16px",
+    padding: "14px 4px 12px 4px",
     position: "relative",
   };
 };
@@ -65,7 +67,8 @@ export const contactSearchInputStyle = (theme, img) => {
     fontSize: "15px",
     outline: "none",
     color: `${theme.color.primary}`,
-    background: `url(${img}) 10px center no-repeat ${theme.backgroundColor.grey}`,
+    // background: `url(${img}) 10px center no-repeat ${theme.backgroundColor.grey}`,
+    background: `url(${img}) 10px center no-repeat rgb(255 252 252)`,
   };
 };
 

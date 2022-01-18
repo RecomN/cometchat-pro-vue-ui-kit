@@ -2,6 +2,9 @@ export const footerStyle = () => {
   return {
     width: "100%",
     zIndex: "1",
+    // dd-edited
+    borderTop: "2px solid rgb(225 223 223 / 50%)",
+    position: "absolute"
   };
 };
 
@@ -30,7 +33,7 @@ export const itemLinkStyle = (icon, activeStateIcon, isActive, isGroup) => {
     : {
         background: `url(${icon}) 0% 0% / contain no-repeat`,
       };
-
+  // dd-edited
   return {
     // height: "20px",
     height: "25px",
