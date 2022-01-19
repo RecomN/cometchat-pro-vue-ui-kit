@@ -9,11 +9,14 @@ export const chatsWrapperStyle = () => {
 
 export const chatsHeaderStyle = (theme) => {
   return {
-    padding: "19px 16px",
+    padding: "16px 16px",
     display: "flex",
     alignItems: "center",
     flexDirection: "column",
     borderBottom: `1px solid ${theme.color.darkSecondary}`,
+    // dd-edited
+    minHeight: '114px',
+    width: '100%',
   };
 };
 

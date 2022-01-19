@@ -14,7 +14,11 @@
       <div class="wrap-title-and-button">
         <!-- button close/times -->
         <span @click="closeCustom" class="span-close">
-          <i class="fa fa-times" style="color:#fff"></i>
+          <!-- <i class="fa fa-times" style="color:#fff"></i> -->
+          <img 
+            class="top-icon" 
+            src="./resources/close-white-icon-2x.png" 
+            alt="close icon">
         </span>
         <!-- header title -->
         <h4 style="color:white;" :style="styles.headerTitle">{{ STRINGS.CHATS }}</h4>
@@ -1217,6 +1221,13 @@ export default {
   }
 }
   /* dd-edited */
+  .top-icon {
+    width: 26px;
+    height: auto;
+    cursor: pointer;
+    object-fit: cover;
+    background-size: cover;
+  }
   .search {
     width: 288px;
     height: 32px;
