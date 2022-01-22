@@ -54,7 +54,7 @@
           </div><!-- top -->
 
           <!-- date -->
-          <div class="date" style="font-weight: 500;font-size: 12px;line-height: 20px;letter-spacing: -0.1px;text-transform: uppercase;color: rgba(20, 20, 20, 0.5);padding-top: 16pxpx;">
+          <div class="date" style="font-weight: 500;font-size: 12px;line-height: 20px;letter-spacing: -0.1px;text-transform: uppercase;color: rgba(20, 20, 20, 0.5);padding: 12px 0px;">
             {{ new Date(userDetail.lastActiveAt * 1000).toUTCString() }}
           </div><!-- date -->
 
@@ -96,9 +96,9 @@
             <div class="flex-incoming-icon" style="display:flex;align-items:center;justify-content:space-between;">
               <!-- left -->
               <div class="left-side" style="display:flex;align-items:center;">
-                <!-- incoming icon -->
+                <!-- outgoing icon -->
                 <div class="incoming-icon" style="margin:4px">
-                  <img style="width: 16px;height: auto;" class="img-incoming" src="./resources/incoming-icon-2x.png" alt="">
+                  <img style="width: 16px;height: auto;" class="img-incoming" src="./resources/outgoing-icon-2x.png" alt="">
                 </div>
                 <!-- Incoming Vocie Call -->
                 <div class="incoming-voice-call" style="font-weight: 600;font-size: 13px;line-height: 18px;letter-spacing: -0.1px;color: #464646;">
