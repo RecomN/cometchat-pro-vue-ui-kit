@@ -2,7 +2,152 @@
   <div class="cometchat__unified__navbar">
 
     <template v-if="tab === 'contacts'">
-      <comet-chat-user-list
+      <!-- <comet-chat-user-list
+        :item="item"
+        :type="type"
+        :theme="theme"
+        :enable-close-menu="enableCloseMenu"
+        @action="actionHandler"
+      /> -->
+      
+      <!-- show user detail (**change the height to 90% to show the cometchat footer)-->
+      <div style="height: 100%;" class="wrap-user-detail" v-if="userDetail">
+        <!-- header -->
+        <div class="header-user-detail" style="width:320px;height:64px;background:#D7226D;display:flex;align-items:center;padding: 16px;position:relative;">
+          <!-- left arrow -->
+          <div @click="toUserDetail" class="left-arrow-icon" style="cursor:pointer">
+            <img class="left-arrow-img" style="width:25px;height:auto;" src="./resources/arrow-left-2x.png" alt="">
+          </div>
+          <!-- Details -->
+          <div class="title-detail" style="color:#fff;font-weight: 600;font-size: 20px;line-height: 26px;position:absolute;left:37%;">Details</div>
+        </div><!-- header -->
+        <!-- body user detail-->
+        <div style="padding: 16px;" class="body-user-detail">
+          <!-- top -->
+          <div class="top" style="display:flex;align-items:center;justify-content:space-between;">
+            <!-- image and name,status -->
+            <div class="wrap-image-and-name" style="display:flex;align-items:center;">
+              <!-- img circle -->
+              <img 
+                :src="userDetail.avatar" 
+                alt="avatar user" 
+                class="img-avatar" 
+                style="width:38px;height:38px;border-radius:9999px;">
+
+              <!-- name and online status -->
+              <div class="name-and-status" style="padding-left:10px">
+                <div class="username" style="font-weight: 600;font-size: 15px;line-height: 22px;">
+                  {{ userDetail.name }}
+                </div>
+                <div class="status-user" style="font-weight: normal;font-size: 12px;line-height: 20px;letter-spacing: -0.1px;color: rgba(20, 20, 20, 0.6);">
+                  {{ userDetail.status }}
+                </div>
+              </div><!-- name and online status -->
+            </div><!-- image and name,status -->
+
+            <!-- red phone icon -->
+            <img 
+              class="phone-red" 
+              style="width:25px;height:auto" 
+              src="./resources/phone-red-2x.png" 
+              alt="">
+          </div><!-- top -->
+
+          <!-- date -->
+          <div class="date" style="font-weight: 500;font-size: 12px;line-height: 20px;letter-spacing: -0.1px;text-transform: uppercase;color: rgba(20, 20, 20, 0.5);padding-top: 16pxpx;">
+            {{ new Date(userDetail.lastActiveAt * 1000).toUTCString() }}
+          </div><!-- date -->
+
+          <!-- wrap incoming voice call -->
+          <div 
+            class="wrap-incoming-text-icon" 
+            style="border-bottom:1px solid rgba(20, 20, 20, 0.1);padding:4px 0px 4px 0px;">
+            <!-- flex-incoming-icon-->
+            <div class="flex-incoming-icon" style="display:flex;align-items:center;justify-content:space-between;">
+              <!-- left -->
+              <div class="left-side" style="display:flex;align-items:center;">
+                <!-- incoming icon -->
+                <div class="incoming-icon" style="margin:4px">
+                  <img style="width: 16px;height: auto;" class="img-incoming" src="./resources/incoming-icon-2x.png" alt="">
+                </div>
+                <!-- Incoming Vocie Call -->
+                <div class="incoming-voice-call" style="font-weight: 600;font-size: 13px;line-height: 18px;letter-spacing: -0.1px;color: #464646;">
+                  Incoming Voice Call
+                </div>
+              </div><!-- left -->
+              
+              <!-- incoming time -->
+              <div style="font-weight: normal;font-size: 12px;line-height: 18px;text-align: right;letter-spacing: -0.1px;color: #141414;mix-blend-mode: normal;opacity: 0.4;" class="incoming-time">
+                5:11 PM
+              </div>
+            </div><!-- flex-incoming-icon-->
+
+            <!-- duration -->
+            <div style="font-weight: normal;font-size: 13px;line-height: 18pxletter-spacing: -0.1px;color: rgba(20, 20, 20, 0.6);" class="duration">
+              3m 49s
+            </div>
+          </div><!-- wrap incoming voice call -->
+
+          <!-- wrap outgoing video call -->
+          <div 
+            class="wrap-incoming-text-icon" 
+            style="border-bottom:1px solid rgba(20, 20, 20, 0.1);padding:4px 0px 4px 0px;">
+            <!-- flex-incoming-icon-->
+            <div class="flex-incoming-icon" style="display:flex;align-items:center;justify-content:space-between;">
+              <!-- left -->
+              <div class="left-side" style="display:flex;align-items:center;">
+                <!-- incoming icon -->
+                <div class="incoming-icon" style="margin:4px">
+                  <img style="width: 16px;height: auto;" class="img-incoming" src="./resources/incoming-icon-2x.png" alt="">
+                </div>
+                <!-- Incoming Vocie Call -->
+                <div class="incoming-voice-call" style="font-weight: 600;font-size: 13px;line-height: 18px;letter-spacing: -0.1px;color: #464646;">
+                  Incoming Voice Call
+                </div>
+              </div><!-- left -->
+              
+              <!-- incoming time -->
+              <div style="font-weight: normal;font-size: 12px;line-height: 18px;text-align: right;letter-spacing: -0.1px;color: #141414;mix-blend-mode: normal;opacity: 0.4;" class="incoming-time">
+                5:11 PM
+              </div>
+            </div><!-- flex-incoming-icon-->
+
+            <!-- duration -->
+            <div style="font-weight: normal;font-size: 13px;line-height: 18pxletter-spacing: -0.1px;color: rgba(20, 20, 20, 0.6);" class="duration">
+              3m 49s
+            </div>
+          </div><!-- wrap outgoing video call -->
+
+          <!-- actions text-->
+          <div style="font-weight: 500;font-size: 12px;line-height: 20px;letter-spacing: -0.1px;text-transform: uppercase;color: rgba(20, 20, 20, 0.5);margin-top: 20px;margin-bottom: 8px;" class="actions-text">
+            Actions
+          </div>
+
+          <!-- send message link -->
+          <div style="font-weight: 600;font-size: 15px;line-height: 20px;letter-spacing: -0.1px;color: rgb(51, 153, 255);padding: 10px 0px;border-bottom: 1px solid rgba(20, 20, 20, 0.1);" class="send-message-link">
+            Send Message
+          </div><!-- send message link -->
+
+          <!-- View in Contacts link -->
+          <div style="font-weight: 600;font-size: 15px;line-height: 20px;letter-spacing: -0.1px;color: rgb(51, 153, 255);padding: 10px 0px;border-bottom: 1px solid rgba(20, 20, 20, 0.1);" class="send-message-link">
+            View in Contacts
+          </div><!-- View in Contacts link -->
+
+          <!-- Privacy & Support -->
+          <div style="font-weight: 500;font-size: 12px;line-height: 20px;letter-spacing: -0.1px;text-transform: uppercase;color: rgba(20, 20, 20, 0.5);padding: 18px 0px;" class="privacy-support">
+            Privacy & Support
+          </div><!-- Privacy & Support -->
+
+          <!-- Block User -->
+          <div style="font-weight: 600;font-size: 15px;line-height: 20px;letter-spacing: -0.1px;color: #FF3B30;padding-top:10px" class="block-user">
+            Block User
+          </div><!-- Block User -->
+
+        </div><!-- body user detail-->
+      </div><!-- show user detail (**change the height to 90% to show the cometchat footer)-->
+
+      <comet-chat-user-list-custom
+        v-else
         :item="item"
         :type="type"
         :theme="theme"
@@ -55,7 +200,7 @@
             <div class="text-call">Call</div>
             <!-- phone icon -->
             <img 
-              @click="onPhoneClick"
+              @click="changeTab('contacts')"
               class="top-icon" 
               src="./resources/phone-plus-white-icon-2x.png" 
               alt="phone icon">
@@ -104,6 +249,7 @@
       <comet-chat-user-profile :theme="theme" @action="actionHandler" />
     </template>
 
+    <!-- NAVBAR FOOTER -->
     <div :style="styles.footer" class="sidebar__footer">
       <div :style="styles.navbar" class="footer__navbar">
 
@@ -147,6 +293,9 @@ import { CometChatUserProfile } from "../../UserProfile/";
 // import { CometChatGroupList } from "../../Groups";
 import { CometChatUserList } from "../../Users";
 
+// cometchat user list custom
+import { CometChatUserListCustom } from "../../Users";
+
 // import contactGreyIcon from "./resources/contacts-grey.png";
 // import contactBlueIcon from "./resources/contacts-blue.png";
 
@@ -177,6 +326,9 @@ import * as style from "./style";
 // dd-edited
 import { CometChat } from "@cometchat-pro/chat";
 
+//dd-edited 
+import { mapGetters } from 'vuex'
+
 
 /**
  * Navigation bar for switching tabs in CometChatUI.
@@ -191,6 +343,7 @@ export default {
     CometChatUserProfile,
     // CometChatGroupList,
     CometChatUserList,
+    CometChatUserListCustom
   },
   props: {
     /**
@@ -236,6 +389,9 @@ export default {
     messageToMarkRead: { ...DEFAULT_OBJECT_PROP },
   },
   computed: {
+    ...mapGetters({
+      userDetail: 'getUserDetail'
+    }),
     /**
      * Computed styles for the component.
      */
@@ -310,6 +466,11 @@ export default {
   },
   methods: {
     // dd edited
+    // set userDetail to be null and get back to previous page
+    toUserDetail() {
+      this.$store.dispatch('setUserDetailToNull');
+    },
+
     // show users
     onPhoneClick() {
       let limit = 10;
