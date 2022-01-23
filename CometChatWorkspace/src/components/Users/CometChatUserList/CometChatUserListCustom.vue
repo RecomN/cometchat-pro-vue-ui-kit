@@ -1,15 +1,47 @@
 <template>
   <div :style="styles.wrapper" class="contacts__wrapper">
-    <div :style="styles.header">
+    <div :style="styles.header" style="background:#D7226D;">
       <div
         class="header__close"
         v-if="enableCloseMenu"
         :style="styles.headerClose"
         @click="emitAction('closeMenuClicked')"
       ></div>
-      <h4 :style="styles.headerTitle">{{ STRINGS.USERS }}</h4>
+      <!-- <h4 :style="styles.headerTitle">{{ STRINGS.USERS }}</h4> -->
+
+      <!-- wrap title and search -->
+      <div class="wrap-title-and-search" style="width:100%;padding-top: 8px;">
+        <!-- left arrow icon and text -->
+        <div class="icon-and-text" style="width:100%;display:flex;align-items:center;position:relative;">
+          <!-- left arrow -->
+          <div
+            @click="changeTab('calls')"
+            class="left-arrow-icon" style="cursor:pointer">
+            <img 
+              class="left-arrow-img" 
+              style="width:25px;height:auto;" 
+              src="../../CometChatUI/CometChatNavBar/resources/arrow-left-2x.png" 
+              alt="arrow left icon">
+          </div>
+          <!-- new call text -->
+          <div class="new-call" style="font-weight: 600;font-size: 20px;line-height: 26px;text-align: center;letter-spacing: -0.5px;color: rgb(255, 255, 255);position: absolute;right: 37%;">
+            New Call
+          </div>
+        </div><!-- wrap icon and text -->
+        <!-- search -->
+        <div :style="styles.search">
+          <input
+            type="text"
+            autocomplete="off"
+            :style="styles.searchInput"
+            :placeholder="STRINGS.SEARCH"
+            @input="userSearchHandler"
+          />
+        </div>
+      </div>
+
     </div>
-    <div :style="styles.search">
+    <!-- <div :style="styles.search">
       <input
         type="text"
         autocomplete="off"
@@ -17,7 +49,7 @@
         :placeholder="STRINGS.SEARCH"
         @input="userSearchHandler"
       />
-    </div>
+    </div> -->
     <div v-if="userList.length === 0" :style="styles.msg">
       <p :style="styles.msgText">
         {{ decoratorMessage }}
@@ -193,6 +225,10 @@ export default {
     },
   },
   methods: {
+    changeTab(tab) {
+      this.emitAction("tabChanged", { tab });
+    },
+
     // click user
     onClickUser(user) {
         console.log('user clicked', user);

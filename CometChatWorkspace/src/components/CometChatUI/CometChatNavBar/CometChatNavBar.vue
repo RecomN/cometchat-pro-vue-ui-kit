@@ -47,8 +47,9 @@
 
             <!-- red phone icon -->
             <img 
+              @click="callUser(userDetail.uid)"
               class="phone-red" 
-              style="width:25px;height:auto" 
+              style="width:25px;height:auto;cursor:pointer;" 
               src="./resources/phone-red-2x.png" 
               alt="">
           </div><!-- top -->
@@ -250,7 +251,7 @@
     </template>
 
     <!-- NAVBAR FOOTER -->
-    <div :style="styles.footer" class="sidebar__footer">
+    <div v-if="showFooterNavbar" :style="styles.footer" class="sidebar__footer">
       <div :style="styles.navbar" class="footer__navbar">
 
         <!-- phone icon -->
@@ -388,9 +389,15 @@ export default {
      */
     messageToMarkRead: { ...DEFAULT_OBJECT_PROP },
   },
+  watch: {
+    tab() {
+      (this.tab === 'contacts') ? this.$store.dispatch('setShowFooterNavbar', false) : this.$store.dispatch('setShowFooterNavbar', true);
+    }
+  },
   computed: {
     ...mapGetters({
-      userDetail: 'getUserDetail'
+      userDetail: 'getUserDetail',
+      showFooterNavbar: 'getShowFooterNavbar'
     }),
     /**
      * Computed styles for the component.
@@ -461,11 +468,28 @@ export default {
     return {
       isShowAllCall: true,
       isShowMissedCall: false,
-      users: null
+      users: null,
     }
   },
   methods: {
     // dd edited
+    // call user
+    callUser(userId) {
+      // let receiverID = "UID";
+      let callType = CometChat.CALL_TYPE.AUDIO;
+      let receiverType = CometChat.RECEIVER_TYPE.USER;
+
+      let call = new CometChat.Call(userId, callType, receiverType);
+
+      CometChat.initiateCall(call).then(
+        outGoingCall => {
+          console.log("Call initiated successfully:", outGoingCall);
+        }, error => {
+          console.log("Call initialization failed with exception:", error);
+        }
+      );
+    },
+
     // set userDetail to be null and get back to previous page
     toUserDetail() {
       this.$store.dispatch('setUserDetailToNull');
