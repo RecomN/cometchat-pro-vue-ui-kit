@@ -550,6 +550,14 @@ export default {
 </script>
 <style scoped>
 /* dd-edited */
+/* hide the user detail */
+/* .hide-the-user-detail {
+  display:none;
+} */
+/* show the user detail */
+/* .show-the-user-detail {
+  display:block;
+} */
 .calls-wraper {
   width:320px;
   height:90%;
