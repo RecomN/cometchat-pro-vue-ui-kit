@@ -322,7 +322,6 @@
           <div @click="toShowMore" class="left-arrow-icon" style="cursor:pointer">
             <img class="left-arrow-img" style="width:25px;height:auto;" src="./resources/arrow-left-2x.png" alt="">
           </div>
-
           <!-- Privasi dan Keamanan -->
           <div class="title-detail" style="color:#fff;font-weight: 600;font-size: 20px;line-height: 26px;position:absolute;left:20%;">Privasi dan Keamanan</div>
         </div>
@@ -373,8 +372,35 @@
 
       <!-- show chats -->
       <div v-if="showChats" class="notif-chats">
-        <p>chats here</p>
-        <button @click="toShowMore">back</button>
+        <!-- header -->
+        <div class="header-notif" style="width:320px;height:64px;background:#D7226D;display:flex;align-items:center;padding: 16px;position:relative;">
+          <!-- left arrow -->
+          <div @click="toShowMore" class="left-arrow-icon" style="cursor:pointer">
+            <img class="left-arrow-img" style="width:25px;height:auto;" src="./resources/arrow-left-2x.png" alt="">
+          </div>
+          <!-- Chats -->
+          <div class="title-detail" style="color:#fff;font-weight: 600;font-size: 20px;line-height: 26px;position:absolute;left:37%;">Chats</div>
+        </div>
+        <!-- body privacy security-->
+        <div style="padding: 16px;" class="body-chats">
+          <!-- Clear All Chats -->
+          <div 
+            class="show-notifikasi" 
+            style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(20, 20, 20, 0.1);padding:14px 0px;">
+            <div class="text" style="font-weight: 600;font-size: 15px;line-height: 20px;letter-spacing: -0.1px;color: #FF3B30;">
+              Clear All Chats
+            </div>
+          </div>
+
+          <!-- Delete All Chats -->
+          <div 
+            class="show-notifikasi" 
+            style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(20, 20, 20, 0.1);padding:14px 0px;">
+            <div class="text" style="font-weight: 600;font-size: 15px;line-height: 20px;letter-spacing: -0.1px;color: #FF3B30;">
+              Delete All Chats
+            </div>
+          </div>
+        </div>
       </div>
 
     </template>

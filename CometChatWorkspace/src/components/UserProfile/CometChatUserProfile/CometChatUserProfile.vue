@@ -154,18 +154,22 @@ export default {
     // to notifications section
     toNotifications() {
       this.$store.dispatch('setShowNotifications', true);
+      // hide the navbar footer when notifications is show/clicked
       this.$store.dispatch('setShowFooterNavbar', false);
     },
 
     // to privacy section
     toPrivacySecurity() {
       this.$store.dispatch('setShowPrivacy', true);
+      // hide the navbar footer when notifications is show/clicked
       this.$store.dispatch('setShowFooterNavbar', false);
     },
 
     // to chats section
     toChats() {
       this.$store.dispatch('setShowChats', true);
+      // hide the navbar footer when notifications is show/clicked
+      this.$store.dispatch('setShowFooterNavbar', false);
     },
 
     /**
