@@ -23,17 +23,26 @@
     <div :style="styles.options">
       <div :style="styles.optionTitle">{{ STRINGS.PREFERENCES }}</div>
       <div :style="styles.optionList">
-        <div :style="styles.option.notification" class="info__item--hover">
+        <div 
+          @click="toNotifications"
+          :style="styles.option.notification" 
+          class="info__item--hover">
           <div :style="styles.optionName">{{ STRINGS.NOTIFICATIONS }}</div>
           <div :style="styles.optionBorder"></div>
         </div>
-        <div :style="styles.option.privacy" class="info__item--hover">
+        <div 
+          @click="toPrivacySecurity"
+          :style="styles.option.privacy" 
+          class="info__item--hover">
           <div :style="styles.optionName">
             {{ STRINGS.PRIVACY_AND_SECURITY }}
           </div>
           <div :style="styles.optionBorder"></div>
         </div>
-        <div :style="styles.option.chat" class="info__item--hover">
+        <div 
+          @click="toChats"
+          :style="styles.option.chat" 
+          class="info__item--hover">
           <div :style="styles.optionName">{{ STRINGS.CHATS }}</div>
           <div :style="styles.optionBorder"></div>
         </div>
@@ -142,6 +151,22 @@ export default {
     },
   },
   methods: {
+    // to notifications section
+    toNotifications() {
+      this.$store.dispatch('setShowNotifications', true);
+      this.$store.dispatch('setShowFooterNavbar', false);
+    },
+
+    // to privacy section
+    toPrivacySecurity() {
+      this.$store.dispatch('setShowPrivacy', true);
+    },
+
+    // to chats section
+    toChats() {
+      this.$store.dispatch('setShowChats', true);
+    },
+
     /**
      * Sets SVG avatar
      */

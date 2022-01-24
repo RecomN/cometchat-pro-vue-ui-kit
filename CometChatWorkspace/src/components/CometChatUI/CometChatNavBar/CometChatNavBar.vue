@@ -247,7 +247,85 @@
     </template>
 
     <template v-else-if="tab === 'info'">
-      <comet-chat-user-profile :theme="theme" @action="actionHandler" />
+      <!-- hide this when clicked on notifications -->
+      <comet-chat-user-profile 
+        v-if="showMoreSection"
+        :theme="theme" 
+        @action="actionHandler" />
+      
+      <!-- showNotifications -->
+      <div v-if="showNotifications" class="notifications">
+        <!-- header -->
+        <div class="header-notif" style="width:320px;height:64px;background:#D7226D;display:flex;align-items:center;padding: 16px;position:relative;">
+          <!-- left arrow -->
+          <div @click="toShowMore" class="left-arrow-icon" style="cursor:pointer">
+            <img class="left-arrow-img" style="width:25px;height:auto;" src="./resources/arrow-left-2x.png" alt="">
+          </div>
+
+          <!-- Notifikasi -->
+          <div class="title-detail" style="color:#fff;font-weight: 600;font-size: 20px;line-height: 26px;position:absolute;left:37%;">Notifikasi</div>
+        </div>
+        <!-- body notifikasi-->
+        <div style="padding: 16px;" class="body-notifikasi">
+          <!-- Show Notifications -->
+          <div 
+            class="show-notifikasi" 
+            style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(20, 20, 20, 0.1);padding:14px 0px;">
+            <div class="text" style="font-weight: 600;font-size: 15px;line-height: 22px;letter-spacing: -0.1px;color: #141414;">
+              Show Notifications
+            </div>
+            <div class="checkbox-notif" @click="checkedNotif = !checkedNotif">
+              <input 
+                :checked="checkedNotif"
+                class="checkbox-input"
+                type="checkbox" name="" id="">
+            </div>
+          </div>
+          <!-- Show Preview -->
+          <div 
+            class="show-notifikasi" 
+            style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(20, 20, 20, 0.1);padding:14px 0px;">
+            <div class="text" style="font-weight: 600;font-size: 15px;line-height: 22px;letter-spacing: -0.1px;color: #141414;">
+              Show Preview
+            </div>
+            <div class="checkbox-notif" @click="checkedPreview = !checkedPreview">
+              <input 
+                :checked="checkedPreview"
+                class="checkbox-input"
+                type="checkbox" name="" id="">
+            </div>
+          </div>
+          <!-- desc Preview message text inside new message notifications-->
+          <div class="desc-notif" style="font-weight: normal;font-size: 13px;line-height: 18px;letter-spacing: -0.1px;color: rgba(20, 20, 20, 0.6);padding-top:12px;padding-bottom:40px;">
+            Preview message text inside new message notifications.
+          </div>
+          <!-- More -->
+          <div class="more" style="font-weight: 500;font-size: 12px;line-height: 20px;letter-spacing: -0.1px;text-transform: uppercase;color: rgba(20, 20, 20, 0.5);padding-bottom:18px;">
+            More
+          </div>
+          <!-- Reset Notification Settings -->
+          <div class="reset-notif" style="font-weight: 600;font-size: 15px;line-height: 20px;letter-spacing: -0.1px;color: #FF3B30;padding-bottom:15px;border-bottom:1px solid rgba(20, 20, 20, 0.1);">
+            Reset Notification Settings
+          </div>
+          <!-- Reset all notification settings, including custom notification settings for your chats. -->
+          <div class="reset-all" style="font-weight: normal;font-size: 13px;line-height: 18px;letter-spacing: -0.1px;color: rgba(20, 20, 20, 0.6);padding-top:12px;">
+            Reset all notification settings, including custom notification settings for your chats.
+          </div>
+        </div>
+      </div>
+
+      <!-- show privacy -->
+      <div v-if="showPrivacy" class="privacy-security">
+        <p>privacy here</p>
+        <button @click="toShowMore">back</button>
+      </div>
+
+      <!-- show chats -->
+      <div v-if="showChats" class="notif-chats">
+        <p>chats here</p>
+        <button @click="toShowMore">back</button>
+      </div>
+
     </template>
 
     <!-- NAVBAR FOOTER -->
@@ -397,7 +475,11 @@ export default {
   computed: {
     ...mapGetters({
       userDetail: 'getUserDetail',
-      showFooterNavbar: 'getShowFooterNavbar'
+      showFooterNavbar: 'getShowFooterNavbar',
+      showMoreSection: 'getShowMoreSection',
+      showNotifications: 'getShowNotifications',
+      showPrivacy: 'getShowPrivacy',
+      showChats: 'getShowChats',
     }),
     /**
      * Computed styles for the component.
@@ -469,10 +551,18 @@ export default {
       isShowAllCall: true,
       isShowMissedCall: false,
       users: null,
+      checkedNotif: true,
+      checkedPreview: true,
     }
   },
   methods: {
     // dd edited
+    // to show more section
+    toShowMore() {
+      this.$store.dispatch('setShowMoreSection', true);
+      this.$store.dispatch('setShowFooterNavbar', true);
+    },
+
     // call user
     callUser(userId) {
       // let receiverID = "UID";
@@ -550,14 +640,31 @@ export default {
 </script>
 <style scoped>
 /* dd-edited */
-/* hide the user detail */
-/* .hide-the-user-detail {
-  display:none;
-} */
-/* show the user detail */
-/* .show-the-user-detail {
-  display:block;
-} */
+INPUT[type=checkbox]:focus
+{
+  outline: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+INPUT[type=checkbox]
+{
+  background-color: #DDD;
+  border-radius: 2px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  position: relative;
+  top: 5px;
+  border-radius:4px;
+}
+
+INPUT[type=checkbox]:checked
+{
+  background-color: #4DB6E4;
+  background: #4DB6E4 url("./resources/mark-white.png") 4px 4px no-repeat;
+}
 .calls-wraper {
   width:320px;
   height:90%;
