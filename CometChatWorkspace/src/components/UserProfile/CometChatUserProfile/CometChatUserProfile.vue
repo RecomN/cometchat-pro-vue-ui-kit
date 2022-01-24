@@ -160,6 +160,7 @@ export default {
     // to privacy section
     toPrivacySecurity() {
       this.$store.dispatch('setShowPrivacy', true);
+      this.$store.dispatch('setShowFooterNavbar', false);
     },
 
     // to chats section

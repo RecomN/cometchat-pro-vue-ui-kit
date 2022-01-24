@@ -316,8 +316,59 @@
 
       <!-- show privacy -->
       <div v-if="showPrivacy" class="privacy-security">
-        <p>privacy here</p>
-        <button @click="toShowMore">back</button>
+        <!-- header -->
+        <div class="header-notif" style="width:320px;height:64px;background:#D7226D;display:flex;align-items:center;padding: 16px;position:relative;">
+          <!-- left arrow -->
+          <div @click="toShowMore" class="left-arrow-icon" style="cursor:pointer">
+            <img class="left-arrow-img" style="width:25px;height:auto;" src="./resources/arrow-left-2x.png" alt="">
+          </div>
+
+          <!-- Privasi dan Keamanan -->
+          <div class="title-detail" style="color:#fff;font-weight: 600;font-size: 20px;line-height: 26px;position:absolute;left:20%;">Privasi dan Keamanan</div>
+        </div>
+        <!-- body privacy security-->
+        <div style="padding: 16px;" class="body-privacy">
+          <!-- Blocked Users -->
+          <div 
+            class="show-notifikasi" 
+            style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(20, 20, 20, 0.1);padding:14px 0px;margin-bottom:40px;">
+            <div class="text" style="font-weight: 600;font-size: 15px;line-height: 22px;letter-spacing: -0.1px;color: #141414;">
+              Blocked Users
+            </div>
+            <div class="blocked-users-count" style="font-weight: normal;font-size: 13px;line-height: 18px;text-align: right;letter-spacing: -0.1px;color: #141414;mix-blend-mode: normal;opacity: 0.7;">
+              12 users
+            </div>
+          </div>
+
+          <!-- Privacy -->
+          <div class="privacy-text" style="font-weight: 500;font-size: 12px;line-height: 20px;letter-spacing: -0.1px;text-transform: uppercase;color: rgba(20, 20, 20, 0.5);padding-bottom:17px;">
+            Privacy
+          </div>
+
+          <!-- Groups -->
+          <div 
+            class="show-notifikasi" 
+            style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(20, 20, 20, 0.1);padding:14px 0px;">
+            <div class="text" style="font-weight: 600;font-size: 15px;line-height: 22px;letter-spacing: -0.1px;color: #141414;">
+              Groups
+            </div>
+            <div class="everybody" style="font-weight: normal;font-size: 13px;line-height: 18px;text-align: right;letter-spacing: -0.1px;color: #141414;mix-blend-mode: normal;opacity: 0.7;">
+              Everybody
+            </div>
+          </div>
+
+          <!-- Calls -->
+          <div 
+            class="show-notifikasi" 
+            style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(20, 20, 20, 0.1);padding:14px 0px;">
+            <div class="text" style="font-weight: 600;font-size: 15px;line-height: 22px;letter-spacing: -0.1px;color: #141414;">
+              Calls
+            </div>
+            <div class="everybody" style="font-weight: normal;font-size: 13px;line-height: 18px;text-align: right;letter-spacing: -0.1px;color: #141414;mix-blend-mode: normal;opacity: 0.7;">
+              Everybody
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- show chats -->
