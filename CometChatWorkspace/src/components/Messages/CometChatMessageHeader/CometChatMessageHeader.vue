@@ -6,7 +6,10 @@
         :style="styles.sidebarBtn"
         @click="emitAction('menuClicked')"
       ></div>
-      <div :style="styles.thumbnail">
+      <div 
+        :style="styles.thumbnail" 
+        @click="emitAction('viewDetail')" 
+        style="cursor:pointer;">
         <comet-chat-avatar
           border-width="0"
           corner-radius="18px"

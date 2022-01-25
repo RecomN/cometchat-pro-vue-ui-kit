@@ -17,6 +17,7 @@ export const headerStyle = (theme) => {
     display: "flex",
     justifyContent: "flex-start",
     alignItems: "center",
+    background: "#D7226D",
   };
 };
 
@@ -36,6 +37,12 @@ export const headerTitleStyle = () => {
     margin: "0",
     fontWeight: "700",
     fontSize: "20px",
+    // dd-edited
+    // fontWeight: "600",
+    // lineHeight: "26px",
+    // textAlign: "center",
+    // letterSpacing: "-0.5px",
+    // color: "#FFFFFF",
   };
 };
 

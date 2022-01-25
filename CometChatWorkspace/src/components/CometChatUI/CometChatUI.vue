@@ -36,7 +36,7 @@
     <div
       v-if="viewDetailScreen"
       :style="styles.secondary"
-      class="unified__secondary"
+      class="unified__secondary_custom"
     >
       <comet-chat-user-details
         :item="item"
@@ -380,6 +380,17 @@ export default {
   }
   .unified__main {
     width: 100% !important;
+  }
+
+  /* custom class to set the user detail to be on left*/
+  .unified__secondary_custom {
+    top: 0;
+    bottom: 0;
+    z-index: 2;
+    right: 334px;
+    width: 100% !important;
+    position: absolute !important;
+    background-color: var(--cometchat-unified-sidebar-bg-color);
   }
   .unified__secondary {
     top: 0;
