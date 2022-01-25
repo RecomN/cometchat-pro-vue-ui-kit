@@ -11,35 +11,34 @@
       /> -->
       
       <!-- show user detail (**change the height to 90% to show the cometchat footer)-->
-      <div style="height: 100%;" class="wrap-user-detail" v-if="userDetail">
+      <div class="wrap-user-detail" v-if="userDetail">
         <!-- header -->
-        <div class="header-user-detail" style="width:320px;height:64px;background:#D7226D;display:flex;align-items:center;padding: 16px;position:relative;">
+        <div class="header-user-detail">
           <!-- left arrow -->
-          <div @click="toUserDetail" class="left-arrow-icon" style="cursor:pointer">
-            <img class="left-arrow-img" style="width:25px;height:auto;" src="./resources/arrow-left-2x.png" alt="">
+          <div @click="toUserDetail" class="left-arrow-icon">
+            <img class="left-arrow-img" src="./resources/arrow-left-2x.png" alt="">
           </div>
           <!-- Details -->
-          <div class="title-detail" style="color:#fff;font-weight: 600;font-size: 20px;line-height: 26px;position:absolute;left:37%;">Details</div>
+          <div class="title-detail">Details</div>
         </div><!-- header -->
         <!-- body user detail-->
-        <div style="padding: 16px;" class="body-user-detail">
+        <div class="body-notifikasi">
           <!-- top -->
-          <div class="top" style="display:flex;align-items:center;justify-content:space-between;">
+          <div class="top-user-detail">
             <!-- image and name,status -->
-            <div class="wrap-image-and-name" style="display:flex;align-items:center;">
+            <div class="flex-items">
               <!-- img circle -->
               <img 
                 :src="userDetail.avatar" 
                 alt="avatar user" 
-                class="img-avatar" 
-                style="width:38px;height:38px;border-radius:9999px;">
+                class="img-avatar">
 
               <!-- name and online status -->
-              <div class="name-and-status" style="padding-left:10px">
-                <div class="username" style="font-weight: 600;font-size: 15px;line-height: 22px;">
+              <div class="name-and-status">
+                <div class="username">
                   {{ userDetail.name }}
                 </div>
-                <div class="status-user" style="font-weight: normal;font-size: 12px;line-height: 20px;letter-spacing: -0.1px;color: rgba(20, 20, 20, 0.6);">
+                <div class="status-user">
                   {{ userDetail.status }}
                 </div>
               </div><!-- name and online status -->
@@ -48,99 +47,96 @@
             <!-- red phone icon -->
             <img 
               @click="callUser(userDetail.uid)"
-              class="phone-red" 
-              style="width:25px;height:auto;cursor:pointer;" 
+              class="phone-red-icon" 
               src="./resources/phone-red-2x.png" 
               alt="">
           </div><!-- top -->
 
           <!-- date -->
-          <div class="date" style="font-weight: 500;font-size: 12px;line-height: 20px;letter-spacing: -0.1px;text-transform: uppercase;color: rgba(20, 20, 20, 0.5);padding: 12px 0px;">
+          <div class="date-user-detail">
             {{ new Date(userDetail.lastActiveAt * 1000).toUTCString() }}
           </div><!-- date -->
 
           <!-- wrap incoming voice call -->
           <div 
-            class="wrap-incoming-text-icon" 
-            style="border-bottom:1px solid rgba(20, 20, 20, 0.1);padding:4px 0px 4px 0px;">
+            class="wrap-incoming-text-icon">
             <!-- flex-incoming-icon-->
-            <div class="flex-incoming-icon" style="display:flex;align-items:center;justify-content:space-between;">
+            <div class="top-user-detail">
               <!-- left -->
-              <div class="left-side" style="display:flex;align-items:center;">
+              <div class="flex-items">
                 <!-- incoming icon -->
-                <div class="incoming-icon" style="margin:4px">
-                  <img style="width: 16px;height: auto;" class="img-incoming" src="./resources/incoming-icon-2x.png" alt="">
+                <div class="incoming-icon">
+                  <img class="img-incoming" src="./resources/incoming-icon-2x.png" alt="">
                 </div>
                 <!-- Incoming Vocie Call -->
-                <div class="incoming-voice-call" style="font-weight: 600;font-size: 13px;line-height: 18px;letter-spacing: -0.1px;color: #464646;">
+                <div class="incoming-voice-call">
                   Incoming Voice Call
                 </div>
               </div><!-- left -->
               
               <!-- incoming time -->
-              <div style="font-weight: normal;font-size: 12px;line-height: 18px;text-align: right;letter-spacing: -0.1px;color: #141414;mix-blend-mode: normal;opacity: 0.4;" class="incoming-time">
+              <div class="incoming-time">
                 5:11 PM
               </div>
             </div><!-- flex-incoming-icon-->
 
             <!-- duration -->
-            <div style="font-weight: normal;font-size: 13px;line-height: 18pxletter-spacing: -0.1px;color: rgba(20, 20, 20, 0.6);" class="duration">
+            <div class="duration">
               3m 49s
             </div>
           </div><!-- wrap incoming voice call -->
 
           <!-- wrap outgoing video call -->
           <div 
-            class="wrap-incoming-text-icon" 
-            style="border-bottom:1px solid rgba(20, 20, 20, 0.1);padding:4px 0px 4px 0px;">
+            class="wrap-incoming-text-icon">
             <!-- flex-incoming-icon-->
-            <div class="flex-incoming-icon" style="display:flex;align-items:center;justify-content:space-between;">
+            <div class="flex-incoming-icon">
               <!-- left -->
-              <div class="left-side" style="display:flex;align-items:center;">
+              <div class="flex-items">
                 <!-- outgoing icon -->
-                <div class="incoming-icon" style="margin:4px">
-                  <img style="width: 16px;height: auto;" class="img-incoming" src="./resources/outgoing-icon-2x.png" alt="">
+                <div class="incoming-icon">
+                  <img class="img-incoming" src="./resources/outgoing-icon-2x.png" alt="">
                 </div>
                 <!-- Incoming Vocie Call -->
-                <div class="incoming-voice-call" style="font-weight: 600;font-size: 13px;line-height: 18px;letter-spacing: -0.1px;color: #464646;">
-                  Incoming Voice Call
+                <div class="incoming-voice-call">
+                  Incoming Voice call
                 </div>
               </div><!-- left -->
               
               <!-- incoming time -->
-              <div style="font-weight: normal;font-size: 12px;line-height: 18px;text-align: right;letter-spacing: -0.1px;color: #141414;mix-blend-mode: normal;opacity: 0.4;" class="incoming-time">
+              <div class="incoming-time">
                 5:11 PM
               </div>
             </div><!-- flex-incoming-icon-->
 
             <!-- duration -->
-            <div style="font-weight: normal;font-size: 13px;line-height: 18pxletter-spacing: -0.1px;color: rgba(20, 20, 20, 0.6);" class="duration">
+            <div class="duration">
               3m 49s
             </div>
           </div><!-- wrap outgoing video call -->
 
           <!-- actions text-->
-          <div style="font-weight: 500;font-size: 12px;line-height: 20px;letter-spacing: -0.1px;text-transform: uppercase;color: rgba(20, 20, 20, 0.5);margin-top: 20px;margin-bottom: 8px;" class="actions-text">
+          <div class="actions-text">
             Actions
           </div>
 
           <!-- send message link -->
-          <div style="font-weight: 600;font-size: 15px;line-height: 20px;letter-spacing: -0.1px;color: rgb(51, 153, 255);padding: 10px 0px;border-bottom: 1px solid rgba(20, 20, 20, 0.1);" class="send-message-link">
+          <div class="send-message-link">
             Send Message
           </div><!-- send message link -->
 
           <!-- View in Contacts link -->
-          <div style="font-weight: 600;font-size: 15px;line-height: 20px;letter-spacing: -0.1px;color: rgb(51, 153, 255);padding: 10px 0px;border-bottom: 1px solid rgba(20, 20, 20, 0.1);" class="send-message-link">
+          <div class="send-message-link">
             View in Contacts
           </div><!-- View in Contacts link -->
 
           <!-- Privacy & Support -->
-          <div style="font-weight: 500;font-size: 12px;line-height: 20px;letter-spacing: -0.1px;text-transform: uppercase;color: rgba(20, 20, 20, 0.5);padding: 18px 0px;" class="privacy-support">
+          <div class="privacy-support">
             Privacy & Support
-          </div><!-- Privacy & Support -->
+          </div>
 
           <!-- Block User -->
-          <div style="font-weight: 600;font-size: 15px;line-height: 20px;letter-spacing: -0.1px;color: #FF3B30;padding-top:10px" class="block-user">
+          <div class="block-user">
             Block User
           </div><!-- Block User -->
 
@@ -256,22 +252,21 @@
       <!-- showNotifications -->
       <div v-if="showNotifications" class="notifications">
         <!-- header -->
-        <div class="header-notif" style="width:320px;height:64px;background:#D7226D;display:flex;align-items:center;padding: 16px;position:relative;">
+        <div class="header-user-detail">
           <!-- left arrow -->
-          <div @click="toShowMore" class="left-arrow-icon" style="cursor:pointer">
-            <img class="left-arrow-img" style="width:25px;height:auto;" src="./resources/arrow-left-2x.png" alt="">
+          <div @click="toShowMore" class="left-arrow-icon">
+            <img class="left-arrow-img" src="./resources/arrow-left-2x.png" alt="">
           </div>
 
           <!-- Notifikasi -->
-          <div class="title-detail" style="color:#fff;font-weight: 600;font-size: 20px;line-height: 26px;position:absolute;left:37%;">Notifikasi</div>
+          <div class="title-detail">Notifikasi</div>
         </div>
         <!-- body notifikasi-->
-        <div style="padding: 16px;" class="body-notifikasi">
+        <div class="body-notifikasi">
           <!-- Show Notifications -->
           <div 
-            class="show-notifikasi" 
-            style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(20, 20, 20, 0.1);padding:14px 0px;">
-            <div class="text" style="font-weight: 600;font-size: 15px;line-height: 22px;letter-spacing: -0.1px;color: #141414;">
+            class="show-notifikasi">
+            <div class="text-notif">
               Show Notifications
             </div>
             <div class="checkbox-notif" @click="checkedNotif = !checkedNotif">
@@ -283,9 +278,8 @@
           </div>
           <!-- Show Preview -->
           <div 
-            class="show-notifikasi" 
-            style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(20, 20, 20, 0.1);padding:14px 0px;">
-            <div class="text" style="font-weight: 600;font-size: 15px;line-height: 22px;letter-spacing: -0.1px;color: #141414;">
+            class="show-notifikasi">
+            <div class="text-notif">
               Show Preview
             </div>
             <div class="checkbox-notif" @click="checkedPreview = !checkedPreview">
@@ -296,19 +290,19 @@
             </div>
           </div>
           <!-- desc Preview message text inside new message notifications-->
-          <div class="desc-notif" style="font-weight: normal;font-size: 13px;line-height: 18px;letter-spacing: -0.1px;color: rgba(20, 20, 20, 0.6);padding-top:12px;padding-bottom:40px;">
+          <div class="desc-notif">
             Preview message text inside new message notifications.
           </div>
           <!-- More -->
-          <div class="more" style="font-weight: 500;font-size: 12px;line-height: 20px;letter-spacing: -0.1px;text-transform: uppercase;color: rgba(20, 20, 20, 0.5);padding-bottom:18px;">
+          <div class="more-class">
             More
           </div>
           <!-- Reset Notification Settings -->
-          <div class="reset-notif" style="font-weight: 600;font-size: 15px;line-height: 20px;letter-spacing: -0.1px;color: #FF3B30;padding-bottom:15px;border-bottom:1px solid rgba(20, 20, 20, 0.1);">
+          <div class="reset-notif">
             Reset Notification Settings
           </div>
           <!-- Reset all notification settings, including custom notification settings for your chats. -->
-          <div class="reset-all" style="font-weight: normal;font-size: 13px;line-height: 18px;letter-spacing: -0.1px;color: rgba(20, 20, 20, 0.6);padding-top:12px;">
+          <div class="reset-all">
             Reset all notification settings, including custom notification settings for your chats.
           </div>
         </div>
@@ -317,53 +311,50 @@
       <!-- show privacy -->
       <div v-if="showPrivacy" class="privacy-security">
         <!-- header -->
-        <div class="header-notif" style="width:320px;height:64px;background:#D7226D;display:flex;align-items:center;padding: 16px;position:relative;">
+        <div class="header-user-detail">
           <!-- left arrow -->
-          <div @click="toShowMore" class="left-arrow-icon" style="cursor:pointer">
-            <img class="left-arrow-img" style="width:25px;height:auto;" src="./resources/arrow-left-2x.png" alt="">
+          <div @click="toShowMore" class="left-arrow-icon">
+            <img class="left-arrow-img" src="./resources/arrow-left-2x.png" alt="">
           </div>
           <!-- Privasi dan Keamanan -->
-          <div class="title-detail" style="color:#fff;font-weight: 600;font-size: 20px;line-height: 26px;position:absolute;left:20%;">Privasi dan Keamanan</div>
+          <div class="title-detail-privacy">Privasi dan Keamanan</div>
         </div>
         <!-- body privacy security-->
-        <div style="padding: 16px;" class="body-privacy">
+        <div class="body-notifikasi">
           <!-- Blocked Users -->
           <div 
-            class="show-notifikasi" 
-            style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(20, 20, 20, 0.1);padding:14px 0px;margin-bottom:40px;">
-            <div class="text" style="font-weight: 600;font-size: 15px;line-height: 22px;letter-spacing: -0.1px;color: #141414;">
+            class="show-notifikasi-privacy">
+            <div class="text-notif">
               Blocked Users
             </div>
-            <div class="blocked-users-count" style="font-weight: normal;font-size: 13px;line-height: 18px;text-align: right;letter-spacing: -0.1px;color: #141414;mix-blend-mode: normal;opacity: 0.7;">
+            <div class="blocked-users-count">
               12 users
             </div>
           </div>
 
           <!-- Privacy -->
-          <div class="privacy-text" style="font-weight: 500;font-size: 12px;line-height: 20px;letter-spacing: -0.1px;text-transform: uppercase;color: rgba(20, 20, 20, 0.5);padding-bottom:17px;">
+          <div class="privacy-text">
             Privacy
           </div>
 
           <!-- Groups -->
           <div 
-            class="show-notifikasi" 
-            style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(20, 20, 20, 0.1);padding:14px 0px;">
-            <div class="text" style="font-weight: 600;font-size: 15px;line-height: 22px;letter-spacing: -0.1px;color: #141414;">
+            class="show-notifikasi">
+            <div class="text-notif">
               Groups
             </div>
-            <div class="everybody" style="font-weight: normal;font-size: 13px;line-height: 18px;text-align: right;letter-spacing: -0.1px;color: #141414;mix-blend-mode: normal;opacity: 0.7;">
+            <div class="blocked-users-count">
               Everybody
             </div>
           </div>
 
           <!-- Calls -->
           <div 
-            class="show-notifikasi" 
-            style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(20, 20, 20, 0.1);padding:14px 0px;">
-            <div class="text" style="font-weight: 600;font-size: 15px;line-height: 22px;letter-spacing: -0.1px;color: #141414;">
+            class="show-notifikasi">
+            <div class="text-notif">
               Calls
             </div>
-            <div class="everybody" style="font-weight: normal;font-size: 13px;line-height: 18px;text-align: right;letter-spacing: -0.1px;color: #141414;mix-blend-mode: normal;opacity: 0.7;">
+            <div class="blocked-users-count">
               Everybody
             </div>
           </div>
@@ -373,30 +364,28 @@
       <!-- show chats -->
       <div v-if="showChats" class="notif-chats">
         <!-- header -->
-        <div class="header-notif" style="width:320px;height:64px;background:#D7226D;display:flex;align-items:center;padding: 16px;position:relative;">
+        <div class="header-user-detail">
           <!-- left arrow -->
-          <div @click="toShowMore" class="left-arrow-icon" style="cursor:pointer">
-            <img class="left-arrow-img" style="width:25px;height:auto;" src="./resources/arrow-left-2x.png" alt="">
+          <div @click="toShowMore" class="left-arrow-icon">
+            <img class="left-arrow-img" src="./resources/arrow-left-2x.png" alt="">
           </div>
           <!-- Chats -->
-          <div class="title-detail" style="color:#fff;font-weight: 600;font-size: 20px;line-height: 26px;position:absolute;left:37%;">Chats</div>
+          <div class="title-detail">Chats</div>
         </div>
         <!-- body privacy security-->
-        <div style="padding: 16px;" class="body-chats">
+        <div class="body-notifikasi">
           <!-- Clear All Chats -->
           <div 
-            class="show-notifikasi" 
-            style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(20, 20, 20, 0.1);padding:14px 0px;">
-            <div class="text" style="font-weight: 600;font-size: 15px;line-height: 20px;letter-spacing: -0.1px;color: #FF3B30;">
+            class="show-notifikasi">
+            <div class="text-notif-red">
               Clear All Chats
             </div>
           </div>
 
           <!-- Delete All Chats -->
           <div 
-            class="show-notifikasi" 
-            style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(20, 20, 20, 0.1);padding:14px 0px;">
-            <div class="text" style="font-weight: 600;font-size: 15px;line-height: 20px;letter-spacing: -0.1px;color: #FF3B30;">
+            class="show-notifikasi">
+            <div class="text-notif-red">
               Delete All Chats
             </div>
           </div>
@@ -717,11 +706,253 @@ export default {
 </script>
 <style scoped>
 /* dd-edited */
+.wrap-user-detail {
+  height: 100%;
+}
+.header-user-detail {
+  width: 320px;
+  height: 64px;
+  background: #D7226D;
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  position: relative;
+}
+.top-user-detail {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.left-arrow-icon {
+  cursor: pointer;
+}
+.left-arrow-img {
+  width: 25px;
+  height: auto;
+}
+.title-detail {
+  color: #fff;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 26px;
+  position:absolute;
+  left: 37%;
+}
+.title-detail-privacy {
+  color:#fff;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 26px;
+  position: absolute;
+  left: 20%;
+}
+.body-notifikasi {
+  padding: 16px;
+}
+.show-notifikasi {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(20, 20, 20, 0.1);
+  padding: 14px 0px;
+}
+.show-notifikasi-privacy {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(20, 20, 20, 0.1);
+  padding: 14px 0px;
+  margin-bottom: 40px;
+}
+.text-notif {
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 22px;
+  letter-spacing: -0.1px;
+  color: #141414;
+}
+.flex-items {
+  display: flex;
+  align-items: center;
+}
+.img-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 9999px;
+}
+.name-and-status {
+  padding-left: 10px
+}
+.username {
+  padding-left: 10px;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 22px;
+}
+.status-user {
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: -0.1px;
+  color: rgba(20, 20, 20, 0.6);
+}
+.phone-red-icon {
+  width: 25px;
+  height: auto;
+  cursor: pointer;
+}
+.date-user-detail {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: -0.1px;
+  text-transform: uppercase;
+  color: rgba(20, 20, 20, 0.5);
+  padding: 12px 0px;
+}
+.wrap-incoming-text-icon {
+  border-bottom: 1px solid rgba(20, 20, 20, 0.1);
+  padding: 4px 0px 4px 0px;
+}
+.incoming-icon {
+  margin: 4px;
+}
+.img-incoming {
+  width: 16px;
+  height: auto;
+}
+.incoming-voice-call {
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 18px;
+  letter-spacing: -0.1px;
+  color: #464646;
+}
+.incoming-time {
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 18px;
+  text-align: right;
+  letter-spacing: -0.1px;
+  color: #141414;
+  mix-blend-mode: normal;
+  opacity: 0.4;
+}
+.duration {
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 18px;
+  letter-spacing: -0.1px;
+  color: rgba(20, 20, 20, 0.6);
+}
+.flex-incoming-icon {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.actions-text {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: -0.1px;
+  text-transform: uppercase;
+  color: rgba(20, 20, 20, 0.5);
+  margin-top: 20px;
+  margin-bottom: 8px;
+}
+.send-message-link {
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 20px;
+  letter-spacing: -0.1px;
+  color: rgb(51, 153, 255);
+  padding: 10px 0px;
+  border-bottom: 1px solid rgba(20, 20, 20, 0.1);
+}
+.privacy-support {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: -0.1px;
+  text-transform: uppercase;
+  color: rgba(20, 20, 20, 0.5);
+  padding: 18px 0px;
+}
+.block-user {
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 20px;
+  letter-spacing: -0.1px;
+  color: #FF3B30;
+  padding-top:10px
+}
+.desc-notif {
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 18px;
+  letter-spacing: -0.1px;
+  color: rgba(20, 20, 20, 0.6);
+  padding-top: 12px;
+  padding-bottom: 40px;
+}
+.more-class {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: -0.1px;
+  text-transform: uppercase;
+  color: rgba(20, 20, 20, 0.5);
+  padding-bottom: 18px;
+}
+.reset-notif {
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 20px;
+  letter-spacing: -0.1px;
+  color: #FF3B30;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(20, 20, 20, 0.1);
+}
+.reset-all {
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 18px;
+  letter-spacing: -0.1px;
+  color: rgba(20, 20, 20, 0.6);
+  padding-top: 12px;
+}
+.blocked-users-count {
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 18px;
+  text-align: right;
+  letter-spacing: -0.1px;
+  color: #141414;
+  mix-blend-mode: normal;
+  opacity: 0.7;
+}
+.privacy-text {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: -0.1px;
+  text-transform: uppercase;
+  color: rgba(20, 20, 20, 0.5);
+  padding-bottom: 17px;
+}
+.text-notif-red {
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 20px;
+  letter-spacing: -0.1px;
+  color: #FF3B30;
+}
+
+/* custom checkbox */
 INPUT[type=checkbox]:focus
 {
   outline: 1px solid rgba(0, 0, 0, 0.2);
 }
-
 INPUT[type=checkbox]
 {
   background-color: #DDD;
@@ -736,12 +967,13 @@ INPUT[type=checkbox]
   top: 5px;
   border-radius:4px;
 }
-
 INPUT[type=checkbox]:checked
 {
   background-color: #4DB6E4;
   background: #4DB6E4 url("./resources/mark-white.png") 4px 4px no-repeat;
 }
+/* custom checkbox */
+
 .calls-wraper {
   width:320px;
   height:90%;
