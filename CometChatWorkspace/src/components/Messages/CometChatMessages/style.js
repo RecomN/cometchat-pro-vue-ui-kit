@@ -8,6 +8,9 @@ export const chatWrapperStyle = (theme) => {
     boxSizing: "border-box",
     fontFamily: `${theme.fontFamily}`,
     "--chat-wrapper-font-family": `${theme.fontFamily}`,
+    // dd-edited
+    left: "-334px",
+    boxShadow: "0px 16px 32px rgba(20, 20, 20, 0.2)",
   };
 };
 

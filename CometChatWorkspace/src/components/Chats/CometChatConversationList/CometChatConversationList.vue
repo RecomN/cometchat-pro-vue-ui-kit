@@ -435,6 +435,8 @@ export default {
      * Handles conversation item click
      */
     conversationClickHandler({ item, type }) {
+      // dd-edited show the chat window
+      this.$store.dispatch('setShowChatWindow', true);
       this.emitAction("item-click", { item, type });
     },
     /**

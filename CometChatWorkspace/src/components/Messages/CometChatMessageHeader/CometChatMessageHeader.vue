@@ -8,7 +8,7 @@
       ></div>
       <div :style="styles.thumbnail">
         <comet-chat-avatar
-          border-width="1px"
+          border-width="0"
           corner-radius="18px"
           :image="avatarImage"
           :border-color="theme.borderColor.primary"
@@ -53,9 +53,14 @@
       ></span>
       <span
         class="cometchat_chat_option"
+        :style="styles.closeChatOption"
+        @click="closeChatWindow"
+      ></span>
+      <!-- <span
+        class="cometchat_chat_option"
         :style="styles.detailPaneOption"
         @click="emitAction('viewDetail')"
-      ></span>
+      ></span> -->
     </div>
   </div>
 </template>
@@ -80,9 +85,12 @@ import { CometChatAvatar, CometChatUserPresence } from "../../Shared";
 import * as enums from "../../../util/enums.js";
 
 import menuIcon from "./resources/menuicon.png";
-import audioCallIcon from "./resources/audio.png";
-import videoCallIcon from "./resources/video.png";
-import detailPaneIcon from "./resources/detailpane.png";
+// import audioCallIcon from "./resources/audio.png";
+import audioCallIconWhite from "./resources/audio-white-2x.png";
+// import videoCallIcon from "./resources/video.png";
+import videoCallIconWhite from "./resources/video-white-2x.png";
+// import detailPaneIcon from "./resources/detailpane.png";
+import closeIconWhite from "./resources/close-white-2x.png";
 
 import * as style from "./style";
 
@@ -168,9 +176,10 @@ export default {
         root: style.chatHeaderStyle(this.theme),
         optionWrapper: style.chatOptionWrapStyle(),
         sidebarBtn: style.chatSideBarBtnStyle(menuIcon, this.sidebar),
-        audioCallOption: style.chatOptionStyle(audioCallIcon, "audio"),
-        videoCallOption: style.chatOptionStyle(videoCallIcon, "video"),
-        detailPaneOption: style.chatOptionStyle(detailPaneIcon, "detail"),
+        audioCallOption: style.chatOptionStyle(audioCallIconWhite, "audio"),
+        videoCallOption: style.chatOptionStyle(videoCallIconWhite, "video"),
+        // detailPaneOption: style.chatOptionStyle(closeIconWhite, "detail"),
+        closeChatOption: style.chatOptionStyle(closeIconWhite, "detail"),
         status: style.chatStatusStyle(
           this.theme,
           this.presence,
@@ -220,6 +229,12 @@ export default {
     },
   },
   methods: {
+    // dd-edited
+    // close chat windows
+    closeChatWindow() {
+      this.$store.dispatch('setShowChatWindow', false);
+    },
+
     /**
      * Sets status message for user
      */
@@ -227,10 +242,12 @@ export default {
       let status = this.item.status;
       const presence = this.item.status === "online" ? "online" : "offline";
 
+      // dd-edited (change this to custom the online/offline text status)
       if (this.item.status === "offline" && this.item.lastActiveAt) {
         status =
           COMETCHAT_CONSTANTS.LAST_ACTIVE_AT +
-          dateFormat(this.item.lastActiveAt * 1000, "d mmmm yyyy, h:MM TT");
+          // dateFormat(this.item.lastActiveAt * 1000, "d mmmm yyyy, h:MM TT");
+          dateFormat(this.item.lastActiveAt * 1000, "d-mm-yy, h:MM TT");
       } else if (this.item.status === "offline") {
         status = "offline";
       }
