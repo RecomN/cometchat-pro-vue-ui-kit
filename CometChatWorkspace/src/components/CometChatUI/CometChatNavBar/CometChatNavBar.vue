@@ -44,7 +44,7 @@
               </div><!-- name and online status -->
             </div><!-- image and name,status -->
 
-            <!-- red phone icon -->
+            <!-- red phone icon @click="emitAction('audioCall')" -->
             <img 
               @click="callUser(userDetail.uid)"
               class="phone-red-icon" 
@@ -99,7 +99,7 @@
                 </div>
                 <!-- Incoming Vocie Call -->
                 <div class="incoming-voice-call">
-                  Incoming Voice call
+                  Outgoing Video Call
                 </div>
               </div><!-- left -->
               
@@ -394,6 +394,9 @@
 
     </template>
 
+    <!-- call screen custom -->
+    <div v-if="calling" class="custom-screen" id="callScreen"></div>
+
     <!-- NAVBAR FOOTER -->
     <div v-if="showFooterNavbar" :style="styles.footer" class="sidebar__footer">
       <div :style="styles.navbar" class="footer__navbar">
@@ -546,6 +549,7 @@ export default {
       showNotifications: 'getShowNotifications',
       showPrivacy: 'getShowPrivacy',
       showChats: 'getShowChats',
+      calling: 'getCallingStatus'
     }),
     /**
      * Computed styles for the component.
@@ -629,6 +633,64 @@ export default {
       this.$store.dispatch('setShowFooterNavbar', true);
     },
 
+    // call screen custom
+    callScreenCustom(setSessionID) {
+      this.$store.dispatch('setCallingStatus', true);
+      let sessionID = setSessionID + Math.random() * setSessionID;
+      // let audioOnly = true;
+      // let defaultLayout = true;
+      console.log('session id' ,sessionID);
+      // let mode = CometChat.CALL_MODE.DEFAULT;
+      // let mode = CometChat.CALL_MODE.SPOTLIGHT;
+      // let mode = CometChat.CALL_MODE.SINGLE;
+      let mode = CometChat.CALL_MODE.GRID;
+
+      let callSettings = new CometChat.CallSettingsBuilder()
+                          .setSessionID(sessionID)
+                          .setIsAudioOnlyCall(true)
+                          .showEndCallButton(true)
+                          .enableDefaultLayout(true)
+                          .showMuteAudioButton(true)
+                          .showScreenShareButton(true)
+                          .showPauseVideoButton(true)
+                          // .setCustomCSS(this.customCSS) //custom css
+                          .setMode(mode)
+                          .build();
+
+      CometChat.startCall(
+        callSettings,
+        document.getElementById("callScreen"),
+        new CometChat.OngoingCallListener({
+          onUserListUpdated: userList => {
+            console.log("user list:", userList);
+          },
+          onCallEnded: call => {
+            console.log("Call ended:", call);
+            this.$store.dispatch('setCallingStatus', false);
+          },
+          onError: error => {
+            console.log("Error :", error);
+            this.$store.dispatch('setCallingStatus', false);
+          },
+          onMediaDeviceListUpdated: deviceList => {
+            console.log("Device List:", deviceList);
+          },
+          onUserMuted: (userMuted, userMutedBy) => {
+            // This event will work in JS SDK v3.0.2-beta1 & later.
+            console.log("Listener => onUserMuted:", userMuted, userMutedBy);
+          },
+          onScreenShareStarted: () => {
+            // This event will work in JS SDK v3.0.3 & later.
+            console.log("Screen sharing started.");
+          },
+          onScreenShareStopped: () => {
+            // This event will work in JS SDK v3.0.3 & later.
+            console.log("Screen sharing stopped.");
+          }
+        })
+      );
+    },
+
     // call user
     callUser(userId) {
       // let receiverID = "UID";
@@ -641,9 +703,12 @@ export default {
         outGoingCall => {
           console.log("Call initiated successfully:", outGoingCall);
         }, error => {
+          this.$store.dispatch('setCallingStatus', false);
           console.log("Call initialization failed with exception:", error);
         }
       );
+      // call screen
+      this.callScreenCustom(userId);
     },
 
     // set userDetail to be null and get back to previous page
@@ -706,6 +771,16 @@ export default {
 </script>
 <style scoped>
 /* dd-edited */
+.custom-screen {
+  left: -334px;
+  position: absolute;
+  top: 0px;
+  width: 320px;
+  height: 100%;
+}
+.side-bar-tile-list {
+  display: none;
+}
 .wrap-user-detail {
   height: 100%;
 }
@@ -795,6 +870,7 @@ export default {
   line-height: 20px;
   letter-spacing: -0.1px;
   color: rgba(20, 20, 20, 0.6);
+  padding-left: 10px;
 }
 .phone-red-icon {
   width: 25px;
