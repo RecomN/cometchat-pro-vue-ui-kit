@@ -693,6 +693,7 @@ export default {
 
     // call user
     callUser(userId) {
+      // test
       // let receiverID = "UID";
       let callType = CometChat.CALL_TYPE.AUDIO;
       let receiverType = CometChat.RECEIVER_TYPE.USER;
