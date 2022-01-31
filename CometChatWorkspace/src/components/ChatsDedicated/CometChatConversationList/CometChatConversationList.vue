@@ -475,7 +475,7 @@ export default {
         pathAdded = item.uid
       }
 
-      if (directCall) {
+      if (directCall === 'true') {
         this.emitAction('audioCall')
       }
 
