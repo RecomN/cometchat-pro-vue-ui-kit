@@ -464,13 +464,21 @@ export default {
       this.emitAction("item-click", { item, type });
 
       const path = window.location.pathname.split('/')
+      const urlParams = new URLSearchParams(window.location.search);
+      const directCall = urlParams.get('direct-call');
       let pathAdded = ''
+
 
       if (path.length === 4) {
         pathAdded = `user/${item.uid}`
       } else if (path.length > 2) {
         pathAdded = item.uid
       }
+
+      if (directCall) {
+        this.emitAction('audioCall')
+      }
+
       window.history.replaceState(null, null, pathAdded);
     },
     /**
