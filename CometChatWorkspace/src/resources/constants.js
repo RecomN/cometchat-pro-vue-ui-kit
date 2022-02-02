@@ -33,7 +33,7 @@ export const DEFAULT_ARRAY_PROP = {
 };
 
 export const COMETCHAT_CONSTANTS = {
-  NO_ITEM_SELECTED_MESSAGE: "Select a chat to start messaging",
+  NO_ITEM_SELECTED_MESSAGE: "Pilih pesan di samping untuk mulai chat",
   NO_TAB_SELECTED_MESSAGE: "Switch tabs to start messaging",
   LOADING_MESSSAGE: "Loading...",
   ADDING_MESSSAGE: "Adding...",
