@@ -20,7 +20,9 @@ export const incomingCallWrapperStyle = (theme) => {
     textAlign: "center",
     boxSizing: "border-box",
     fontFamily: `${theme.fontFamily}`,
-    width: "250px",
+    // dd-edited
+    width: "290px",
+    // width: "250px",
     "--call-alert-font-family": `${theme.fontFamily}`,
   };
 };

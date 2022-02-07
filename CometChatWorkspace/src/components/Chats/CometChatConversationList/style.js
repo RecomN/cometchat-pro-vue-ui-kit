@@ -9,11 +9,14 @@ export const chatsWrapperStyle = () => {
 
 export const chatsHeaderStyle = (theme) => {
   return {
-    padding: "19px 16px",
+    padding: "16px 16px",
     display: "flex",
     alignItems: "center",
     flexDirection: "column",
     borderBottom: `1px solid ${theme.color.darkSecondary}`,
+    // dd-edited
+    minHeight: '114px',
+    width: '100%',
   };
 };
 
@@ -50,24 +53,29 @@ export const chatsHeaderTitleStyle = (enableCloseMenu) => {
   };
 };
 
+// dd-edited (text info if there is no chat)
 export const chatsMsgStyle = () => {
   return {
     overflow: "hidden",
     width: "100%",
     display: "flex",
     justifyContent: "center",
+    flexDirection: "column",
     alignItems: "center",
     position: "absolute",
     top: "50%",
   };
 };
 
+// dd-edited (text info if there is no chat)
 export const chatsMsgTxtStyle = (theme) => {
   return {
     margin: "0",
     height: "30px",
-    color: `${theme.color.secondary}`,
-    fontSize: "24px!important",
+    // color: `${theme.color.secondary}`,
+    color: '#1D1D1D',
+    // fontSize: "24px!important",
+    fontSize: "16px",
     fontWeight: "600",
   };
 };

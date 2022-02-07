@@ -6,7 +6,9 @@ export const callScreenWrapperStyle = (theme) => {
     top: "0",
     right: "0",
     bottom: "0",
-    left: "0",
+    // dd-edited
+    left: "-334px",
+    // left: "0",
     backgroundColor: `${theme.backgroundColor.darkGrey}`,
     zIndex: "999",
     color: `${theme.color.white}`,

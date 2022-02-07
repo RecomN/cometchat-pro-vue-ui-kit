@@ -1,6 +1,8 @@
 export const chatHeaderStyle = (theme) => {
   return {
-    padding: "13px 16px",
+    // dd-edited
+    padding: "14px 16px",
+    // padding: "13px 16px",
     width: "100%",
     backgroundColor: `${theme.backgroundColor.white}`,
     zIndex: "1",
@@ -8,6 +10,8 @@ export const chatHeaderStyle = (theme) => {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
+    // dd-edited
+    background: '#D7226D',
   };
 };
 
@@ -64,6 +68,8 @@ export const chatNameStyle = () => {
     overflow: "hidden",
     textOverflow: "ellipsis",
     whiteSpace: "nowrap",
+    // dd-edited
+    color: "#fff",
   };
 };
 
@@ -76,13 +82,17 @@ export const chatStatusStyle = (
   let status = {};
   if (type === "user") {
     status = {
-      color: `${theme.color.blue}`,
+      // color: `${theme.color.blue}`,
+      // dd--edited
+      color: "rgba(255, 255, 255, 0.6)",
       textTransform: "capitalize",
     };
 
     if (presence === "offline") {
       status = {
-        color: `${theme.color.helpText}`,
+        // color: `${theme.color.helpText}`,
+        // dd-edited
+        color: "rgba(255, 255, 255, 0.6)",
         textTransform: "capitalize",
       };
     }
@@ -129,21 +139,37 @@ export const chatOptionWrapStyle = () => {
 };
 
 export const chatOptionStyle = (img, type) => {
-  let width = "21px";
+  // let width = "21px";
+  let width = "0px";
+  let height = "0px";
+  let margin = "0px";
   let pos = "2px";
 
-  if (type === "video") {
-    width = "27px";
+  if (type === "audio") {
+    // width = "27px";
+    width = "28px";
+    height = "22px";
     pos = "4px";
-  } else if (type === "detail") {
-    width = "24px";
+  } else if (type === "detail" || "video") {
+    // width = "24px";
+    width = "28px";
+    height = "28px";
     pos = "3px";
+  }
+
+  // dd-edited
+  if(type === "video") {
+    margin = "0 8px";
+  }else {
+    margin = "0px";
   }
 
   return {
     width,
-    height: "22px",
-    margin: "0 8px",
+    height,
+    // dd-edited
+    // margin: "0 8px",
+    margin,
     cursor: "pointer",
     display: "inline-block",
     background: `url(${img}) 0% ${pos} / contain no-repeat`,

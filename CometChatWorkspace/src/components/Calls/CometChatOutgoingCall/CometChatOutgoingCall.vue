@@ -264,6 +264,8 @@ export default {
      * Function to cancel call
      */
     async cancelCall() {
+      console.log('panggilan dibatalkan, setCallingStatus to false')
+      this.$store.dispatch('setCallingStatus', false);
       this.pauseOutgoingAlert();
 
       try {

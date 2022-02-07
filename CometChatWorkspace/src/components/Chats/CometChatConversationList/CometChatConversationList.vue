@@ -1,5 +1,6 @@
 <template>
   <div :style="styles.wrapper" class="chats__wrapper">
+
     <!-- dd-edited -->
     <div :style="styles.header" style="background: #D7226D; text-align:center;">
       <div
@@ -10,11 +11,14 @@
       />
 
       <!-- dd-edited -->
-      
       <div class="wrap-title-and-button">
         <!-- button close/times -->
         <span @click="closeCustom" class="span-close">
-          <i class="fa fa-times" style="color:#fff"></i>
+          <!-- <i class="fa fa-times" style="color:#fff"></i> -->
+          <img 
+            class="top-icon" 
+            src="./resources/close-white-icon-2x.png" 
+            alt="close icon">
         </span>
         <!-- header title -->
         <h4 style="color:white;" :style="styles.headerTitle">{{ STRINGS.CHATS }}</h4>
@@ -29,13 +33,20 @@
           name="search"
           placeholder="Search" />
       </div><!-- search -->
-
     </div>
+
+    <!-- if there is no chat -->
     <div v-if="conversationList.length === 0" :style="styles.msg">
       <p :style="styles.msgText">
         {{ decoratorMessage }}
       </p>
+
+      <!-- dd-edited add text as figma design -->
+      <p v-if="decoratorMessage == 'Belum Ada Chat'" class="add-text-info">
+        Kamu belum mempunyai riwayat chat dengan penyedia jasa kami.
+      </p>
     </div>
+
     <div
       ref="conversationListRef"
       :style="styles.list"
@@ -410,6 +421,27 @@ export default {
   },
   methods: {
     // dd edited
+    // get unread msg from users
+    getCountUnreadMessagesFromAllUsers() {
+      CometChat.getUnreadMessageCountForAllUsers().then(
+        array => {
+          // Object.values(array)[0];
+          if(Object.keys(array)[0] == 'app_system' || Object.keys(array).length <= 1) {
+            console.log('array object length is ', Object.keys(array).length);
+            this.$store.dispatch('setUnreadMessages', null);
+          }else{
+            this.$store.dispatch('setUnreadMessages', Object.values(array)[0]);
+            // this.unreadMsgFromUsers = Object.values(array)[0];
+          }
+          // console.log('object values(array) ', Object.values(array)[0]);
+          // console.log('object keys(array) ', array[Object.keys(array)[0]]);
+          console.log("Message count fetched from users", array);
+        },
+        error => {
+          console.log("Error in getting message count from users", error);
+        }
+      );
+    },
     closeCustom() {
       // alert('close custom');
       this.$store.dispatch('setIsOpen', false)
@@ -424,6 +456,11 @@ export default {
      * Handles conversation item click
      */
     conversationClickHandler({ item, type }) {
+      this.getCountUnreadMessagesFromAllUsers();
+      // dd-edited show the chat window
+      this.$store.dispatch('setShowChatWindow', true);
+      this.$store.dispatch('setCallingStatus', false);
+      console.log('set calling status to be false!');
       this.emitAction("item-click", { item, type });
     },
     /**
@@ -970,6 +1007,8 @@ export default {
         case enums.TEXT_MESSAGE_RECEIVED:
         case enums.MEDIA_MESSAGE_RECEIVED:
         case enums.CUSTOM_MESSAGE_RECEIVED:
+          // dd-edited update unread messages
+          this.getCountUnreadMessagesFromAllUsers();
           this.markMessageAsDelivered(message);
           this.updateConversation(message);
           break;
@@ -1179,6 +1218,15 @@ export default {
 };
 </script>
 <style scoped>
+.add-text-info {
+  height: 48px;
+  font-size: 14px;
+  line-height: 24px;
+  color: #464646;
+  padding-left: 50px;
+  padding-right: 50px;
+  text-align: center;
+}
 .chats__wrapper * {
   box-sizing: border-box;
 }
@@ -1201,6 +1249,13 @@ export default {
   }
 }
   /* dd-edited */
+  .top-icon {
+    width: 26px;
+    height: auto;
+    cursor: pointer;
+    object-fit: cover;
+    background-size: cover;
+  }
   .search {
     width: 288px;
     height: 32px;
