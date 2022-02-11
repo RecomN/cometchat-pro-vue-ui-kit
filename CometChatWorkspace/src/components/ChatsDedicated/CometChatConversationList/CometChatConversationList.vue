@@ -465,6 +465,7 @@ export default {
 
       const path = window.location.pathname.split('/')
       const urlParams = new URLSearchParams(window.location.search);
+      const directVCall = urlParams.get('direct-vcall');
       const directCall = urlParams.get('direct-call');
       let pathAdded = ''
 
@@ -477,6 +478,8 @@ export default {
 
       if (directCall === 'true') {
         this.emitAction('audioCall')
+      } else if (directVCall === 'true') {
+        this.emitAction('videoCall')
       }
 
       window.history.replaceState(null, null, pathAdded);
