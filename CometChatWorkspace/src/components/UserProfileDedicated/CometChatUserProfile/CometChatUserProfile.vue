@@ -1,61 +1,75 @@
 <template>
   <div :style="styles.userInfoScreen" class="cometchat__user__info">
     <div class="sejasa-user-info-header">
-      <h4>{{ STRINGS.MORE }}</h4>
+      <img
+        class="back-btn"
+        src="./resources/arrow-left.svg"
+        alt="arrow icon"
+        @click="tabActive = 'info'"
+        v-if="tabActive === 'privacy'"
+      >
+      <h4>{{ tabActive === 'info' ? 'More' : 'Privasi dan Keamanan' }}</h4>
     </div>
-    <div :style="styles.detail">
-      <div :style="styles.thumbnail">
-        <comet-chat-avatar
-          v-if="isUser"
-          border-width="1px"
-          corner-radius="50%"
-          border-color="#CCC"
-          :image="user.avatar"
-        />
-      </div>
-      <div :style="styles.userDetail">
-        <div :style="styles.userName">
-          {{ user.name }}
-        </div>
-        <p :style="styles.userStatus">{{ STRINGS.ONLINE }}</p>
-      </div>
+
+    <div class="user-info-wrapper" v-if="tabActive === 'privacy'">
+      <comet-chat-privacy-and-security />
     </div>
-    <div :style="styles.options">
-      <div :style="styles.optionTitle">PREFERENSI</div>
-      <div :style="styles.optionList">
-        <div :style="styles.option.notification" class="info__item--hover">
-          <img :src="require('./resources/bell.svg')">
-          <div :style="styles.optionName">Notifikasi</div>
-          <div :style="styles.optionBorder"></div>
-        </div>
-        <div :style="styles.option.privacy" class="info__item--hover">
-          <img :src="require('./resources/guard.svg')">
-          <div :style="styles.optionName">
-            Privasi dan Keamanan
+
+    <div class="user-info-wrapper" v-if="tabActive === 'info'">
+      <div :style="styles.detail">
+          <div :style="styles.thumbnail">
+            <comet-chat-avatar
+              v-if="isUser"
+              border-width="1px"
+              corner-radius="50%"
+              border-color="#CCC"
+              :image="user.avatar"
+            />
           </div>
-          <div :style="styles.optionBorder"></div>
+          <div :style="styles.userDetail">
+            <div :style="styles.userName">
+              {{ user.name }}
+            </div>
+            <p :style="styles.userStatus">{{ STRINGS.ONLINE }}</p>
+          </div>
         </div>
-        <div :style="styles.option.chat" class="info__item--hover">
-          <img :src="require('./resources/message.svg')">
-          <div :style="styles.optionName">Chats</div>
-          <div :style="styles.optionBorder"></div>
+        <div :style="styles.options">
+          <div :style="styles.optionTitle">PREFERENSI</div>
+          <div :style="styles.optionList">
+            <!-- <div :style="styles.option.notification" class="info__item--hover">
+              <img :src="require('./resources/bell.svg')">
+              <div :style="styles.optionName">Notifikasi</div>
+              <div :style="styles.optionBorder"></div>
+            </div> -->
+            <div :style="styles.option.privacy" class="info__item--hover" @click="toPrivacy">
+              <img :src="require('./resources/guard.svg')">
+              <div :style="styles.optionName">
+                Privasi dan Keamanan
+              </div>
+              <div :style="styles.optionBorder"></div>
+            </div>
+            <!-- <div :style="styles.option.chat" class="info__item--hover">
+              <img :src="require('./resources/message.svg')">
+              <div :style="styles.optionName">Chats</div>
+              <div :style="styles.optionBorder"></div>
+            </div> -->
+          </div>
+          <!-- <div :style="styles.optionTitle">LAINNYA</div>
+          <div :style="styles.optionList">
+            <div :style="styles.option.help" class="info__item--hover">
+              <img :src="require('./resources/help.svg')">
+              <div :style="styles.optionName">Bantuan</div>
+              <div :style="styles.optionBorder"></div>
+            </div>
+            <div :style="styles.option.report" class="info__item--hover">
+              <img :src="require('./resources/warning.svg')">
+              <div :style="styles.optionName">Laporkan Masalah</div>
+              <div :style="styles.optionBorder"></div>
+            </div>
+          </div> -->
         </div>
-      </div>
-      <div :style="styles.optionTitle">LAINNYA</div>
-      <div :style="styles.optionList">
-        <div :style="styles.option.help" class="info__item--hover">
-          <img :src="require('./resources/help.svg')">
-          <div :style="styles.optionName">Bantuan</div>
-          <div :style="styles.optionBorder"></div>
-        </div>
-        <div :style="styles.option.report" class="info__item--hover">
-          <img :src="require('./resources/warning.svg')">
-          <div :style="styles.optionName">Laporkan Masalah</div>
-          <div :style="styles.optionBorder"></div>
-        </div>
-      </div>
     </div>
-  </div>
+    </div>
 </template>
 <script>
 import {
@@ -78,6 +92,8 @@ import reportIcon from "./resources/report-black-icon.svg";
 import chatIcon from "./resources/chat-black-icon.svg";
 import helpIcon from "./resources/help-black-icon.svg";
 
+import CometChatPrivacyAndSecurity from './CometChatPrivacyAndSecurity.vue'
+
 /**
  * Displays user information.
  *
@@ -87,6 +103,7 @@ export default {
   name: "CometChatUserProfile",
   components: {
     CometChatAvatar,
+    CometChatPrivacyAndSecurity
   },
   props: {
     /**
@@ -97,6 +114,7 @@ export default {
   data() {
     return {
       user: {},
+      tabActive: 'info'
     };
   },
   computed: {
@@ -147,6 +165,9 @@ export default {
     },
   },
   methods: {
+    async toPrivacy() {
+      this.tabActive = 'privacy'
+    },
     /**
      * Sets SVG avatar
      */
@@ -173,6 +194,10 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+.user-info-wrapper {
+  height: 100%;
+}
+
 .info__item--hover {
   color: #464646 !important;
   background: none !important;
@@ -195,8 +220,16 @@ export default {
   font-family: var(--cometchat-user-info-font-family);
 }
 .sejasa-user-info-header {
+  display: flex;
+  align-items: center;
   padding: 20px;
   background-color: #D7226D;
+  .back-btn {
+    margin-right: 7px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
   h4 {
     margin-bottom: 0px !important;
     color: white;

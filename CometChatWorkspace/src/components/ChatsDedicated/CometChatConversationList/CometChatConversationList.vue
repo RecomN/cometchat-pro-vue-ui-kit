@@ -8,7 +8,6 @@
         @click="menuCloseHandler"
       />
       <div class="sejasa-header-title">
-        <img :src="require('./resources/close.svg')">
         <h4>{{ STRINGS.CHATS }}</h4>
       </div>
       <!-- <div class="sejasa-search-text-field">
@@ -1250,17 +1249,7 @@ export default {
       margin-bottom: 0px;
     }
     position: relative;
-    img {
-      display: none;
-      position: absolute;
-      left: 0;
-    }
     @media screen and (max-width: 767px) {
-      img {
-        display: inline-block;
-        transform: translateY(5px);
-        width: 14px;
-      }
       h4 { text-align: center; }
     }
   }
