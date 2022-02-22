@@ -55,9 +55,9 @@
             :count="allUnreadMessages" />
           <span :style="styles.chatsIcon"></span>
         </div>
-        <!-- <div class="sejasa-tab" :style="styles.item" @click="changeTab('info')">
+        <div class="sejasa-tab" :style="styles.item" @click="changeTab('info')">
           <span :style="styles.moreIcon"></span>
-        </div> -->
+        </div>
         <!-- <div :style="styles.item" @click="changeTab('contacts')">
           <span :style="styles.contactIcon"></span>
         </div> -->
@@ -76,7 +76,6 @@ import {
 } from "../../../resources/constants";
 
 import { cometChatCommon } from "../../../mixins/";
-import { CometChat } from "@cometchat-pro/chat"
 
 import { CometChatConversationList } from "../../ChatsDedicated/";
 import { CometChatUserProfileDedicated } from "../../UserProfileDedicated/";
@@ -235,7 +234,7 @@ export default {
      */
     changeTab(tab) {
       if (tab === 'conversations') {
-        window.history.replaceState(null, null, '.')
+        window.history.replaceState(null, '.', '.')
       }
 
       this.emitAction("tabChanged", { tab });
@@ -281,6 +280,7 @@ export default {
 }
 
 .info-tab-wrapper {
+  position: relative;
   height: calc(100% - 74px) !important;
 }
 </style>
