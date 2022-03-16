@@ -33,8 +33,20 @@
         <span
           :style="styles.lastMsgTime"
           class="item__details__timestamp"
+          :class="{ 'hidden' : isHovering }"
           v-if="conversation.lastMessage"
-          >{{ getLastMessageTime() }}</span
+          >
+            <comet-chat-read-receipt
+              :receiptOnly="true"
+              :theme="theme"
+              :message="{
+                ...conversation.lastMessage,
+                messageFrom: 'sender'
+              }"
+              v-if="showReceipt"
+            />
+            {{ getLastMessageTime() }}
+          </span
         >
       </div>
       <div :style="styles.row" class="last-msg-item">
@@ -84,6 +96,7 @@ import cometchatConversationListActions from "../CometChatConversationListAction
 
 import * as style from "./style";
 import SejasaBadgeCounter from '../../CometChatUIDedicated/components/SejasaBadgeCounter.vue';
+import CometChatReadReceipt from "../../MessagesDedicated/CometChatReadReceipt/CometChatReadReceipt.vue";
 
 /**
  * The conversation item for conversation list.
@@ -99,6 +112,7 @@ export default {
     CometChatUserPresence,
     cometchatConversationListActions,
     SejasaBadgeCounter,
+    CometChatReadReceipt
   },
   props: {
     /**
@@ -128,6 +142,13 @@ export default {
     }
   },
   computed: {
+    showReceipt() {
+      const { lastMessage } = this.conversation
+
+      if (lastMessage) return lastMessage.category === 'message' && lastMessage.sender.uid === this.loggedInUser.uid && !lastMessage.deletedAt
+
+      return false
+    },
     /**
      * Computed styles for the component.
      */
@@ -145,6 +166,9 @@ export default {
         lastMsg: style.itemLastMsgStyle(this.theme),
         lastMsgTime: style.itemLastMsgTimeStyle(this.theme),
       };
+    },
+    messageRead() {
+      return this.conversation.readAt
     },
   },
   methods: {
@@ -326,5 +350,16 @@ export default {
 .last-msg-item {
   padding-bottom: 10px !important;
   border-bottom: 1px solid rgba(20, 20, 20, 0.1) !important;
+}
+
+.item__details__timestamp {
+  min-width: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.hidden {
+  opacity: 0;
 }
 </style>
