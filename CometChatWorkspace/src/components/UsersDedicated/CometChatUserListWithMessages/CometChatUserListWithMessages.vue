@@ -1,21 +1,15 @@
 <template>
-  <div :style="styles.root" class="cometchat__unified">
-    <div :style="styles.sidebar" class="unified__sidebar">
-      <comet-chat-nav-bar
-        :tab="tab"
+  <div :style="styles.root" class="cometchat__contacts">
+    <div :style="styles.sidebar" class="contacts__sidebar">
+      <comet-chat-user-list
         :item="item"
         :type="type"
         :theme="themeValue"
-        :last-message="lastMessage"
-        :group-to-leave="groupToLeave"
-        :group-to-update="groupToUpdate"
-        :group-to-delete="groupToDelete"
         :enable-close-menu="isItemPresent"
-        :message-to-mark-read="messageToMarkRead"
         @action="actionHandler"
       />
     </div>
-    <div v-if="isItemPresent" class="unified__main" :style="styles.main">
+    <div v-if="isItemPresent" :style="styles.main" class="contacts__main">
       <comet-chat-messages
         :tab="tab"
         :item="item"
@@ -23,39 +17,27 @@
         :theme="themeValue"
         :call-message="callMessage"
         :logged-in-user="loggedInUser"
-        :group-messages="groupMessages"
         :action-from-listener="actionFromListener"
         :composed-thread-message="composedThreadMessage"
         @action="actionHandler"
       />
     </div>
-    <div v-else :style="styles.placeholder">
-      {{ placeholderMessage }}
-    </div>
     <div
       v-if="viewDetailScreen"
       :style="styles.secondary"
-      class="unified__secondary"
+      class="contacts__secondary-view"
     >
       <comet-chat-user-details
         :item="item"
         :type="type"
         :theme="themeValue"
-        v-if="type === 'user'"
-        @action="actionHandler"
-      />
-      <comet-chat-group-details
-        :item="item"
-        :type="type"
-        :theme="themeValue"
-        v-else-if="type === 'group'"
         @action="actionHandler"
       />
     </div>
     <div
       v-if="viewThreadMessage"
       :style="styles.secondary"
-      class="unified__secondary"
+      class="contacts__secondary-view"
     >
       <comet-chat-message-thread
         :tab="tab"
@@ -67,8 +49,8 @@
         @action="actionHandler"
       />
     </div>
-    <comet-chat-incoming-call-dedicated :theme="themeValue" @action="actionHandler" />
-    <comet-chat-outgoing-call-dedicated
+    <comet-chat-incoming-call :theme="themeValue" @action="actionHandler" />
+    <comet-chat-outgoing-call
       :item="item"
       :type="type"
       :theme="themeValue"
@@ -85,47 +67,43 @@
     />
   </div>
 </template>
-<script>
-import {
-  COMETCHAT_CONSTANTS,
-  DEFAULT_OBJECT_PROP,
-} from "../../resources/constants";
 
-import { cometChatScreens } from "../../mixins/";
-import { CometChatManager } from "../../util/controller";
+<script>
+import { DEFAULT_OBJECT_PROP } from "../../../resources/constants";
+
+import { cometChatScreens, propertyCheck } from "../../../mixins/";
+import { CometChatManager } from "../../../util/controller";
 
 import {
   CometChatMessages,
   CometChatImageViewer,
   CometChatMessageThread,
-} from "../MessagesDedicated/";
-import { CometChatUserDetails } from "../UsersDedicated";
-import { CometChatGroupDetails } from "../Groups";
-import { CometChatIncomingCallDedicated, CometChatOutgoingCallDedicated } from "../CallsDedicated";
+} from "../../Messages";
+import { CometChatIncomingCall, CometChatOutgoingCall } from "../../Calls/";
 
-import CometChatNavBar from "./CometChatNavBar/CometChatNavBar";
+import CometChatUserList from "../CometChatUserList/CometChatUserList";
+import CometChatUserDetails from "../CometChatUserDetails/CometChatUserDetails";
 
-import { theme } from "../../resources/theme";
+import { theme } from "../../../resources/theme";
 
 import * as style from "./style";
 
 /**
- * Displays a fully working chat application.
+ * Displays list of user with messages.
  *
- * @displayName CometChatUI
+ * @displayName CometChatUserListWithMessages
  */
 export default {
-  name: "CometChatUI",
-  mixins: [cometChatScreens],
+  name: "CometChatUserListWithMessages",
+  mixins: [propertyCheck, cometChatScreens],
   components: {
-    CometChatNavBar,
-    CometChatImageViewer,
-    CometChatIncomingCallDedicated,
-    CometChatOutgoingCallDedicated,
-    CometChatUserDetails,
-    CometChatGroupDetails,
-    CometChatMessageThread,
+    CometChatUserList,
     CometChatMessages,
+    CometChatImageViewer,
+    CometChatUserDetails,
+    CometChatIncomingCall,
+    CometChatOutgoingCall,
+    CometChatMessageThread,
   },
   props: {
     /**
@@ -137,85 +115,60 @@ export default {
     return {
       item: {},
       type: "user",
+      tab: "contacts",
+      callMessage: {},
       imageView: null,
       darkTheme: false,
-      lastMessage: {},
-      callMessage: {},
-      groupToLeave: {},
-      groupToDelete: {},
-      groupToUpdate: {},
-      groupMessages: [],
-      viewSidebar: false,
       incomingCall: null,
       outgoingCall: null,
+      viewSidebar: false,
       loggedInUser: null,
-      tab: "conversations",
-      messageToMarkRead: {},
       threadMessageItem: {},
       actionFromListener: {},
-      viewDetailScreen: false,
-      threadMessageType: null,
       threadMessageParent: {},
+      threadMessageYype: null,
+      viewDetailScreen: false,
       viewThreadMessage: false,
       composedThreadMessage: {},
     };
   },
   computed: {
     /**
-     * Computed styles for the component.
-     */
-    styles() {
-      return {
-        main: style.unifiedMainStyle(
-          this.viewThreadMessage,
-          this.viewDetailScreen
-        ),
-        secondary: style.unifiedSecondaryStyle(
-          this.themeValue,
-          this.viewThreadMessage
-        ),
-        root: style.unifiedStyle(this.themeValue),
-        placeholder: style.unifiedPlaceholderStyle(this.themeValue),
-        sidebar: style.unifiedSidebarStyle(this.themeValue, this.viewSidebar),
-      };
-    },
-    /**
      * Theme computed using default theme and theme coming from prop.
      */
-
     themeValue() {
       return Object.assign({}, theme, this.theme);
     },
     /**
-     * Placeholder message when chat item is not selected.
+     * Computed styles for the component.
      */
-    placeholderMessage() {
-      return this.STRINGS[
-        this.tab === "info"
-          ? "NO_TAB_SELECTED_MESSAGE"
-          : "NO_ITEM_SELECTED_MESSAGE"
-      ];
-    },
-    /**
-     * Local string constants.
-     */
-    STRINGS() {
-      return COMETCHAT_CONSTANTS;
+    styles() {
+      return {
+        root: style.userScreenStyle(this.themeValue),
+        sidebar: style.userScreenSidebarStyle(
+          this.themeValue,
+          this.viewSidebar
+        ),
+        main: style.userScreenMainStyle(
+          this.viewThreadMessage,
+          this.viewDetailScreen
+        ),
+        secondary: style.userScreenSecondaryStyle(
+          this.themeValue,
+          this.viewThreadMessage
+        ),
+      };
     },
   },
   methods: {
     /**
-     * Handler for emitted action events
+     * Handles emitted action events
      */
     actionHandler({
       action,
-      tab,
+      type,
       item,
       call,
-      type,
-      count,
-      group,
-      members,
       message,
       messages,
       incomingCall,
@@ -224,10 +177,6 @@ export default {
       switch (action) {
         case "item-click":
           this.itemClicked(item, type);
-          break;
-        case "tabChanged":
-          this.item = {};
-          this.changeTab(tab);
           break;
         case "blockUser":
           this.blockUser();
@@ -246,23 +195,11 @@ export default {
           this.toggleDetailView();
           break;
         case "menuClicked":
-          this.item = {};
           this.toggleSideBar();
+          this.item = {};
           break;
         case "closeMenuClicked":
           this.toggleSideBar();
-          break;
-        case "groupUpdated":
-          this.groupUpdated(item, count);
-          break;
-        case "groupDeleted":
-          this.deleteGroup(group);
-          break;
-        case "leftGroup":
-          this.leaveGroup(group);
-          break;
-        case "membersUpdated":
-          this.updateMembersCount(count);
           break;
         case "viewMessageThread":
           this.viewMessageThread(message);
@@ -272,13 +209,12 @@ export default {
           break;
         case "threadMessageComposed":
           this.onThreadMessageComposed(messages);
-          this.updateLastMessage(messages[0]);
           break;
         case "acceptIncomingCall":
           this.acceptIncomingCall(incomingCall);
           break;
         case "acceptedIncomingCall":
-          this.callInitiated(call);
+          this.appendCallMessage(call);
           break;
         case "rejectedIncomingCall":
           this.rejectedIncomingCall(incomingCall, rejectedCall);
@@ -298,22 +234,8 @@ export default {
         case "closeActualImage":
           this.setImageView(null);
           break;
-        case "membersAdded":
-          this.membersAdded(members, message);
-          break;
-        case "memberUnbanned":
-          this.memberUnbanned(members, message);
-          break;
-        case "memberScopeChanged":
-          this.memberScopeChanged(members, message);
-          break;
         case "messageDeleted":
           this.closeThreadMessages();
-          break;
-        case "messageComposed":
-        case "lastMessageEdited":
-        case "lastMessageDeleted":
-          this.updateLastMessage(messages[0]);
           break;
         case "messageEdited":
           this.updateThreadMessage(message);
@@ -325,15 +247,6 @@ export default {
           break;
       }
     },
-    /**
-     * Changes tab
-     */
-    changeTab(tab) {
-      this.tab = tab;
-      this.imageView = null;
-      this.viewDetailScreen = false;
-      this.viewThreadMessage = false;
-    },
   },
   beforeMount() {
     if (!Object.keys(this.item).length) {
@@ -344,43 +257,43 @@ export default {
       try {
         this.loggedInUser = await new CometChatManager().getLoggedInUser();
       } catch (error) {
-        this.logError("[CometChatUnified] getLoggedInUser error", error);
+        this.logError(
+          "[CometChatUserListWithMessages] getLoggedInUser error",
+          error
+        );
       }
     })();
   },
 };
 </script>
 <style scoped>
-.cometchat__unified {
-  box-sizing: border-box !important;
-  font-family: var(--cometchat-unified-font-family) !important;
-}
-.unified__sidebar {
-  width: auto !important;
+.cometchat__contacts * {
+  box-sizing: border-box;
+  font-family: var(--cometchat-font-family) !important;
 }
 @media (min-width: 320px) and (max-width: 767px) {
-  .unified__sidebar {
+  .contacts__sidebar {
     top: 0;
     bottom: 0;
     z-index: 2;
     width: 100% !important;
-    position: absolute !important;
     transition: all 0.3s ease-out;
-    left: var(--cometchat-unified-sidebar-left);
-    background-color: var(--cometchat-unified-sidebar-bg-color);
-    box-shadow: var(--cometchat-unified-sidebar-box-shadow, none);
+    position: absolute !important;
+    left: var(--cometchat-contacts-sidebar-left);
+    background-color: var(--cometchat-contacts-sidebar-bg);
+    box-shadow: var(--cometchat-contacts-sidebar-box-shadow);
   }
-  .unified__main {
+  .contacts__main {
     width: 100% !important;
   }
-  .unified__secondary {
+  .contacts__secondary-view {
     top: 0;
     bottom: 0;
     z-index: 2;
     right: 0 !important;
     width: 100% !important;
     position: absolute !important;
-    background-color: var(--cometchat-unified-sidebar-bg-color);
+    background-color: var(--contacts-secondary-bg-color) !important;
   }
 }
 </style>

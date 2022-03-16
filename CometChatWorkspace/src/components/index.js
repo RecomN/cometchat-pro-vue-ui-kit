@@ -11,3 +11,4 @@ export * from "./CometChatUIDedicated/";
 export * from "./UserProfile/";
 export * from "./UserProfileDedicated/";
 export * from "./Users/";
+export * from "./UsersDedicated/";
