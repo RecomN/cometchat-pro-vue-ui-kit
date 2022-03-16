@@ -1,11 +1,11 @@
 <template>
   <span :style="styles.msgTimestampStyle">
-    {{ messageTime }}
+    {{ receiptOnly ? '' : messageTime }}
     <i :style="styles.iconStyle" class="message__timestamp__img"></i>
   </span>
 </template>
 <script>
-import { DEFAULT_OBJECT_PROP, DEFAULT_STRING_PROP } from "../../../resources/constants";
+import { DEFAULT_OBJECT_PROP, DEFAULT_STRING_PROP, DEFAULT_BOOLEAN_PROP } from "../../../resources/constants";
 
 import { propertyCheck, cometChatBubbles } from "../../../mixins/";
 
@@ -27,6 +27,11 @@ export default {
   name: "CometChatReadReceipt",
   mixins: [propertyCheck, cometChatBubbles],
   props: {
+    /**
+     * Receipnt only without time
+    */
+    receiptOnly: { ...DEFAULT_BOOLEAN_PROP },
+
     /**
      * Theme of the UI.
      */
