@@ -1,9 +1,10 @@
 <template>
   <div :style="styles.message">
-    <p :style="styles.messageTxt">{{ messageText }}</p>
+    <p :style="styles.messageTxt" class="message-bubble">{{ messageText }}</p>
   </div>
 </template>
 <script>
+import dateFormat from "dateformat";
 import { CometChat } from "@cometchat-pro/chat";
 
 import {
@@ -154,8 +155,16 @@ export default {
         default:
           break;
       }
-      return message;
+
+      return message + "\n" + dateFormat(call.updatedAt * 1000, "h:MM TT");
     },
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.message-bubble {
+  padding-bottom: 0px !important;
+  white-space: pre-line;
+}
+</style>

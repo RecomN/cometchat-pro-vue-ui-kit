@@ -250,7 +250,7 @@ export default {
         status =
           COMETCHAT_CONSTANTS.LAST_ACTIVE_AT +
           // dateFormat(this.item.lastActiveAt * 1000, "d mmmm yyyy, h:MM TT");
-          dateFormat(this.item.lastActiveAt * 1000, "d-mm-yy, h:MM TT");
+          dateFormat(this.item.lastActiveAt * 1000, "d mmmm yyyy, h:MM TT");
       } else if (this.item.status === "offline") {
         status = "offline";
       }
