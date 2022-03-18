@@ -50,13 +50,12 @@
               />
               <div class="image-viewer" v-if="message.viewImage">
                 <div class="close-btn" @click.stop="message.viewImage = false">
-                  &#x2715;
+                  <span>&#x2715;</span>
                 </div>
                 <div class="image-wrapper">
                   <img
                     :alt="STRINGS.MEDIA_ITEM"
                     :src="message.data.url"
-                    width="100%"
                   />
                 </div>
               </div>
@@ -65,6 +64,7 @@
               :key="key"
               :id="message.id"
               :style="styles.videoItem"
+              class="video-wrapper"
               v-if="messageType === 'video' && message.data.url"
             >
               <video controls :style="styles.videoItem.video">
@@ -376,6 +376,10 @@ export default {
   color: var(--file-hover-color);
 }
 
+.video-wrapper {
+  width: 100%;
+}
+
 .image-viewer {
   position: absolute;
   left: 0;
@@ -383,24 +387,40 @@ export default {
   width: 100%;
   height: 100%;
   background-color: white;
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
+  padding: 5px;
+  padding-bottom: 20px;
   z-index: 1;
 }
 
 .image-viewer .close-btn {
   text-align: right;
-  font-size: 22px;
-  color: grey;
+  font-size: 20px;
+}
+
+.close-btn span {
+    display: inline-block;
+    background: #A5A5A5;
+    width: 23px;
+    height: 23px;
+    color: white;
+    border-radius: 100%;
+    text-align: center;
 }
 
 .image-wrapper {
   padding: 20px;
+  padding-top: 5px;
+  max-width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .image-wrapper img {
   border: 1px solid rgb(223, 218, 218);
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .hover-effect:hover {
