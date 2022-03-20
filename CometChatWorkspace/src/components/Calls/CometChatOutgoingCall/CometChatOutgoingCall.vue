@@ -264,8 +264,8 @@ export default {
      * Function to cancel call
      */
     async cancelCall() {
-      console.log('panggilan dibatalkan, setCallingStatus to false')
-      this.$store.dispatch('setCallingStatus', false);
+      console.log("panggilan dibatalkan, setCallingStatus to false");
+      this.$store.dispatch("setCallingStatus", false);
       this.pauseOutgoingAlert();
 
       try {
@@ -456,6 +456,14 @@ export default {
   }
   to {
     opacity: 1;
+  }
+}
+</style>
+<style lang="scss" scoped>
+.callscreen__wrapper {
+  @media screen and (max-width: 500px) {
+    left: 0 !important;
+    z-index: 2;
   }
 }
 </style>

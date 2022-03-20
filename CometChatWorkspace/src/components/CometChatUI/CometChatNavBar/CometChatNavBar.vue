@@ -1,6 +1,5 @@
 <template>
   <div class="cometchat__unified__navbar">
-
     <template v-if="tab === 'contacts'">
       <!-- <comet-chat-user-list
         :item="item"
@@ -9,18 +8,23 @@
         :enable-close-menu="enableCloseMenu"
         @action="actionHandler"
       /> -->
-      
+
       <!-- show user detail (**change the height to 90% to show the cometchat footer)-->
       <div class="wrap-user-detail" v-if="userDetail">
         <!-- header -->
         <div class="header-user-detail">
           <!-- left arrow -->
           <div @click="toUserDetail" class="left-arrow-icon">
-            <img class="left-arrow-img" src="./resources/arrow-left-2x.png" alt="">
+            <img
+              class="left-arrow-img"
+              src="./resources/arrow-left-2x.png"
+              alt=""
+            />
           </div>
           <!-- Details -->
           <div class="title-detail">Details</div>
-        </div><!-- header -->
+        </div>
+        <!-- header -->
         <!-- body user detail-->
         <div class="body-notifikasi">
           <!-- top -->
@@ -28,10 +32,11 @@
             <!-- image and name,status -->
             <div class="flex-items">
               <!-- img circle -->
-              <img 
-                :src="userDetail.avatar" 
-                alt="avatar user" 
-                class="img-avatar">
+              <img
+                :src="userDetail.avatar"
+                alt="avatar user"
+                class="img-avatar"
+              />
 
               <!-- name and online status -->
               <div class="name-and-status">
@@ -41,111 +46,112 @@
                 <div class="status-user">
                   {{ userDetail.status }}
                 </div>
-              </div><!-- name and online status -->
-            </div><!-- image and name,status -->
+              </div>
+              <!-- name and online status -->
+            </div>
+            <!-- image and name,status -->
 
             <!-- red phone icon @click="emitAction('audioCall')" -->
-            <img 
+            <img
               @click="callUser(userDetail.uid)"
-              class="phone-red-icon" 
-              src="./resources/phone-red-2x.png" 
-              alt="">
-          </div><!-- top -->
+              class="phone-red-icon"
+              src="./resources/phone-red-2x.png"
+              alt=""
+            />
+          </div>
+          <!-- top -->
 
           <!-- date -->
           <div class="date-user-detail">
             {{ new Date(userDetail.lastActiveAt * 1000).toUTCString() }}
-          </div><!-- date -->
+          </div>
+          <!-- date -->
 
           <!-- wrap incoming voice call -->
-          <div 
-            class="wrap-incoming-text-icon">
+          <div class="wrap-incoming-text-icon">
             <!-- flex-incoming-icon-->
             <div class="top-user-detail">
               <!-- left -->
               <div class="flex-items">
                 <!-- incoming icon -->
                 <div class="incoming-icon">
-                  <img class="img-incoming" src="./resources/incoming-icon-2x.png" alt="">
+                  <img
+                    class="img-incoming"
+                    src="./resources/incoming-icon-2x.png"
+                    alt=""
+                  />
                 </div>
                 <!-- Incoming Vocie Call -->
-                <div class="incoming-voice-call">
-                  Incoming Voice Call
-                </div>
-              </div><!-- left -->
-              
-              <!-- incoming time -->
-              <div class="incoming-time">
-                5:11 PM
+                <div class="incoming-voice-call">Incoming Voice Call</div>
               </div>
-            </div><!-- flex-incoming-icon-->
+              <!-- left -->
+
+              <!-- incoming time -->
+              <div class="incoming-time">5:11 PM</div>
+            </div>
+            <!-- flex-incoming-icon-->
 
             <!-- duration -->
-            <div class="duration">
-              3m 49s
-            </div>
-          </div><!-- wrap incoming voice call -->
+            <div class="duration">3m 49s</div>
+          </div>
+          <!-- wrap incoming voice call -->
 
           <!-- wrap outgoing video call -->
-          <div 
-            class="wrap-incoming-text-icon">
+          <div class="wrap-incoming-text-icon">
             <!-- flex-incoming-icon-->
             <div class="flex-incoming-icon">
               <!-- left -->
               <div class="flex-items">
                 <!-- outgoing icon -->
                 <div class="incoming-icon">
-                  <img class="img-incoming" src="./resources/outgoing-icon-2x.png" alt="">
+                  <img
+                    class="img-incoming"
+                    src="./resources/outgoing-icon-2x.png"
+                    alt=""
+                  />
                 </div>
                 <!-- Incoming Vocie Call -->
-                <div class="incoming-voice-call">
-                  Outgoing Video Call
-                </div>
-              </div><!-- left -->
-              
-              <!-- incoming time -->
-              <div class="incoming-time">
-                5:11 PM
+                <div class="incoming-voice-call">Outgoing Video Call</div>
               </div>
-            </div><!-- flex-incoming-icon-->
+              <!-- left -->
+
+              <!-- incoming time -->
+              <div class="incoming-time">5:11 PM</div>
+            </div>
+            <!-- flex-incoming-icon-->
 
             <!-- duration -->
-            <div class="duration">
-              3m 49s
-            </div>
-          </div><!-- wrap outgoing video call -->
+            <div class="duration">3m 49s</div>
+          </div>
+          <!-- wrap outgoing video call -->
 
           <!-- actions text-->
-          <div class="actions-text">
-            Actions
-          </div>
+          <div class="actions-text">Actions</div>
 
           <!-- send message link -->
-          <div class="send-message-link">
-            Send Message
-          </div><!-- send message link -->
+          <div class="send-message-link">Send Message</div>
+          <!-- send message link -->
 
           <!-- View in Contacts link -->
-          <div class="send-message-link">
-            View in Contacts
-          </div><!-- View in Contacts link -->
+          <div class="send-message-link">View in Contacts</div>
+          <!-- View in Contacts link -->
 
           <!-- Privacy & Support -->
-          <div class="privacy-support">
-            Privacy & Support
-          </div>
+          <div class="privacy-support">Privacy & Support</div>
 
           <!-- Block User -->
-          <div 
-            class="block-user" 
-            @click="emitAction(item.blockedByMe ? 'unblockUser' : 'blockUser')
-          ">
+          <div
+            class="block-user"
+            @click="emitAction(item.blockedByMe ? 'unblockUser' : 'blockUser')"
+          >
             <!-- Block User -->
-            {{ item.blockedByMe ? 'Unblock User' : 'Block User' }}
-          </div><!-- Block User -->
-
-        </div><!-- body user detail-->
-      </div><!-- show user detail (**change the height to 90% to show the cometchat footer)-->
+            {{ item.blockedByMe ? "Unblock User" : "Block User" }}
+          </div>
+          <!-- Block User -->
+        </div>
+        <!-- body user detail-->
+      </div>
+      <!-- show user detail (**change the height to 90% to show the cometchat footer)-->
 
       <comet-chat-user-list-custom
         v-else
@@ -171,7 +177,7 @@
         @action="actionHandler"
       />
     </template>
-    
+
     <template v-else-if="tab === 'calls'">
       <!-- <comet-chat-group-list
         :item="item"
@@ -192,34 +198,51 @@
           <!-- top content (close icon, text, phone icon)-->
           <div class="top-wraper">
             <!-- close icon-->
-            <img 
-              @click="closeCustom" 
-              class="top-icon" 
-              src="./resources/close-white-icon-2x.png" 
-              alt="close icon">
+            <img
+              @click="closeCustom"
+              class="top-icon"
+              src="./resources/close-white-icon-2x.png"
+              alt="close icon"
+            />
             <!-- text -->
             <div class="text-call">Call</div>
             <!-- phone icon -->
-            <img 
+            <img
               @click="changeTab('contacts')"
-              class="top-icon" 
-              src="./resources/phone-plus-white-icon-2x.png" 
-              alt="phone icon">
-          </div><!-- top content (close icon, text, phone icon)-->
+              class="top-icon"
+              src="./resources/phone-plus-white-icon-2x.png"
+              alt="phone icon"
+            />
+          </div>
+          <!-- top content (close icon, text, phone icon)-->
           <!-- switch button (all, missed) call-->
           <div class="switch-button-call">
             <!-- all -->
-            <button 
+            <button
               @click="onShowAllCall"
-              :class="{ 'btn-call-active': isShowAllCall, 'btn-call-inactive': isShowMissedCall }"
-              class="all-btn">All</button>
+              :class="{
+                'btn-call-active': isShowAllCall,
+                'btn-call-inactive': isShowMissedCall,
+              }"
+              class="all-btn"
+            >
+              All
+            </button>
             <!-- missed -->
-            <button 
+            <button
               @click="onShowMissedCall"
-              :class="{ 'btn-call-active': isShowMissedCall, 'btn-call-inactive': isShowAllCall }"
-              class="miss-btn">Missed</button>
-          </div><!-- switch button (all, missed) call-->
-        </div><!-- calls header -->
+              :class="{
+                'btn-call-active': isShowMissedCall,
+                'btn-call-inactive': isShowAllCall,
+              }"
+              class="miss-btn"
+            >
+              Missed
+            </button>
+          </div>
+          <!-- switch button (all, missed) call-->
+        </div>
+        <!-- calls header -->
 
         <!-- calls body -->
         <div class="calls-body">
@@ -240,26 +263,33 @@
             <p class="description-text-message">
               Kamu belum mempunyai riwayat call dengan penyedia jasa kami.
             </p>
-          </div><!-- calls message -->
-        </div><!-- calls body -->
-      </div><!-- calls wraper -->
-
+          </div>
+          <!-- calls message -->
+        </div>
+        <!-- calls body -->
+      </div>
+      <!-- calls wraper -->
     </template>
 
     <template v-else-if="tab === 'info'">
       <!-- hide this when clicked on notifications -->
-      <comet-chat-user-profile 
+      <comet-chat-user-profile
         v-if="showMoreSection"
-        :theme="theme" 
-        @action="actionHandler" />
-      
+        :theme="theme"
+        @action="actionHandler"
+      />
+
       <!-- showNotifications -->
       <div v-if="showNotifications" class="notifications">
         <!-- header -->
         <div class="header-user-detail">
           <!-- left arrow -->
           <div @click="toShowMore" class="left-arrow-icon">
-            <img class="left-arrow-img" src="./resources/arrow-left-2x.png" alt="">
+            <img
+              class="left-arrow-img"
+              src="./resources/arrow-left-2x.png"
+              alt=""
+            />
           </div>
 
           <!-- Notifikasi -->
@@ -268,29 +298,32 @@
         <!-- body notifikasi-->
         <div class="body-notifikasi">
           <!-- Show Notifications -->
-          <div 
-            class="show-notifikasi">
-            <div class="text-notif">
-              Show Notifications
-            </div>
+          <div class="show-notifikasi">
+            <div class="text-notif">Show Notifications</div>
             <div class="checkbox-notif" @click="checkedNotif = !checkedNotif">
-              <input 
+              <input
                 :checked="checkedNotif"
                 class="checkbox-input"
-                type="checkbox" name="" id="">
+                type="checkbox"
+                name=""
+                id=""
+              />
             </div>
           </div>
           <!-- Show Preview -->
-          <div 
-            class="show-notifikasi">
-            <div class="text-notif">
-              Show Preview
-            </div>
-            <div class="checkbox-notif" @click="checkedPreview = !checkedPreview">
-              <input 
+          <div class="show-notifikasi">
+            <div class="text-notif">Show Preview</div>
+            <div
+              class="checkbox-notif"
+              @click="checkedPreview = !checkedPreview"
+            >
+              <input
                 :checked="checkedPreview"
                 class="checkbox-input"
-                type="checkbox" name="" id="">
+                type="checkbox"
+                name=""
+                id=""
+              />
             </div>
           </div>
           <!-- desc Preview message text inside new message notifications-->
@@ -298,16 +331,13 @@
             Preview message text inside new message notifications.
           </div>
           <!-- More -->
-          <div class="more-class">
-            More
-          </div>
+          <div class="more-class">More</div>
           <!-- Reset Notification Settings -->
-          <div class="reset-notif">
-            Reset Notification Settings
-          </div>
+          <div class="reset-notif">Reset Notification Settings</div>
           <!-- Reset all notification settings, including custom notification settings for your chats. -->
           <div class="reset-all">
-            Reset all notification settings, including custom notification settings for your chats.
+            Reset all notification settings, including custom notification
+            settings for your chats.
           </div>
         </div>
       </div>
@@ -318,7 +348,11 @@
         <div class="header-user-detail">
           <!-- left arrow -->
           <div @click="toShowMore" class="left-arrow-icon">
-            <img class="left-arrow-img" src="./resources/arrow-left-2x.png" alt="">
+            <img
+              class="left-arrow-img"
+              src="./resources/arrow-left-2x.png"
+              alt=""
+            />
           </div>
           <!-- Privasi dan Keamanan -->
           <div class="title-detail-privacy">Privasi dan Keamanan</div>
@@ -326,36 +360,61 @@
         <!-- body privacy security-->
         <div class="body-notifikasi">
           <!-- Blocked Users -->
-          <div 
-            class="show-notifikasi-privacy" 
-            :class="{'flex-to-col': isShowUserBlocked, 'flex-to-row': !isShowUserBlocked}">
-            <div class="text-notif">
-              Blocked Users
-            </div>
-            <div 
-              title="click to show/hide" 
-              @click="showBlockedUserList" 
-              class="blocked-users-count" 
-              style="cursor:pointer;">
-              {{ blockedUser }} {{ (blockedUser <= 1) ? 'user' : 'users'  }}
+          <div
+            class="show-notifikasi-privacy"
+            :class="{
+              'flex-to-col': isShowUserBlocked,
+              'flex-to-row': !isShowUserBlocked,
+            }"
+          >
+            <div class="text-notif">Blocked Users</div>
+            <div
+              title="click to show/hide"
+              @click="showBlockedUserList"
+              class="blocked-users-count"
+              style="cursor: pointer"
+            >
+              {{ blockedUser }} {{ blockedUser <= 1 ? "user" : "users" }}
             </div>
             <!-- show user blocked list -->
-            <div 
-              v-if="isShowUserBlocked" 
-              class="show-user-blocked-list" 
-              style="width:100%;max-height:200px;overflow:auto;padding:0px 8px 12px 8px;">
-              <div 
-                v-for="(user, index) in blockedUserList" 
-                :key="index" 
+            <div
+              v-if="isShowUserBlocked"
+              class="show-user-blocked-list"
+              style="
+                width: 100%;
+                max-height: 200px;
+                overflow: auto;
+                padding: 0px 8px 12px 8px;
+              "
+            >
+              <div
+                v-for="(user, index) in blockedUserList"
+                :key="index"
                 class="user-list"
-                style="display:flex;align-items:center;justify-content:space-between;color:rgba(20, 20, 20, 0.5);font-weight:500;padding-top:8px;">
+                style="
+                  display: flex;
+                  align-items: center;
+                  justify-content: space-between;
+                  color: rgba(20, 20, 20, 0.5);
+                  font-weight: 500;
+                  padding-top: 8px;
+                "
+              >
                 <div class="user-name">
                   {{ user.name }}
                 </div>
-                <div 
-                  @click="onUnblockUser(user.uid)" 
-                  class="unblock" 
-                  style="color:#d7226d;cursor:default;background:#f2f2f2;border-radius:4px;padding:1px 6px;font-weight:600;">
+                <div
+                  @click="onUnblockUser(user.uid)"
+                  class="unblock"
+                  style="
+                    color: #d7226d;
+                    cursor: default;
+                    background: #f2f2f2;
+                    border-radius: 4px;
+                    padding: 1px 6px;
+                    font-weight: 600;
+                  "
+                >
                   Unblock
                 </div>
               </div>
@@ -363,31 +422,19 @@
           </div>
 
           <!-- Privacy -->
-          <div class="privacy-text">
-            Privacy
-          </div>
+          <!--<div class="privacy-text">Privacy</div>-->
 
-          <!-- Groups -->
-          <div 
-            class="show-notifikasi">
-            <div class="text-notif">
-              Groups
-            </div>
-            <div class="group-calls">
-              Everybody
-            </div>
-          </div>
+          <!-- Groups --><!--
+          <div class="show-notifikasi">            
+            <div class="text-notif">Groups</div>
+            <div class="group-calls">Everybody</div>
+          </div>-->
 
-          <!-- Calls -->
-          <div 
-            class="show-notifikasi">
-            <div class="text-notif">
-              Calls
-            </div>
-            <div class="group-calls">
-              Everybody
-            </div>
-          </div>
+          <!-- Calls --><!--
+          <div class="show-notifikasi">            
+            <div class="text-notif">Calls</div>
+            <div class="group-calls">Everybody</div>
+          </div>-->
         </div>
       </div>
 
@@ -397,7 +444,11 @@
         <div class="header-user-detail">
           <!-- left arrow -->
           <div @click="toShowMore" class="left-arrow-icon">
-            <img class="left-arrow-img" src="./resources/arrow-left-2x.png" alt="">
+            <img
+              class="left-arrow-img"
+              src="./resources/arrow-left-2x.png"
+              alt=""
+            />
           </div>
           <!-- Chats -->
           <div class="title-detail">Chats</div>
@@ -405,46 +456,42 @@
         <!-- body privacy security-->
         <div class="body-notifikasi">
           <!-- Clear All Chats -->
-          <div 
-            class="show-notifikasi">
-            <div class="text-notif-red">
-              Clear All Chats
-            </div>
+          <div class="show-notifikasi">
+            <div class="text-notif-red">Clear All Chats</div>
           </div>
 
           <!-- Delete All Chats -->
-          <div 
-            class="show-notifikasi">
-            <div class="text-notif-red">
-              Delete All Chats
-            </div>
+          <div class="show-notifikasi">
+            <div class="text-notif-red">Delete All Chats</div>
           </div>
         </div>
       </div>
-
     </template>
 
     <!-- call screen custom -->
     <!-- <div 
           :class="{'show-custom-screen': calling, 'hide-custom-screen' : !calling}" class="custom-screen" 
           id="callScreen"></div> -->
-    <div 
-      :class="[calling ? 'show-custom-screen' : 'hide-custom-screen']" 
-      class="custom-screen" 
-      id="callScreen">
-    </div>
+    <div
+      :class="[calling ? 'show-custom-screen' : 'hide-custom-screen']"
+      class="custom-screen"
+      id="callScreen"
+    ></div>
 
     <!-- NAVBAR FOOTER -->
     <div v-if="showFooterNavbar" :style="styles.footer" class="sidebar__footer">
       <div :style="styles.navbar" class="footer__navbar">
-
         <!-- phone icon -->
         <!-- <div :style="styles.item" @click="changeTab('calls')">
           <span :style="styles.phoneIcon"></span>
         </div> -->
 
         <!-- chats icon -->
-        <div style="position:relative" :style="styles.item" @click="changeTab('conversations')">
+        <div
+          style="position: relative"
+          :style="styles.item"
+          @click="changeTab('conversations')"
+        >
           <!-- unread msg count -->
           <span v-if="unreadMsgFromUsers" class="circle-unread-msg-from-users">
             {{ unreadMsgFromUsers }}
@@ -509,15 +556,13 @@ import chatRedIcon from "./resources/new-chats-red-2x.png";
 import phoneRedIcon from "./resources/new-phone-red-2x.png";
 import phoneGreyIcon from "./resources/new-phone-grey-2x.png";
 
-
 import * as style from "./style";
 
 // dd-edited
 import { CometChat } from "@cometchat-pro/chat";
 
-//dd-edited 
-import { mapGetters } from 'vuex'
-
+//dd-edited
+import { mapGetters } from "vuex";
 
 /**
  * Navigation bar for switching tabs in CometChatUI.
@@ -532,7 +577,7 @@ export default {
     CometChatUserProfile,
     // CometChatGroupList,
     CometChatUserList,
-    CometChatUserListCustom
+    CometChatUserListCustom,
   },
   props: {
     /**
@@ -579,24 +624,26 @@ export default {
   },
   watch: {
     tab() {
-      (this.tab === 'contacts') ? this.$store.dispatch('setShowFooterNavbar', false) : this.$store.dispatch('setShowFooterNavbar', true);
+      this.tab === "contacts"
+        ? this.$store.dispatch("setShowFooterNavbar", false)
+        : this.$store.dispatch("setShowFooterNavbar", true);
       // this.getCountUnreadMessagesFromAllUsers();
       // this.getCountUnreadMessagesFromAllGroups();
     },
     showPrivacy() {
-      (this.showPrivacy == true) ? this.getBlockedUser() : '';
-    }
+      this.showPrivacy == true ? this.getBlockedUser() : "";
+    },
   },
   computed: {
     ...mapGetters({
-      userDetail: 'getUserDetail',
-      showFooterNavbar: 'getShowFooterNavbar',
-      showMoreSection: 'getShowMoreSection',
-      showNotifications: 'getShowNotifications',
-      showPrivacy: 'getShowPrivacy',
-      showChats: 'getShowChats',
-      calling: 'getCallingStatus',
-      unreadMsgFromUsers: 'getUnreadMessages',
+      userDetail: "getUserDetail",
+      showFooterNavbar: "getShowFooterNavbar",
+      showMoreSection: "getShowMoreSection",
+      showNotifications: "getShowNotifications",
+      showPrivacy: "getShowPrivacy",
+      showChats: "getShowChats",
+      calling: "getCallingStatus",
+      unreadMsgFromUsers: "getUnreadMessages",
     }),
     /**
      * Computed styles for the component.
@@ -672,10 +719,10 @@ export default {
       checkedPreview: true,
       blockedUser: null,
       isShowUserBlocked: false,
-      blockedUserList: '',
+      blockedUserList: "",
       // unreadMsgFromUsers: null,
       // unreadMsgFromGroups: null,
-    }
+    };
   },
   // created() {
   //   this.getCountUnreadMessagesFromAllUsers();
@@ -719,10 +766,11 @@ export default {
     onUnblockUser(userId) {
       const usersList = [userId];
       CometChat.unblockUsers(usersList).then(
-        list => {
+        (list) => {
           this.getBlockedUser();
           console.log("users list unblocked", { list });
-        }, error => {
+        },
+        (error) => {
           console.log("unblocking user fails with error", error);
         }
       );
@@ -737,14 +785,15 @@ export default {
     getBlockedUser() {
       const limit = 30;
       const blockedUsersRequest = new CometChat.BlockedUsersRequestBuilder()
-                                  .setLimit(limit)
-                                  .build();
+        .setLimit(limit)
+        .build();
       blockedUsersRequest.fetchNext().then(
-        userList => {
+        (userList) => {
           this.blockedUserList = userList;
           this.blockedUser = userList.length;
           console.log("Daftar user yg diblokir:", userList);
-        }, error => {
+        },
+        (error) => {
           console.log("Blocked user list fetching failed with error:", error);
         }
       );
@@ -752,8 +801,8 @@ export default {
 
     // to show more section
     toShowMore() {
-      this.$store.dispatch('setShowMoreSection', true);
-      this.$store.dispatch('setShowFooterNavbar', true);
+      this.$store.dispatch("setShowMoreSection", true);
+      this.$store.dispatch("setShowFooterNavbar", true);
     },
 
     // call screen custom
@@ -761,39 +810,39 @@ export default {
       let sessionID = setSessionID + Math.random() * setSessionID;
       // let audioOnly = true;
       // let defaultLayout = true;
-      console.log('session id' ,sessionID);
+      console.log("session id", sessionID);
       // let mode = CometChat.CALL_MODE.DEFAULT;
       // let mode = CometChat.CALL_MODE.SPOTLIGHT;
       let mode = CometChat.CALL_MODE.SINGLE;
       // let mode = CometChat.CALL_MODE.GRID;
 
       let callSettings = new CometChat.CallSettingsBuilder()
-                          .setSessionID(sessionID)
-                          .setIsAudioOnlyCall(true)
-                          .showEndCallButton(true)
-                          .enableDefaultLayout(true)
-                          .showMuteAudioButton(true)
-                          .showScreenShareButton(true)
-                          .showPauseVideoButton(true)
-                          // .setCustomCSS(this.customCSS) //custom css
-                          .setMode(mode)
-                          .build();
+        .setSessionID(sessionID)
+        .setIsAudioOnlyCall(true)
+        .showEndCallButton(true)
+        .enableDefaultLayout(true)
+        .showMuteAudioButton(true)
+        .showScreenShareButton(true)
+        .showPauseVideoButton(true)
+        // .setCustomCSS(this.customCSS) //custom css
+        .setMode(mode)
+        .build();
       CometChat.startCall(
         callSettings,
         document.getElementById("callScreen"),
         new CometChat.OngoingCallListener({
-          onUserListUpdated: userList => {
+          onUserListUpdated: (userList) => {
             console.log("user list:", userList);
           },
-          onCallEnded: call => {
+          onCallEnded: (call) => {
             console.log("Call ended:", call);
-            this.$store.dispatch('setCallingStatus', false);
+            this.$store.dispatch("setCallingStatus", false);
           },
-          onError: error => {
+          onError: (error) => {
             console.log("Error :", error);
-            this.$store.dispatch('setCallingStatus', false);
+            this.$store.dispatch("setCallingStatus", false);
           },
-          onMediaDeviceListUpdated: deviceList => {
+          onMediaDeviceListUpdated: (deviceList) => {
             console.log("Device List:", deviceList);
           },
           onUserMuted: (userMuted, userMutedBy) => {
@@ -807,14 +856,14 @@ export default {
           onScreenShareStopped: () => {
             // This event will work in JS SDK v3.0.3 & later.
             console.log("Screen sharing stopped.");
-          }
+          },
         })
       );
     },
 
     // call user
     callUser(userId) {
-      this.$store.dispatch('setCallingStatus', true);
+      this.$store.dispatch("setCallingStatus", true);
       // let receiverID = "UID";
       let callType = CometChat.CALL_TYPE.AUDIO;
       let receiverType = CometChat.RECEIVER_TYPE.USER;
@@ -822,10 +871,11 @@ export default {
       let call = new CometChat.Call(userId, callType, receiverType);
 
       CometChat.initiateCall(call).then(
-        outGoingCall => {
+        (outGoingCall) => {
           console.log("Call initiated successfully:", outGoingCall);
-        }, error => {
-          this.$store.dispatch('setCallingStatus', false);
+        },
+        (error) => {
+          this.$store.dispatch("setCallingStatus", false);
           console.log("Call initialization failed with exception:", error);
         }
       );
@@ -835,21 +885,22 @@ export default {
 
     // set userDetail to be null and get back to previous page
     toUserDetail() {
-      this.$store.dispatch('setUserDetailToNull');
+      this.$store.dispatch("setUserDetailToNull");
     },
 
     // show users
     onPhoneClick() {
       let limit = 10;
       let usersRequest = new CometChat.UsersRequestBuilder()
-                          .setLimit(limit)
-                          .build();
+        .setLimit(limit)
+        .build();
 
       usersRequest.fetchNext().then(
-        userList => {
+        (userList) => {
           this.users = userList;
           console.log("User list received:", userList);
-        }, error => {
+        },
+        (error) => {
           this.users = error;
           console.log("User list fetching failed with error:", error);
         }
@@ -858,14 +909,14 @@ export default {
 
     // show all call history
     onShowAllCall() {
-      console.log('show all call');
+      console.log("show all call");
       this.isShowAllCall = true;
       this.isShowMissedCall = false;
     },
 
     // show missed call
     onShowMissedCall() {
-      console.log('show missed call');
+      console.log("show missed call");
       this.isShowMissedCall = true;
       this.isShowAllCall = false;
     },
@@ -873,7 +924,7 @@ export default {
     // close cometchat
     closeCustom() {
       // alert('close custom');
-      this.$store.dispatch('setIsOpen', false)
+      this.$store.dispatch("setIsOpen", false);
     },
 
     /**
@@ -897,7 +948,7 @@ export default {
   width: 18px;
   height: 18px;
   border-radius: 9999px;
-  background: #34B5D1;
+  background: #34b5d1;
   color: #fff;
   position: absolute;
   right: 8px;
@@ -936,7 +987,7 @@ export default {
 .header-user-detail {
   width: 320px;
   height: 64px;
-  background: #D7226D;
+  background: #d7226d;
   display: flex;
   align-items: center;
   padding: 16px;
@@ -959,11 +1010,11 @@ export default {
   font-weight: 600;
   font-size: 20px;
   line-height: 26px;
-  position:absolute;
+  position: absolute;
   left: 37%;
 }
 .title-detail-privacy {
-  color:#fff;
+  color: #fff;
   font-weight: 600;
   font-size: 20px;
   line-height: 26px;
@@ -1012,7 +1063,7 @@ export default {
   border-radius: 9999px;
 }
 .name-and-status {
-  padding-left: 10px
+  padding-left: 10px;
 }
 .username {
   padding-left: 10px;
@@ -1116,8 +1167,8 @@ export default {
   font-size: 15px;
   line-height: 20px;
   letter-spacing: -0.1px;
-  color: #FF3B30;
-  padding-top:10px
+  color: #ff3b30;
+  padding-top: 10px;
 }
 .desc-notif {
   font-weight: normal;
@@ -1142,7 +1193,7 @@ export default {
   font-size: 15px;
   line-height: 20px;
   letter-spacing: -0.1px;
-  color: #FF3B30;
+  color: #ff3b30;
   padding-bottom: 15px;
   border-bottom: 1px solid rgba(20, 20, 20, 0.1);
 }
@@ -1178,17 +1229,15 @@ export default {
   font-size: 15px;
   line-height: 20px;
   letter-spacing: -0.1px;
-  color: #FF3B30;
+  color: #ff3b30;
 }
 
 /* custom checkbox */
-INPUT[type=checkbox]:focus
-{
+INPUT[type="checkbox"]:focus {
   outline: 1px solid rgba(0, 0, 0, 0.2);
 }
-INPUT[type=checkbox]
-{
-  background-color: #DDD;
+INPUT[type="checkbox"] {
+  background-color: #ddd;
   border-radius: 2px;
   appearance: none;
   -webkit-appearance: none;
@@ -1198,30 +1247,29 @@ INPUT[type=checkbox]
   cursor: pointer;
   position: relative;
   top: 5px;
-  border-radius:4px;
+  border-radius: 4px;
 }
-INPUT[type=checkbox]:checked
-{
-  background-color: #4DB6E4;
-  background: #4DB6E4 url("./resources/mark-white.png") 4px 4px no-repeat;
+INPUT[type="checkbox"]:checked {
+  background-color: #4db6e4;
+  background: #4db6e4 url("./resources/mark-white.png") 4px 4px no-repeat;
 }
 /* custom checkbox */
 
 .calls-wraper {
-  width:320px;
-  height:90%;
-  display:flex;
-  flex-direction:column;
+  width: 320px;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
 }
 .calls-header {
-  background:#D7226D;
-  width:100%;
-  height:114px;
+  background: #d7226d;
+  width: 100%;
+  height: 114px;
   min-height: 114px;
-  backdrop-filter:blur(59.8022px);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
+  backdrop-filter: blur(59.8022px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .switch-button-call {
   width: 288px;
@@ -1314,7 +1362,7 @@ INPUT[type=checkbox]:checked
 }
 .title-text-message {
   font-weight: 600;
-  color: #1D1D1D;
+  color: #1d1d1d;
   font-size: 16px;
   line-height: 24px;
   font-style: normal;
@@ -1332,8 +1380,7 @@ INPUT[type=checkbox]:checked
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #aaa;
-}/* custom scroll bar */
-
+} /* custom scroll bar */
 
 .cometchat__unified__navbar {
   height: 100%;

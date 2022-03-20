@@ -110,7 +110,7 @@ import { theme } from "../../resources/theme";
 
 import * as style from "./style";
 
-import { mapGetters } from 'vuex'
+import { mapGetters } from "vuex";
 
 /**
  * Displays a fully working chat application.
@@ -167,7 +167,7 @@ export default {
     // dd-edited
     // state management
     ...mapGetters({
-      showChatWindow: 'getShowChatWindow',
+      showChatWindow: "getShowChatWindow",
     }),
 
     /**
@@ -359,7 +359,7 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style lang="scss" scoped>
 /* this just for test new branch renamed */
 
 .cometchat__unified {
@@ -368,40 +368,44 @@ export default {
 }
 /* dd-edited */
 /* @media (min-width: 320px) and (max-width: 767px) { */
-  .unified__sidebar {
-    top: 0;
-    bottom: 0;
-    z-index: 2;
-    width: 100% !important;
-    position: absolute !important;
-    transition: all 0.3s ease-out;
-    /* left: var(--cometchat-unified-sidebar-left); */
-    right: 0;
-    background-color: var(--cometchat-unified-sidebar-bg-color);
-    /* box-shadow: var(--cometchat-unified-sidebar-box-shadow, none); */
-  }
-  .unified__main {
-    width: 100% !important;
-  }
+.unified__sidebar {
+  top: 0;
+  bottom: 0;
+  z-index: 2;
+  width: 100% !important;
+  position: absolute !important;
+  transition: all 0.3s ease-out;
+  /* left: var(--cometchat-unified-sidebar-left); */
+  right: 0;
+  background-color: var(--cometchat-unified-sidebar-bg-color);
+  /* box-shadow: var(--cometchat-unified-sidebar-box-shadow, none); */
+}
+.unified__main {
+  width: 100% !important;
+}
 
-  /* custom class to set the user detail to be on left*/
-  .unified__secondary_custom {
-    top: 0;
-    bottom: 0;
+/* custom class to set the user detail to be on left*/
+.unified__secondary_custom {
+  top: 0;
+  bottom: 0;
+  z-index: 2;
+  right: 334px;
+  width: 100% !important;
+  position: absolute !important;
+  background-color: var(--cometchat-unified-sidebar-bg-color);
+  @media screen and (max-width: 500px) {
+    left: 0 !important;
     z-index: 2;
-    right: 334px;
-    width: 100% !important;
-    position: absolute !important;
-    background-color: var(--cometchat-unified-sidebar-bg-color);
   }
-  .unified__secondary {
-    top: 0;
-    bottom: 0;
-    z-index: 2;
-    right: 0 !important;
-    width: 100% !important;
-    position: absolute !important;
-    background-color: var(--cometchat-unified-sidebar-bg-color);
-  }
+}
+.unified__secondary {
+  top: 0;
+  bottom: 0;
+  z-index: 2;
+  right: 0 !important;
+  width: 100% !important;
+  position: absolute !important;
+  background-color: var(--cometchat-unified-sidebar-bg-color);
+}
 /* } */
 </style>

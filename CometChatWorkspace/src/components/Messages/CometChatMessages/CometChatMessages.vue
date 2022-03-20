@@ -20,10 +20,7 @@
       @action="actionHandler"
     />
     <div v-if="canShowLiveReaction" :style="styles.reactionsWrapper">
-      <comet-chat-live-reactions 
-        :reaction="reactionName" 
-        :theme="themeValue" 
-      />
+      <comet-chat-live-reactions :reaction="reactionName" :theme="themeValue" />
     </div>
 
     <comet-chat-message-composer
@@ -38,10 +35,9 @@
       <cometchat-new-message-indicator
         :theme="themeValue"
         :unreadMessages="unreadMessages"
-        @action="actionHandler" 
+        @action="actionHandler"
       />
     </div>
-    
   </div>
 </template>
 
@@ -72,9 +68,9 @@ import { theme } from "../../../resources/theme";
 import * as style from "./style";
 
 import { incomingMessageAlert } from "../../../resources/audio/";
-import cometchatNewMessageIndicator from '../CometChatNewMessageIndicator/index.vue';
-import { CometChat } from '@cometchat-pro/chat';
-import { CometChatEvent } from '../../../util/CometChatEvent';
+import cometchatNewMessageIndicator from "../CometChatNewMessageIndicator/index.vue";
+import { CometChat } from "@cometchat-pro/chat";
+import { CometChatEvent } from "../../../util/CometChatEvent";
 
 /**
  * Displays message list with message composer and header.
@@ -382,37 +378,44 @@ export default {
      */
     refreshingMessages() {
       this.messageList = [];
-      this.messageToBeEdited = ""; 
-      this.replyPreview = null; 
-      this.liveReaction = false; 
+      this.messageToBeEdited = "";
+      this.replyPreview = null;
+      this.liveReaction = false;
       this.messageToReact = null;
-      CometChatEvent.triggerHandler(enums.EVENTS["CLEAR_UNREAD_MESSAGES_TRIGGERED"], {});
+      CometChatEvent.triggerHandler(
+        enums.EVENTS["CLEAR_UNREAD_MESSAGES_TRIGGERED"],
+        {}
+      );
     },
     /**
-     * 
-     * Handle new messages 
+     *
+     * Handle new messages
      */
     newMessagesArrived(newMessage) {
       let unreadMessages = [...this.unreadMessages];
       unreadMessages.push(newMessage[0]);
       this.unreadMessages = unreadMessages;
 
-      CometChatEvent.triggerHandler(enums.EVENTS["NEW_MESSAGES_TRIGGERED"], { unreadMessages: unreadMessages });
+      CometChatEvent.triggerHandler(enums.EVENTS["NEW_MESSAGES_TRIGGERED"], {
+        unreadMessages: unreadMessages,
+      });
     },
     /**
      * Jump to new messages on click of new message button
      */
     jumpToMessages() {
-
       if (this.unreadMessages.length === 0) {
         return false;
       }
-  
+
       let unreadMessages = [...this.unreadMessages];
       let messageList = [...this.messageList];
       messageList = messageList.concat(unreadMessages);
 
-      CometChatEvent.triggerHandler(enums.EVENTS["CLEAR_UNREAD_MESSAGES_TRIGGERED"], {});
+      CometChatEvent.triggerHandler(
+        enums.EVENTS["CLEAR_UNREAD_MESSAGES_TRIGGERED"],
+        {}
+      );
 
       if (messageList.length > enums.EVENTS["MAX_MESSAGE_COUNT"]) {
         if (this.$refs.messageListRef) {
@@ -429,27 +432,29 @@ export default {
       if (this.unreadMessages.length === 0) {
         return false;
       }
-  
+
       let unreadMessages = [...this.unreadMessages];
       let messageList = [...this.messageList];
-  
-      unreadMessages.forEach(unreadMessage => {
+
+      unreadMessages.forEach((unreadMessage) => {
         if (unreadMessage.receiverType === CometChat.RECEIVER_TYPE.USER) {
           if (this.$refs.messageListRef) {
             messageList.push(unreadMessage);
             this.$refs.messageListRef.markMessageAsRead(unreadMessage);
           }
-        } else if (unreadMessage.receiverType === CometChat.RECEIVER_TYPE.GROUP) {
+        } else if (
+          unreadMessage.receiverType === CometChat.RECEIVER_TYPE.GROUP
+        ) {
           if (this.$refs.messageListRef) {
             messageList.push(unreadMessage);
             this.$refs.messageListRef.markMessageAsRead(unreadMessage);
           }
         }
       });
- 
-      this.messageList = messageList
-      this.scrollToBottom = scrollToBottom
-      this.unreadMessages = []
+
+      this.messageList = messageList;
+      this.scrollToBottom = scrollToBottom;
+      this.unreadMessages = [];
     },
     callUpdated(message) {
       this.appendMessage([message]);
@@ -496,18 +501,33 @@ export default {
      * CometChat Events Listeners
      */
     cometChatEventListeners() {
-      CometChatEvent.on(enums.EVENTS["NEW_MESSAGES"], (args) => this.newMessagesArrived(args.messages));
-      CometChatEvent.on(enums.EVENTS["REFRESHING_MESSAGES"], () => this.refreshingMessages());
-      CometChatEvent.on(enums.EVENTS["CLEAR_UNREAD_MESSAGES"], () => this.jumpToMessages());
-      CometChatEvent.on(enums.EVENTS["NEW_MESSAGE_CLICKED"], () => this.jumpToMessages());
-      CometChatEvent.on(enums.EVENTS["MESSAGE_COMPOSED"], ({messages}) => this.appendMessage(messages));
-      CometChatEvent.on(enums.EVENTS["MESSAGE_SENT"], ({messages}) => {
+      CometChatEvent.on(enums.EVENTS["NEW_MESSAGES"], (args) =>
+        this.newMessagesArrived(args.messages)
+      );
+      CometChatEvent.on(enums.EVENTS["REFRESHING_MESSAGES"], () =>
+        this.refreshingMessages()
+      );
+      CometChatEvent.on(enums.EVENTS["CLEAR_UNREAD_MESSAGES"], () =>
+        this.jumpToMessages()
+      );
+      CometChatEvent.on(enums.EVENTS["NEW_MESSAGE_CLICKED"], () =>
+        this.jumpToMessages()
+      );
+      CometChatEvent.on(enums.EVENTS["MESSAGE_COMPOSED"], ({ messages }) =>
+        this.appendMessage(messages)
+      );
+      CometChatEvent.on(enums.EVENTS["MESSAGE_SENT"], ({ messages }) => {
         this.messageSent(messages);
-        CometChatEvent.triggerHandler(enums.EVENTS["UPDATED_LAST_MESSAGES"], { ...messages[0] });
+        CometChatEvent.triggerHandler(enums.EVENTS["UPDATED_LAST_MESSAGES"], {
+          ...messages[0],
+        });
       });
-      CometChatEvent.on(enums.EVENTS["ERROR_IN_SENDING_MESSAGE"], ({messages}) => {
-        this.messageSent(messages);
-      });
+      CometChatEvent.on(
+        enums.EVENTS["ERROR_IN_SENDING_MESSAGE"],
+        ({ messages }) => {
+          this.messageSent(messages);
+        }
+      );
     },
     cometChatRemoveEventListeners() {
       CometChatEvent.remove(enums.EVENTS["NEW_MESSAGES"]);
@@ -517,7 +537,7 @@ export default {
       CometChatEvent.remove(enums.EVENTS["MESSAGE_COMPOSED"]);
       CometChatEvent.remove(enums.EVENTS["MESSAGE_SENT"]);
       CometChatEvent.remove(enums.EVENTS["ERROR_IN_SENDING_MESSAGE"]);
-    }
+    },
   },
   beforeDestroy() {
     this.cometChatRemoveEventListeners();
@@ -529,14 +549,19 @@ export default {
     this.reactionName = this.reaction;
     this.audio = new Audio(incomingMessageAlert);
 
-    this.cometChatEventListeners()
-          
+    this.cometChatEventListeners();
   },
 };
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .cometchat__main__chat * {
   box-sizing: border-box;
   font-family: var(--chat-wrapper-font-family) !important;
+}
+.cometchat__main__chat {
+  @media screen and (max-width: 500px) {
+    left: 0 !important;
+    z-index: 2;
+  }
 }
 </style>
