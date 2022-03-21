@@ -15,8 +15,7 @@
           :style="styles.videoButton"
           @click="mediaClickHandler('video')"
         >
-          <!-- {{ STRINGS.VIDEOS }} -->
-          Links
+         {{ STRINGS.VIDEOS }}
         </span>
         <span
           class="sharedmedia__button"
@@ -299,7 +298,8 @@ export default {
     scrollToBottom() {
       this.$nextTick(() => {
         if (this.$refs && this.$refs.messageContainer) {
-          this.$refs.messageContainer.scrollTop = this.$refs.messageContainer.scrollHeight;
+          this.$refs.messageContainer.scrollTop =
+            this.$refs.messageContainer.scrollHeight;
         }
       });
     },
@@ -340,6 +340,15 @@ export default {
 };
 </script>
 <style scoped>
+.sharedmedia__button {
+  font-family: Libre Franklin;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: -0.10000000149011612px;
+  text-align: center;
+}
 .sharedmedia__button:last-of-type::before {
   display: none;
 }

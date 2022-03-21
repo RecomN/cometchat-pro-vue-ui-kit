@@ -1,8 +1,7 @@
 <template>
   <div :style="styles.wrapper" class="chats__wrapper">
-
     <!-- dd-edited -->
-    <div :style="styles.header" style="background: #D7226D; text-align:center;">
+    <div :style="styles.header" style="background: #d7226d; text-align: center">
       <div
         class="header__close"
         v-if="enableCloseMenu"
@@ -15,24 +14,30 @@
         <!-- button close/times -->
         <span @click="closeCustom" class="span-close">
           <!-- <i class="fa fa-times" style="color:#fff"></i> -->
-          <img 
-            class="top-icon" 
-            src="./resources/close-white-icon-2x.png" 
-            alt="close icon">
+          <img
+            class="top-icon"
+            src="./resources/close-white-icon-2x.png"
+            alt="close icon"
+          />
         </span>
         <!-- header title -->
-        <h4 style="color:white;" :style="styles.headerTitle">{{ STRINGS.CHATS }}</h4>
+        <h4 style="color: white" :style="styles.headerTitle">
+          {{ STRINGS.CHATS }}
+        </h4>
       </div>
 
       <!-- search w-288px h-32px r-8px -->
       <div class="wrap-search">
         <i class="icon-search fa fa-search"></i>
-        <input 
-          type="search" 
-          class="search" 
+        <input
+          type="search"
+          class="search"
           name="search"
-          placeholder="Search" />
-      </div><!-- search -->
+          v-model="search"
+          placeholder="Search"
+        />
+      </div>
+      <!-- search -->
     </div>
 
     <!-- if there is no chat -->
@@ -53,7 +58,7 @@
       v-else-if="conversationList.length != 0"
       @scroll="conversationScrollHandler($event)"
     >
-      <div v-for="(conversation, i) in conversationList" :key="i">
+      <div v-for="(conversation, i) in filteredList" :key="i">
         <comet-chat-conversation-list-item
           :config="config"
           :theme="themeValue"
@@ -81,7 +86,7 @@
 import { CometChat } from "@cometchat-pro/chat";
 
 import { CometChatManager } from "../../../util/controller";
-import {CometChatEvent} from "../../../util/CometChatEvent"
+import { CometChatEvent } from "../../../util/CometChatEvent";
 import { ConversationListManager } from "./controller";
 
 import { SvgAvatar } from "../../../util/svgavatar";
@@ -93,7 +98,11 @@ import {
   DEFAULT_BOOLEAN_PROP,
 } from "../../../resources/constants";
 
-import { propertyCheck, cometChatCommon, cometChatScreens } from "../../../mixins/";
+import {
+  propertyCheck,
+  cometChatCommon,
+  cometChatScreens,
+} from "../../../mixins/";
 import { theme } from "../../../resources/theme";
 import * as enums from "../../../util/enums.js";
 
@@ -169,6 +178,8 @@ export default {
       decoratorMessage: COMETCHAT_CONSTANTS.LOADING_MESSSAGE,
       showConfirmDialog: false,
       conversationToBeDeleted: null,
+      search: "",
+      chatLoad: false,
     };
   },
   watch: {
@@ -323,11 +334,8 @@ export default {
         if (prevProps.messageToMarkRead !== this.messageToMarkRead) {
           const message = this.messageToMarkRead;
           try {
-            const {
-              conversationKey,
-              conversationObj,
-              conversationList,
-            } = this.makeConversation(message);
+            const { conversationKey, conversationObj, conversationList } =
+              this.makeConversation(message);
 
             if (conversationKey > -1) {
               let unreadMessageCount = this.makeUnreadMessageCount(
@@ -379,6 +387,15 @@ export default {
     },
   },
   computed: {
+    filteredList() {
+      if (this.chatLoad === true) {
+        return this.conversationList.filter((cv) => {
+          return cv.conversationWith.name
+            .toLowerCase()
+            .includes(this.search.toLowerCase());
+        });
+      }
+    },
     /**
      * Theme computed using default theme and theme coming from prop.
      */
@@ -424,27 +441,30 @@ export default {
     // get unread msg from users
     getCountUnreadMessagesFromAllUsers() {
       CometChat.getUnreadMessageCountForAllUsers().then(
-        array => {
+        (array) => {
           // Object.values(array)[0];
-          if(Object.keys(array)[0] == 'app_system' || Object.keys(array).length <= 1) {
-            console.log('array object length is ', Object.keys(array).length);
-            this.$store.dispatch('setUnreadMessages', null);
-          }else{
-            this.$store.dispatch('setUnreadMessages', Object.values(array)[0]);
+          if (
+            Object.keys(array)[0] == "app_system" ||
+            Object.keys(array).length <= 1
+          ) {
+            console.log("array object length is ", Object.keys(array).length);
+            this.$store.dispatch("setUnreadMessages", null);
+          } else {
+            this.$store.dispatch("setUnreadMessages", Object.values(array)[0]);
             // this.unreadMsgFromUsers = Object.values(array)[0];
           }
           // console.log('object values(array) ', Object.values(array)[0]);
           // console.log('object keys(array) ', array[Object.keys(array)[0]]);
           console.log("Message count fetched from users", array);
         },
-        error => {
+        (error) => {
           console.log("Error in getting message count from users", error);
         }
       );
     },
     closeCustom() {
       // alert('close custom');
-      this.$store.dispatch('setIsOpen', false)
+      this.$store.dispatch("setIsOpen", false);
     },
     /**
      * Handles menu close click
@@ -458,9 +478,9 @@ export default {
     conversationClickHandler({ item, type }) {
       this.getCountUnreadMessagesFromAllUsers();
       // dd-edited show the chat window
-      this.$store.dispatch('setShowChatWindow', true);
-      this.$store.dispatch('setCallingStatus', false);
-      console.log('set calling status to be false!');
+      this.$store.dispatch("setShowChatWindow", true);
+      this.$store.dispatch("setCallingStatus", false);
+      console.log("set calling status to be false!");
       this.emitAction("item-click", { item, type });
     },
     /**
@@ -494,7 +514,8 @@ export default {
           this.attachListeners();
         }
 
-        const conversations = await conversationListManager.fetchNextConversation();
+        const conversations =
+          await conversationListManager.fetchNextConversation();
 
         if (conversations.length === 0) {
           this.decoratorMessage = COMETCHAT_CONSTANTS.NO_CHATS_FOUND;
@@ -528,6 +549,8 @@ export default {
             }
           }
         });
+
+        this.chatLoad = true;
 
         if (clear) {
           this.conversationList = conversations;
@@ -585,14 +608,24 @@ export default {
           this.selectedConversation.conversationId ===
             conversation.conversationId
         ) {
-          if (this.selectedConversation.unreadMessages && this.selectedConversation.unreadMessages.length) {
-            const firstUnreadMessage = this.selectedConversation.unreadMessages[0];
+          if (
+            this.selectedConversation.unreadMessages &&
+            this.selectedConversation.unreadMessages.length
+          ) {
+            const firstUnreadMessage =
+              this.selectedConversation.unreadMessages[0];
             const selectedConversation = this.selectedConversation;
 
-            if (firstUnreadMessage.conversationId && firstUnreadMessage.conversationId === selectedConversation.conversationId) {
+            if (
+              firstUnreadMessage.conversationId &&
+              firstUnreadMessage.conversationId ===
+                selectedConversation.conversationId
+            ) {
               unreadMessageCount = 0;
-              this.selectedConversation.unreadMessages.forEach(message => {
-                unreadMessageCount = this.shouldIncrementCount(message) ? ++unreadMessageCount : unreadMessageCount;
+              this.selectedConversation.unreadMessages.forEach((message) => {
+                unreadMessageCount = this.shouldIncrementCount(message)
+                  ? ++unreadMessageCount
+                  : unreadMessageCount;
               });
             }
           } else {
@@ -628,13 +661,11 @@ export default {
       }
     },
     /**
-     * 
+     *
      */
     shouldIncrementCount(incomingMessage) {
       let output = false;
-      if (
-        incomingMessage.sender.uid !== this.loggedInUser?.uid
-      ) {
+      if (incomingMessage.sender.uid !== this.loggedInUser?.uid) {
         output = true;
       }
 
@@ -704,11 +735,8 @@ export default {
      */
     async updateConversation(message, notification = true) {
       try {
-        const {
-          conversations,
-          conversationKey,
-          conversationObj,
-        } = await this.makeConversation(message);
+        const { conversations, conversationKey, conversationObj } =
+          await this.makeConversation(message);
 
         if (conversationKey > -1) {
           let unreadMessageCount = this.makeUnreadMessageCount(conversationObj);
@@ -747,11 +775,8 @@ export default {
      */
     async conversationEditedDeleted(message) {
       try {
-        const {
-          conversations,
-          conversationKey,
-          conversationObj,
-        } = await this.makeConversation(message);
+        const { conversations, conversationKey, conversationObj } =
+          await this.makeConversation(message);
         if (conversationKey > -1) {
           let lastMessageObj = conversationObj.lastMessage;
 
@@ -778,11 +803,8 @@ export default {
      */
     async updateGroupMemberAdded(message, options) {
       try {
-        const {
-          conversations,
-          conversationKey,
-          conversationObj,
-        } = await this.makeConversation(message);
+        const { conversations, conversationKey, conversationObj } =
+          await this.makeConversation(message);
 
         if (conversationKey > -1) {
           let unreadMessageCount = this.makeUnreadMessageCount(conversationObj);
@@ -847,11 +869,8 @@ export default {
      */
     async updateGroupMemberRemoved(message, options) {
       try {
-        const {
-          conversations,
-          conversationKey,
-          conversationObj,
-        } = await this.makeConversation(message);
+        const { conversations, conversationKey, conversationObj } =
+          await this.makeConversation(message);
 
         if (conversationKey > -1) {
           if (options && this.loggedInUser.uid === options.user.uid) {
@@ -859,9 +878,8 @@ export default {
 
             this.conversationList = conversations;
           } else {
-            let unreadMessageCount = this.makeUnreadMessageCount(
-              conversationObj
-            );
+            let unreadMessageCount =
+              this.makeUnreadMessageCount(conversationObj);
             let lastMessageObj = this.makeLastMessage(message, conversationObj);
 
             let conversationWithObj = { ...conversationObj.conversationWith };
@@ -893,11 +911,8 @@ export default {
      */
     async updateGroupMemberScopeChanged(message, options) {
       try {
-        const {
-          conversations,
-          conversationKey,
-          conversationObj,
-        } = await this.makeConversation(message);
+        const { conversations, conversationKey, conversationObj } =
+          await this.makeConversation(message);
 
         if (conversationKey > -1) {
           let unreadMessageCount = this.makeUnreadMessageCount(conversationObj);
@@ -938,17 +953,13 @@ export default {
      */
     async updateGroupMemberChanged(message, options, operator) {
       try {
-        const {
-          conversations,
-          conversationKey,
-          conversationObj,
-        } = await this.makeConversation(message);
+        const { conversations, conversationKey, conversationObj } =
+          await this.makeConversation(message);
 
         if (conversationKey > -1) {
           if (options && this.loggedInUser.uid !== options.user.uid) {
-            let unreadMessageCount = this.makeUnreadMessageCount(
-              conversationObj
-            );
+            let unreadMessageCount =
+              this.makeUnreadMessageCount(conversationObj);
             let lastMessageObj = this.makeLastMessage(message, conversationObj);
 
             let conversationWithObj = { ...conversationObj.conversationWith };
@@ -984,8 +995,10 @@ export default {
      */
     markMessageAsDelivered(message) {
       //if chat window is not open, mark message as delivered
-      if ((this.type === "" || Object.keys(this.item).length === 0) 
-      && !message.getDeliveredAt()) {
+      if (
+        (this.type === "" || Object.keys(this.item).length === 0) &&
+        !message.getDeliveredAt()
+      ) {
         CometChat.markAsDelivered(message);
       }
     },
@@ -1064,11 +1077,16 @@ export default {
      */
     updateLastMessage(lastMessage) {
       const conversationList = [...this.conversationList];
-      const conversationKey = conversationList.findIndex(c => c.conversationId === lastMessage.conversationId);
+      const conversationKey = conversationList.findIndex(
+        (c) => c.conversationId === lastMessage.conversationId
+      );
 
       if (conversationKey > -1) {
         const conversationObj = conversationList[conversationKey];
-        let newConversationObj = { ...conversationObj, lastMessage: { ...lastMessage } };
+        let newConversationObj = {
+          ...conversationObj,
+          lastMessage: { ...lastMessage },
+        };
 
         if (conversationKey === 0) {
           conversationList.splice(conversationKey, 1, newConversationObj);
@@ -1083,7 +1101,7 @@ export default {
     /**
      * Uupdate unread count
      */
-    updateUnreadCount(params) {	
+    updateUnreadCount(params) {
       if (this.selectedConversation) {
         this.selectedConversation["unreadMessages"] = params.unreadMessages;
         return false;
@@ -1094,19 +1112,23 @@ export default {
      */
     clearUnreadCount() {
       if (this.selectedConversation) {
-        
         this.selectedConversation["unreadMessages"] = [];
         let conversationList = [...this.conversationList];
 
-        let conversationKey = conversationList.findIndex(c => c.conversationId === this.selectedConversation.conversationId);
+        let conversationKey = conversationList.findIndex(
+          (c) => c.conversationId === this.selectedConversation.conversationId
+        );
 
         if (conversationKey > -1) {
           let conversationObj = { ...conversationList[conversationKey] };
-          let newConversationObj = { ...conversationObj, unreadMessageCount: 0 };
+          let newConversationObj = {
+            ...conversationObj,
+            unreadMessageCount: 0,
+          };
 
           conversationList.splice(conversationKey, 1);
           conversationList.unshift(newConversationObj);
-          this.conversationList = conversationList
+          this.conversationList = conversationList;
         }
       }
     },
@@ -1121,31 +1143,41 @@ export default {
       this.showConfirmDialog = false;
       if (optionSelected === "yes") {
         const conversation = this.conversationToBeDeleted;
-        const conversationWith = conversation.conversationType === CometChat.RECEIVER_TYPE.GROUP ? conversation?.conversationWith?.guid : conversation?.conversationWith?.uid;
-        CometChat.deleteConversation(conversationWith, conversation.conversationType)
+        const conversationWith =
+          conversation.conversationType === CometChat.RECEIVER_TYPE.GROUP
+            ? conversation?.conversationWith?.guid
+            : conversation?.conversationWith?.uid;
+        CometChat.deleteConversation(
+          conversationWith,
+          conversation.conversationType
+        )
           .then(() => {
             this.conversationDeleted(conversation);
           })
-          .catch(error => console.log(error));
-
+          .catch((error) => console.log(error));
       } else {
-        this.showConfirmDialog = false; 
+        this.showConfirmDialog = false;
         this.conversationToBeDeleted = null;
       }
     },
     conversationDeleted(conversation) {
-
       const conversationList = [...this.conversationList];
-      const conversationKey = conversationList.findIndex(c => c.conversationId === conversation.conversationId);
+      const conversationKey = conversationList.findIndex(
+        (c) => c.conversationId === conversation.conversationId
+      );
 
       if (conversationKey > -1) {
-        if (this.selectedConversation && this.selectedConversation.conversationId === conversation.conversationId) {
+        if (
+          this.selectedConversation &&
+          this.selectedConversation.conversationId ===
+            conversation.conversationId
+        ) {
           this.selectedConversation = null;
-          this.emitAction("item-click", { item:{}, type: "" });
+          this.emitAction("item-click", { item: {}, type: "" });
         }
 
         conversationList.splice(conversationKey, 1);
-        this.conversationList = [...conversationList]; 
+        this.conversationList = [...conversationList];
         this.conversationToBeDeleted = null;
         if (this.conversationList.length === 0) {
           this.decoratorMessage = COMETCHAT_CONSTANTS.NO_CHATS_FOUND;
@@ -1170,31 +1202,38 @@ export default {
     },
     cometChatEventListeners() {
       /** updating last message whenever a message is composed and sent */
-      CometChatEvent.on(enums.EVENTS["UPDATED_LAST_MESSAGES"], args => this.updateLastMessage(args));
+      CometChatEvent.on(enums.EVENTS["UPDATED_LAST_MESSAGES"], (args) =>
+        this.updateLastMessage(args)
+      );
 
       /**Listen for the new messages if user is already in the chat window and has scrolled up*/
-      CometChatEvent.on(enums.EVENTS["NEW_MESSAGES_TRIGGERED"], args => this.updateUnreadCount(args));
+      CometChatEvent.on(enums.EVENTS["NEW_MESSAGES_TRIGGERED"], (args) =>
+        this.updateUnreadCount(args)
+      );
 
       /** clearing unreadcount whenever scrolled to the bottom.*/
-      CometChatEvent.on(enums.EVENTS["CLEAR_UNREAD_MESSAGES_TRIGGERED"], args => this.clearUnreadCount(args));
+      CometChatEvent.on(
+        enums.EVENTS["CLEAR_UNREAD_MESSAGES_TRIGGERED"],
+        (args) => this.clearUnreadCount(args)
+      );
 
       /**Delete conversation */
-      CometChatEvent.on(enums.EVENTS["DELETE_CONVERSATION"], args => {
-        this.deleteConversation(args)
-      })
+      CometChatEvent.on(enums.EVENTS["DELETE_CONVERSATION"], (args) => {
+        this.deleteConversation(args);
+      });
 
       /**Confirm delete */
       CometChatEvent.on(enums.EVENTS["CONFIRM_RESPONSE"], (e) => {
-        this.onDeleteConfirm(e)
-      })
+        this.onDeleteConfirm(e);
+      });
     },
     cometChatRemoveEventListeners() {
       CometChatEvent.remove(enums.EVENTS["UPDATED_LAST_MESSAGES"]);
       CometChatEvent.remove(enums.EVENTS["NEW_MESSAGES_TRIGGERED"]);
       CometChatEvent.remove(enums.EVENTS["CLEAR_UNREAD_MESSAGES_TRIGGERED"]);
-      CometChatEvent.remove(enums.EVENTS["DELETE_CONVERSATION"])
-      CometChatEvent.remove(enums.EVENTS["CONFIRM_RESPONSE"])
-    }
+      CometChatEvent.remove(enums.EVENTS["DELETE_CONVERSATION"]);
+      CometChatEvent.remove(enums.EVENTS["CONFIRM_RESPONSE"]);
+    },
   },
   beforeMount() {
     this.audio = new Audio(incomingOtherMessageAlert);
@@ -1205,7 +1244,6 @@ export default {
     this.attachListeners();
 
     this.cometChatEventListeners();
-    
   },
   beforeDestroy() {
     this.removeListeners();
@@ -1248,72 +1286,71 @@ export default {
     display: block !important;
   }
 }
-  /* dd-edited */
-  .top-icon {
-    width: 26px;
-    height: auto;
-    cursor: pointer;
-    object-fit: cover;
-    background-size: cover;
-  }
-  .search {
-    width: 288px;
-    height: 32px;
-    border-radius: 8px;
-    background-color: #fff;
-    color: #90959E;
-    padding-left: 28px;
-    border: none;
-    font-size: 15px;
-    font-weight: normal;
-  }
+/* dd-edited */
+.top-icon {
+  width: 26px;
+  height: auto;
+  cursor: pointer;
+  object-fit: cover;
+  background-size: cover;
+}
+.search {
+  width: 288px;
+  height: 32px;
+  border-radius: 8px;
+  background-color: #fff;
+  color: #90959e;
+  padding-left: 28px;
+  border: none;
+  font-size: 15px;
+  font-weight: normal;
+}
 
-  .icon-search {
-    position: absolute;
-    left: 4px;
-    top: 6px;
-    color: #90959E;
-    font-size: 18px;
-  }
+.icon-search {
+  position: absolute;
+  left: 4px;
+  top: 6px;
+  color: #90959e;
+  font-size: 18px;
+}
 
-  .wrap-title-and-button {
-    display: flex;
-    align-items: center;
-    position: relative;
-    width:100%
-  }
+.wrap-title-and-button {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+}
 
-  .span-close {
-    cursor: pointer;
-    font-size: 24px;
-    color: #fff;
-    position: absolute;
-    left: 0;
-  }
+.span-close {
+  cursor: pointer;
+  font-size: 24px;
+  color: #fff;
+  position: absolute;
+  left: 0;
+}
 
-  .wrap-search {
-    width: 100%;
-    position: relative;
-    align-items: center;
-    margin-top: 16px;
-  }
+.wrap-search {
+  width: 100%;
+  position: relative;
+  align-items: center;
+  margin-top: 16px;
+}
 
-  /* custom scroll bar */
-  ::-webkit-scrollbar {
-    width: 2px;
-  }
+/* custom scroll bar */
+::-webkit-scrollbar {
+  width: 2px;
+}
 
-  ::-webkit-scrollbar-track {
-    background: #f1f1f1;
-  }
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
 
-  ::-webkit-scrollbar-thumb {
-    background: #ddd;
-    width: 50px;
-  }
+::-webkit-scrollbar-thumb {
+  background: #ddd;
+  width: 50px;
+}
 
-  ::-webkit-scrollbar-thumb:hover {
-    background: #aaa;
-  }
-
+::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
+}
 </style>
