@@ -39,10 +39,7 @@
             <comet-chat-read-receipt
               :receiptOnly="true"
               :theme="theme"
-              :message="{
-                ...conversation.lastMessage,
-                messageFrom: 'sender'
-              }"
+              :message="conversation.lastMessage"
               v-if="showReceipt"
             />
             {{ getLastMessageTime() }}
