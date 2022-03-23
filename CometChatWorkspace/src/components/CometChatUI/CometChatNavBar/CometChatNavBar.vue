@@ -627,7 +627,7 @@ export default {
       this.tab === "contacts"
         ? this.$store.dispatch("setShowFooterNavbar", false)
         : this.$store.dispatch("setShowFooterNavbar", true);
-      // this.getCountUnreadMessagesFromAllUsers();
+      this.getCountUnreadMessagesFromAllUsers();
       // this.getCountUnreadMessagesFromAllGroups();
     },
     showPrivacy() {
@@ -724,31 +724,31 @@ export default {
       // unreadMsgFromGroups: null,
     };
   },
-  // created() {
-  //   this.getCountUnreadMessagesFromAllUsers();
-  //   this.getCountUnreadMessagesFromAllGroups();
-  // },
+  created() {
+    this.getCountUnreadMessagesFromAllUsers();
+    //   this.getCountUnreadMessagesFromAllGroups();
+  },
   methods: {
     // dd edited
     // get unread msg from users
-    // getCountUnreadMessagesFromAllUsers() {
-    //   CometChat.getUnreadMessageCountForAllUsers().then(
-    //     array => {
-    //       // Object.values(array)[0];
-    //       if(Object.keys(array)[0] == 'app_system') {
-    //         this.unreadMsgFromUsers = 0;
-    //       }else{
-    //         this.unreadMsgFromUsers = Object.values(array)[0];
-    //       }
-    //       // console.log('object values(array) ', Object.values(array)[0]);
-    //       // console.log('object keys(array) ', array[Object.keys(array)[0]]);
-    //       console.log("Message count fetched from users", array);
-    //     },
-    //     error => {
-    //       console.log("Error in getting message count from users", error);
-    //     }
-    //   );
-    // },
+    getCountUnreadMessagesFromAllUsers() {
+      CometChat.getUnreadMessageCountForAllUsers().then(
+        (array) => {
+          if (
+            Object.keys(array)[0] == "app_system" ||
+            Object.keys(array).length <= 1
+          ) {
+            console.log("array object length is ", Object.keys(array).length);
+            this.$store.dispatch("setUnreadMessages", null);
+          } else {
+            this.$store.dispatch("setUnreadMessages", Object.values(array)[0]);
+          }
+        },
+        (error) => {
+          console.log("Error in getting message count from users", error);
+        }
+      );
+    },
 
     // get unread msg from groups
     // getCountUnreadMessagesFromAllGroups() {
