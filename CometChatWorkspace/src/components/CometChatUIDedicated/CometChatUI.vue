@@ -285,6 +285,8 @@ export default {
           break;
         case "outgoingCallRejected":
         case "outgoingCallCancelled":
+          this.outgoingCallEnded(call);
+          break;
         case "callEnded":
           this.outgoingCallEnded(call);
           break;

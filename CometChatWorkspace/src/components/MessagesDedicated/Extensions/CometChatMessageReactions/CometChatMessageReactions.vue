@@ -26,6 +26,7 @@
         :emoji="name"
         set="twitter"
         :data="emojiIndex"
+        class="emoji"
         @click="sendReaction"
       />
       <span :style="styles.reactionCount">
@@ -284,5 +285,9 @@ export default {
 <style scoped>
 .cometchat__message__reaction:hover {
   border: var(--reaction-hover-border) !important;
+}
+
+.emoji {
+  line-height: 0;
 }
 </style>

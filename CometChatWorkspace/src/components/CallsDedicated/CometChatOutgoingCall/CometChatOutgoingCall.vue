@@ -114,7 +114,8 @@ export default {
       errorMessage: null,
       callInProgress: null,
       outgoingCallScreen: false,
-      callType: 'audio'
+      callType: 'audio',
+      outgoingTimeout: null
     };
   },
   watch: {
@@ -124,6 +125,7 @@ export default {
     outgoingCall: {
       handler(newValue, oldValue) {
         if (oldValue !== newValue && newValue) {
+          this.startOutgoingCallTimeout();
           this.playOutgoingAlert();
 
           let call = newValue;
@@ -192,10 +194,29 @@ export default {
     },
   },
   methods: {
+    callUnanswered() {
+      this.callInProgress = null
+      this.pauseOutgoingAlert();
+      this.emitAction('outgoingCallCancelled', { call: {
+        ...this.outgoingCall,
+        action: 'unanswered',
+        status: 'unanswered',
+        sentAt: (new Date() / 1000)
+      }})
+    },
+    startOutgoingCallTimeout() {
+      const self = this
+
+      this.outgoingTimeout = setTimeout(() => {
+        if (self.outgoingCallScreen) this.callUnanswered()
+      }, 46000)
+    },
     /**
      * Function that handles the call listeners
      */
     callScreenUpdateHandler(key, call) {
+      clearTimeout(this.outgoingTimeout)
+
       switch (key) {
         case enums.INCOMING_CALL_CANCELLED:
           this.callInProgress = null;
@@ -271,6 +292,8 @@ export default {
      * Function to cancel call
      */
     async cancelCall() {
+      clearTimeout(this.outgoingTimeout)
+
       this.pauseOutgoingAlert();
 
       try {
