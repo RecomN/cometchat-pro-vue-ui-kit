@@ -66,7 +66,8 @@ import { CometChatAvatar } from "../../Shared/";
 
 import * as style from "./style";
 
-import callIcon from "./resources/call-end-white-icon.svg";
+import audioCallIcon from "./resources/call-end-white-icon.svg";
+import videoCallIcon from './resources/video-call-icon.svg';
 import { outgoingCallAlert } from "../../../resources/audio/";
 
 let outgoingAlert;
@@ -113,6 +114,8 @@ export default {
       errorMessage: null,
       callInProgress: null,
       outgoingCallScreen: false,
+      callType: 'audio',
+      outgoingTimeout: null
     };
   },
   watch: {
@@ -122,6 +125,7 @@ export default {
     outgoingCall: {
       handler(newValue, oldValue) {
         if (oldValue !== newValue && newValue) {
+          this.startOutgoingCallTimeout();
           this.playOutgoingAlert();
 
           let call = newValue;
@@ -148,6 +152,7 @@ export default {
           this.callInProgress = call;
           this.errorScreen = false;
           this.errorMessage = null;
+          this.callType = call.type
         }
       },
       deep: true,
@@ -165,6 +170,10 @@ export default {
     },
   },
   computed: {
+    callIcon() {
+      if (this.callType === 'audio') return audioCallIcon
+      return videoCallIcon
+    },
     /**
      * Computed styles for the component.
      */
@@ -175,7 +184,7 @@ export default {
         headerIcon: style.headerIconStyle(),
         headerName: style.headerNameStyle(),
         iconWrapper: style.iconWrapperStyle(),
-        icon: style.iconStyle(callIcon, false),
+        icon: style.iconStyle(this.callIcon, false),
         headerDuration: style.headerDurationStyle(),
         errorContainer: style.errorContainerStyle(),
         thumbnailWrapper: style.thumbnailWrapperStyle(),
@@ -185,10 +194,29 @@ export default {
     },
   },
   methods: {
+    callUnanswered() {
+      this.callInProgress = null
+      this.pauseOutgoingAlert();
+      this.emitAction('outgoingCallCancelled', { call: {
+        ...this.outgoingCall,
+        action: 'unanswered',
+        status: 'unanswered',
+        sentAt: (new Date() / 1000)
+      }})
+    },
+    startOutgoingCallTimeout() {
+      const self = this
+
+      this.outgoingTimeout = setTimeout(() => {
+        if (self.outgoingCallScreen) this.callUnanswered()
+      }, 46000)
+    },
     /**
      * Function that handles the call listeners
      */
     callScreenUpdateHandler(key, call) {
+      clearTimeout(this.outgoingTimeout)
+
       switch (key) {
         case enums.INCOMING_CALL_CANCELLED:
           this.callInProgress = null;
@@ -264,6 +292,8 @@ export default {
      * Function to cancel call
      */
     async cancelCall() {
+      clearTimeout(this.outgoingTimeout)
+
       this.pauseOutgoingAlert();
 
       try {

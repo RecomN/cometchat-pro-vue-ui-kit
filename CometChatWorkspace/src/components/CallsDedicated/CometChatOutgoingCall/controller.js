@@ -9,6 +9,9 @@ export class CallScreenManager {
     CometChat.addCallListener(
       this.callListenerId,
       new CometChat.CallListener({
+        onOutgoingCallCancelled: (call) => {
+          callback('onOutgoingCallCancelled', call);
+        },
         onOutgoingCallAccepted: (call) => {
           callback(enums.OUTGOING_CALL_ACCEPTED, call);
         },

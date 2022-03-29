@@ -32,8 +32,9 @@
       v-else-if="conversationList.length != 0"
       @scroll="conversationScrollHandler($event)"
     >
-      <div v-for="(conversation, i) in conversationList" :key="i">
+      <div v-for="(conversation, i) in conversationListItem" :key="i">
         <comet-chat-conversation-list-item
+          :key="conversation.itemKey"
           :config="config"
           :theme="themeValue"
           :conversationKey="conversation.id"
@@ -41,6 +42,7 @@
           :loggedInUser="loggedInUser"
           :selectedConversation="selectedConversation"
           @click="conversationClickHandler"
+          v-if="!updating"
         />
       </div>
       <div v-if="showConfirmDialog">
@@ -148,6 +150,7 @@ export default {
       decoratorMessage: COMETCHAT_CONSTANTS.LOADING_MESSSAGE,
       showConfirmDialog: false,
       conversationToBeDeleted: null,
+      updating: false,
     };
   },
   watch: {
@@ -361,6 +364,14 @@ export default {
     },
   },
   computed: {
+    conversationListItem() {
+      return this.conversationList.map(item => {
+        item.lastMessage.messageFrom = 'sender'
+        item.itemKey = this.randomString()
+
+        return item
+      })
+    },
     /**
      * Theme computed using default theme and theme coming from prop.
      */
@@ -402,6 +413,9 @@ export default {
     },
   },
   methods: {
+    randomString() {
+      return Math.random().toString(36).substring(2,7)
+    },
     /**
      * Handle listener for message counter
      */
@@ -424,6 +438,26 @@ export default {
           onMessagesEdited: message => {
             this.$store.dispatch('fetchUnreadMessages')
           },
+          onMessagesDelivered: messageReceipt => {
+            const conversation = this.conversationList.find(item => item.conversationWith.uid === messageReceipt.sender.uid)
+
+            this.conversationList.forEach(item => {
+              if (item.conversationId === conversation.conversationId) {
+                item.lastMessage.deliveredAt = messageReceipt.deliveredAt
+                item.itemKey = this.randomString()
+              }
+            })
+          },
+          onMessagesRead: messageReceipt => {
+            const conversation = this.conversationList.find(item => item.conversationWith.uid === messageReceipt.sender.uid)
+
+            this.conversationList.forEach(item => {
+              if (item.conversationId === conversation.conversationId) {
+                item.lastMessage.readAt = messageReceipt.readAt
+                item.itemKey = this.randomString()
+              }
+            })
+          }
         })
       );
     },
