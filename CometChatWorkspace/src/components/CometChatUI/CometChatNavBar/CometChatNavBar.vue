@@ -633,6 +633,23 @@ export default {
     showPrivacy() {
       this.showPrivacy == true ? this.getBlockedUser() : "";
     },
+    unreadMsgFromUsers() {
+      CometChat.getUnreadMessageCountForAllUsers().then(
+        (array) => {
+          if (            
+            Object.keys(array).length < 1
+          ) {
+            console.log("array object length is ", Object.keys(array).length);
+            this.$store.dispatch("setUnreadMessages", null);
+          } else {
+            this.$store.dispatch("setUnreadMessages", Object.values(array)[0]);
+          }
+        },
+        (error) => {
+          console.log("Error in getting message count from users", error);
+        }
+      );
+    }
   },
   computed: {
     ...mapGetters({
@@ -732,22 +749,19 @@ export default {
     // dd edited
     // get unread msg from users
     getCountUnreadMessagesFromAllUsers() {
-      CometChat.getUnreadMessageCountForAllUsers().then(
-        (array) => {
-          if (
-            Object.keys(array)[0] == "app_system" ||
-            Object.keys(array).length <= 1
-          ) {
-            console.log("array object length is ", Object.keys(array).length);
-            this.$store.dispatch("setUnreadMessages", null);
-          } else {
-            this.$store.dispatch("setUnreadMessages", Object.values(array)[0]);
-          }
-        },
-        (error) => {
-          console.log("Error in getting message count from users", error);
-        }
-      );
+     if(this.userDetail !== null) {
+        CometChat.getUnreadMessageCountForAllUsers().then(
+          (array) => {
+            if (            
+              Object.keys(array).length < 1
+            ) {
+              this.$store.dispatch("setUnreadMessages", null);
+            } else {
+              this.$store.dispatch("setUnreadMessages", Object.values(array)[0]);
+            }
+          },
+        );
+     }
     },
 
     // get unread msg from groups
@@ -940,6 +954,9 @@ export default {
       this.emitAction(action, { ...rest });
     },
   },
+  beforeMount() {
+    this.getCountUnreadMessagesFromAllUsers();
+  }
 };
 </script>
 <style scoped>

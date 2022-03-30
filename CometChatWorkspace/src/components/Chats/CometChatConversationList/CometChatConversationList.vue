@@ -180,16 +180,20 @@ export default {
       conversationToBeDeleted: null,
       search: "",
       chatLoad: false,
+      chatUnreadLoad: 1 // 1 = Ready , 0 = Null
     };
   },
   watch: {
+    conversationList() {
+      this.$store.dispatch("fetchUnreadMessages");
+    },
     /**
      * One true watcher that updates state on props update.
      */
     propsWatcher: {
       handler(_, prevProps) {
         const previousItem = JSON.stringify(prevProps.item);
-        const currentItem = JSON.stringify(this.item);
+        const currentItem = JSON.stringify(this.item);       
 
         if (previousItem !== currentItem) {
           if (Object.keys(this.item).length === 0) {
@@ -239,7 +243,7 @@ export default {
           prevProps.item.blockedByMe !== this.item.blockedByMe
         ) {
           let conversationlist = [...this.conversationList];
-
+           console.log("no-handler")
           let convKey = conversationlist.findIndex(
             (c) =>
               c.conversationType === "user" &&
@@ -332,6 +336,7 @@ export default {
         }
 
         if (prevProps.messageToMarkRead !== this.messageToMarkRead) {
+          console.log("mm")
           const message = this.messageToMarkRead;
           try {
             const { conversationKey, conversationObj, conversationList } =
@@ -342,6 +347,7 @@ export default {
                 conversationObj,
                 "decrement"
               );
+              console.log("decrement")
               let lastMessageObj = this.makeLastMessage(
                 message,
                 conversationObj
@@ -437,6 +443,56 @@ export default {
     },
   },
   methods: {
+    /**
+     * Handle listener for message counter
+     */
+    customListener() {
+      CometChat.addMessageListener(
+        "chatlist_user_" + new Date().getTime(),
+        new CometChat.MessageListener({
+          onTextMessageReceived: (textMessage) => {
+            this.$store.dispatch("fetchUnreadMessages");
+          },
+          onMessagesRead: (messageReceipt) => {
+            this.$store.dispatch("fetchUnreadMessages");
+          },
+          onMediaMessageReceived: (mediaMessage) => {
+            this.$store.dispatch("fetchUnreadMessages");
+          },
+          onMessageDeleted: (message) => {
+            this.$store.dispatch("fetchUnreadMessages");
+          },
+          onMessagesEdited: (message) => {
+            this.$store.dispatch("fetchUnreadMessages");
+          },
+        })
+      );
+    },
+
+    /**
+     * Handle redirect to specific conversation
+     */
+    async openSpecificConversation() {
+      const path = window.location.pathname.split("/");
+      let id = null;
+
+      if (path.length === 5) {
+        id = path[path.length - 1]; // get uid or guid
+      }
+
+      if (id) {
+        let uid = [id];
+        let usersRequest = new CometChat.UsersRequestBuilder()
+          .setLimit(1)
+          .setUIDs(uid)
+          .build();
+        let users = await usersRequest.fetchNext();
+
+        if (users.length) {
+          this.conversationClickHandler({ item: users[0], type: "user" });
+        }
+      }
+    },
     // dd edited
     // get unread msg from users
     getCountUnreadMessagesFromAllUsers() {
@@ -602,57 +658,18 @@ export default {
         }
 
         let unreadMessageCount = parseInt(conversation.unreadMessageCount);
+        let UID = conversation.conversationWith.uid;
 
-        if (
-          this.selectedConversation &&
-          this.selectedConversation.conversationId ===
-            conversation.conversationId
-        ) {
-          if (
-            this.selectedConversation.unreadMessages &&
-            this.selectedConversation.unreadMessages.length
-          ) {
-            const firstUnreadMessage =
-              this.selectedConversation.unreadMessages[0];
-            const selectedConversation = this.selectedConversation;
-
-            if (
-              firstUnreadMessage.conversationId &&
-              firstUnreadMessage.conversationId ===
-                selectedConversation.conversationId
-            ) {
-              unreadMessageCount = 0;
-              this.selectedConversation.unreadMessages.forEach((message) => {
-                unreadMessageCount = this.shouldIncrementCount(message)
-                  ? ++unreadMessageCount
-                  : unreadMessageCount;
-              });
-            }
-          } else {
-            unreadMessageCount = 0;
+        CometChat.getUnreadMessageCountForUser(UID).then(
+          (array) => {
+            unreadMessageCount = array[UID]
+          },
+          (error) => {
+            console.log("Error in getting message count", error);
           }
-        } else if (
-          (this.item &&
-            this.hasProperty(this.item, "guid") &&
-            this.hasProperty(conversation.conversationWith, "guid") &&
-            this.item.guid === conversation.conversationWith.guid) ||
-          (this.item &&
-            this.hasProperty(this.item, "uid") &&
-            this.hasProperty(conversation.conversationWith, "uid") &&
-            this.item.uid === conversation.conversationWith.uid)
-        ) {
-          unreadMessageCount = 0;
-        } else {
-          if (operator && operator === "decrement") {
-            unreadMessageCount = unreadMessageCount
-              ? unreadMessageCount - 1
-              : 0;
-          } else {
-            unreadMessageCount = unreadMessageCount + 1;
-          }
-        }
+        );
 
-        return unreadMessageCount;
+        return operator === "decrement" ? 0 : unreadMessageCount + 1;
       } catch (error) {
         this.logError(
           "[CometChatConversationList] unreadMessageCount error",
@@ -1235,16 +1252,20 @@ export default {
       CometChatEvent.remove(enums.EVENTS["CONFIRM_RESPONSE"]);
     },
   },
-  beforeMount() {
+  async beforeMount() {
     this.audio = new Audio(incomingOtherMessageAlert);
 
     this.createManager();
 
-    this.getConversations();
+    await this.getConversations();
+    this.openSpecificConversation();
+
     this.attachListeners();
 
     this.cometChatEventListeners();
+    this.customListener();
   },
+  mount() {},
   beforeDestroy() {
     this.removeListeners();
     this.cometChatRemoveEventListeners();
